@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% load static %}
+<head>
+    <title>Login</title>
+</head>
+<body>
+    <div class="container">
+            <!--Top page-->
+    <div class="container-top">
+        <div class="top-left-column">
+            <div style="padding: 15% 10% 10% 20%; font-weight: bold; font-size: 50px;">Login<br><span style="font-weight: 200; font-size: medium;">Enter your credentials to access your account</span></div>
+        </div>
+        <div class="top-right-column">
+            <form action="">
+                <!--Email-->
+                <div class="reg-form">
+                    <label for="email">Email</label>
+                    <br>
+                    <input type="text" placeholder="Enter your Email">
+                </div>
+
+                <!--Password-->
+                <div class="reg-form" style="padding-top: 60px;">
+                    <label for="password">Password</label>
+                    <br>
+                    <input type="password" placeholder="Enter your password">
+                </div>
+
+                <!--Login button-->
+                    <div class="auth-btn">
+                        <button class="login-btn">Login</button>
+                    </div>
+            </form>
+        </div>
+    </div>
+
+    <!--Bottom Page-->
+    <div class="container-bottom">
+        <div class="bottom-left-column">
+            <div style="padding: 10% 10% 10% 20%; font-weight: bold; font-size: 50px;">Options</div>
+        </div>
+        <div class="bottom-right-column">
+            <div style="margin-top: 30px;">
+                <div class="image-text">
+                    <button class="img"><img src="{% static 'login_images/lock.jpg' %}" alt="lock image"></button>
+                    <div>
+                        <div style="font-size: larger; font-weight: bold;">
+                            Forgot Password?
+                        </div>
+                        <div style="font-size: medium; color: gray;">
+                            Reset password if forgotten
+                        </div>
+                    </div>
+                </div>
+                <hr width="70%" align="left" color="gray">
+                <div class="image-text">
+                    <button class="img"><img src="{% static 'login_images/write.jpg' %}" alt=""></button>
+                    <div>
+                        <div style="font-size: larger; font-weight: bold;">
+                            Sign up here
+                        </div>
+                        <div style="font-size: medium; color: gray;">
+                            Create a new account
+                        </div>
+                    </div>
+                </div>
+                <hr width="70%" align="left" color="gray">
+            </div>
+        </div>
+    </div>
+    </div>
+</body>
+
+<style>
+    .container{
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .container-top {
+        width: 100%;
+        height: 40%;
+        display: flex;
+        flex-direction: row;
+        border-bottom: 1px solid rgb(202, 198, 198);
+    }
+    .container-bottom {
+        width: 100%;
+        height: 60%;
+        display: flex;
+        flex-direction: row;
+    }
+
+    .top-left-column {
+        width: 40%;
+    }
+
+    .top-right-column {
+        width: 60%;
+    }
+
+    .bottom-left-column {
+        width: 40%;
+    }
+
+    .bottom-right-column {
+        width: 60%;
+    }
+
+    input {
+        width: 80%;
+        height: 45px;
+        padding-left: 15px;
+        border-radius: 5px;
+        border-color: rgb(207, 204, 204);
+    }
+
+    .reg-form {
+        padding-top: 30px;
+    }
+
+    .login-btn {
+        padding: 10px 120px;
+        background-color: black;
+        color: white;
+        text-decoration: none;
+        border: none;
+        border-radius: 8px;
+        font-weight: 500;
+        font-size: large;
+    }
+
+    .auth-btn {
+        padding-left: 23%;
+        padding-top: 50px;
+    }
+
+    .image-text {
+        display: flex;
+        flex-direction: row;
+        margin-top: 10px;
+        margin-bottom: 20px;
+    }
+
+    .img {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        margin-right: 30px;
+        border-style: none;
+        cursor: pointer;
+    }
+
+    .img img {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+</style>
+</html>

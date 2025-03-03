@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>SignUp</title>
+</head>
+<body>
+    <div class="container">
+        <div class="left-column">
+            <div style="padding: 50% 10% 50% 10%; font-weight: bold; font-size: 50px;">Registration Form</div>
+        </div>
+        <div class="right-column">
+            <form action="">
+                <!--Name-->
+                <div class="reg-form">
+                    <label for="name">Name</label>
+                    <br>
+                    <input type="text" placeholder="Enter your Name">
+                </div>
+                <br>
+
+                <!--Email-->
+                <div class="reg-form">
+                    <label for="email">Email</label>
+                    <br>
+                    <input type="email" placeholder="Enter your Email">
+                    <p style="font-size: small; color: gray;">Please provide a valid email. We'll never share your email with anyone else.</p>
+                </div>
+
+                <!--Phone-->
+                <div class="reg-form">
+                    <label for="phone">Phone</label>
+                    <br>
+                    <input type="text" placeholder="Enter your Phone number">
+                </div>
+                <br>
+
+                <!--Password-->
+                <div class="reg-form">
+                    <label for="password">Password</label>
+                    <br>
+                    <input type="password" placeholder="Enter a password">
+                </div>
+
+                <p style="padding-left: 15%; font-weight: bold; padding-top: 20px;">User Type</p>
+                <div class="user-type">
+                    <div style="margin-right: 20%;">
+                        <button class="ustype">Volunteer</button>
+                    </div>
+                    <button class="ustype">Beneficiary</button>
+                </div>
+                <p style="font-size: small; color: gray; padding-left: 15%;">Select your user Type</p>
+
+                <!--Buttons-->
+                <div class="auth-btn">
+                    <button class="login-btn">Already have an account? Login here.</button>
+                    <br><br>
+                    <button class="reg-btn">Register</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+
+<style>
+    .container{
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        height: 100vh;
+    }
+
+    .left-column {
+        width: 40%;
+        padding: 20px;
+    }
+
+    .right-column {
+        width: 60%;
+        padding: 20px;
+    }
+
+    label {
+        font-size: large;
+        font-weight: bold;
+        padding-top: 200%;
+    }
+
+    input {
+        width: 80%;
+        height: 45px;
+        padding-left: 15px;
+        border-radius: 5px;
+        border-color: rgb(207, 204, 204);
+    }
+
+    .reg-form {
+        padding-top: 30px;
+    }
+
+    .user-type {
+        padding-left: 15%;
+        display: flex;
+        flex-direction: row;
+    }
+
+    .ustype {
+        padding: 15px 60px;
+        background-color: rgb(221, 218, 218);
+        text-decoration: none;
+        border: none;
+        border-radius: 5px;
+        font-weight: 500;
+        font-size: large;
+    }
+
+    .auth-btn {
+        padding-left: 23%;
+        padding-top: 40px;
+    }
+
+    .login-btn {
+        padding: 10px 60px;
+        background-color: white;
+        text-decoration: none;
+        border: 2px solid black;
+        border-radius: 7px;
+        font-weight: 500;
+        font-size: large;
+    }
+
+    .reg-btn {
+        padding: 10px 180px;
+        background-color: black;
+        color: white;
+        text-decoration: none;
+        border: none;
+        border-radius: 5px;
+        font-weight: 500;
+        font-size: large;
+    }
+</style>
+</html>
