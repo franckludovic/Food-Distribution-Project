@@ -1,6 +1,8 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="utf-8">
     <title>SignUp</title>
 </head>
 <body>
@@ -9,12 +11,13 @@
             <div style="padding: 50% 10% 50% 10%; font-weight: bold; font-size: 50px;">Registration Form</div>
         </div>
         <div class="right-column">
-            <form action="">
+            <form action="" method="POST">
+                {% csrf_token %}
                 <!--Name-->
                 <div class="reg-form">
                     <label for="name">Name</label>
                     <br>
-                    <input type="text" placeholder="Enter your Name">
+                    <input type="text" name="name" placeholder="Enter your userName">
                 </div>
                 <br>
 
@@ -22,7 +25,7 @@
                 <div class="reg-form">
                     <label for="email">Email</label>
                     <br>
-                    <input type="email" placeholder="Enter your Email">
+                    <input type="email" name="email" placeholder="Enter your Email">
                     <p style="font-size: small; color: gray;">Please provide a valid email. We'll never share your email with anyone else.</p>
                 </div>
 
@@ -30,7 +33,7 @@
                 <div class="reg-form">
                     <label for="phone">Phone</label>
                     <br>
-                    <input type="text" placeholder="Enter your Phone number">
+                    <input type="text" name="phone" placeholder="Enter your Phone number">
                 </div>
                 <br>
 
@@ -38,25 +41,35 @@
                 <div class="reg-form">
                     <label for="password">Password</label>
                     <br>
-                    <input type="password" placeholder="Enter a password">
+                    <input type="password" name="password" placeholder="Enter a password">
                 </div>
 
                 <p style="padding-left: 15%; font-weight: bold; padding-top: 20px;">User Type</p>
                 <div class="user-type">
-                    <div style="margin-right: 20%;">
-                        <button class="ustype">Volunteer</button>
-                    </div>
-                    <button class="ustype">Beneficiary</button>
+                    <input type="radio" name="checkbox" value="volunteer" style="margin-right: -180px;">
+                    <div class="ustype">Volunteer</div>
+                    <input type="radio" name="checkbox" value="beneficiary" style="margin-right: -180px;">
+                    <div class="ustype">Beneficiary</div>
                 </div>
                 <p style="font-size: small; color: gray; padding-left: 15%;">Select your user Type</p>
 
                 <!--Buttons-->
                 <div class="auth-btn">
-                    <button class="login-btn">Already have an account? Login here.</button>
+                    <button class="login-btn" href="/login">Already have an account? Login here.</button>
                     <br><br>
-                    <button class="reg-btn">Register</button>
+                    <button class="reg-btn" type="submit">Register</button>
                 </div>
             </form>
+            <div>
+                <style>
+                    h5 {
+                        color: red;
+                    }
+                </style>
+                {% for message in messages %}
+                <h5>{{message}}</h5>
+                {% endfor %}
+            </div>
         </div>
     </div>
 </body>
@@ -98,7 +111,6 @@
     }
 
     .user-type {
-        padding-left: 15%;
         display: flex;
         flex-direction: row;
     }

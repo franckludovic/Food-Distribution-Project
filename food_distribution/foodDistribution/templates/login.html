@@ -12,19 +12,20 @@
             <div style="padding: 15% 10% 10% 20%; font-weight: bold; font-size: 50px;">Login<br><span style="font-weight: 200; font-size: medium;">Enter your credentials to access your account</span></div>
         </div>
         <div class="top-right-column">
-            <form action="">
+            <form action="" method="POST">
+                {% csrf_token %}
                 <!--Email-->
                 <div class="reg-form">
-                    <label for="email">Email</label>
+                    <label for="name">UserName</label>
                     <br>
-                    <input type="text" placeholder="Enter your Email">
+                    <input type="name" name="name" placeholder="Enter your userName">
                 </div>
 
                 <!--Password-->
                 <div class="reg-form" style="padding-top: 60px;">
                     <label for="password">Password</label>
                     <br>
-                    <input type="password" placeholder="Enter your password">
+                    <input type="password" name="password" placeholder="Enter your password">
                 </div>
 
                 <!--Login button-->
@@ -32,6 +33,16 @@
                         <button class="login-btn">Login</button>
                     </div>
             </form>
+            <div>
+                <style>
+                    h5 {
+                        color: red;
+                    }
+                </style>
+                {% for message in messages %}
+                <h5>{{message}}</h5>
+                {% endfor %}
+            </div>
         </div>
     </div>
 
