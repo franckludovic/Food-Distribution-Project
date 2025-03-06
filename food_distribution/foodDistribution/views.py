@@ -1,6 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib.auth.models import User, auth
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.template import loader
+from .models import Profile
 
 def main(request):
     template = loader.get_template('main.html')
@@ -11,12 +15,51 @@ def home(request):
     return HttpResponse(template.render())
 
 def login(request):
-    template = loader.get_template('login.html')
-    return HttpResponse(template.render())
+    
+    if request.method == 'POST':
+        username = request.POST['name']
+        password = request.POST['password']
+
+        user = auth.authenticate(username = username, password = password)
+
+        if user is not None:
+            auth.login(request, user)
+            return redirect('home')
+        else:
+            messages.info(request, 'Invalid credentials')
+            return redirect('login')
+    
+    else:
+        return render(request, 'login.html')
 
 def signup(request):
-    template = loader.get_template('signup.html')
-    return HttpResponse(template.render())
+    
+    if request.method == 'POST':
+        username = request.POST['name']
+        email = request.POST['email']
+        password = request.POST['password']
+        phone = request.POST['phone']
+        userType = request.POST.get('checkbox')
+
+        if User.objects.filter(email = email).exists():
+            messages.info(request, "Email already exists")
+            return redirect('signup')
+        else:
+            user = User.objects.create_user(username = username, email = email, password = password)
+            user.save()
+
+            #Logs the user in and redirect to the home page
+            user_login = auth.authenticate(username = username, password = password)
+            auth.login(request, user_login)
+
+            #Create a new user profile with phone number and user type
+            user_model = User.objects.get(username = username)
+            new_profile = Profile.objects.create(user = user_model, id_user = user_model.id, phone = phone, user_type = userType)
+            new_profile.save()
+
+            return redirect('login')
+    else:
+        return render(request, 'signup.html')
 
 def forgotPassword(request):
     template = loader.get_template('forgot_password.html')
