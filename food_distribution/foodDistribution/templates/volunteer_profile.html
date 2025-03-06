@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Volunteer Profile</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 2rem;
+            padding-inline-start: 10px;
+            background-color: #ffffff;
+        }
+
+        /* Header Section */
+        .header-container {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            border-block-end: 2px solid #ddd;
+        }
+
+        .profile-icon {
+            inline-size: 15px;
+            block-size: 15px;
+            background-color: lightgray;
+            border-radius: 50%;
+            margin-inline-end: 10px;
+        }
+
+        .profile-title {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        /* Main Section */
+        .main-container {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .main-heading {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .subtext {
+            color: gray;
+        }
+
+        /* Form Section */
+        .form-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            gap: 50px;
+           /* max-inline-size: 1000px;*/
+            margin: auto;
+            flex-direction: row;    
+        }
+
+        .form-left {
+            justify-content: center;
+            flex: 1;
+            text-align: start;
+        }
+
+        .form-title {
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .form-right {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            inline-size: 100%;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-weight: bold;
+            margin-block-start: 10px;
+        }
+
+        input {
+            inline-size: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-block-end: 15px;
+        }
+
+        /* Buttons */
+        .button-group {
+            display: flex;
+           justify-content: center;
+            margin-block-start: 20px;
+            gap: 10%;
+        }
+
+        .btn {
+            padding: 10px 30px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+
+        .btn-light {
+            background-color: #e0e0e0;
+        }
+
+        .btn-dark {
+            background-color: black;
+            color: white;
+        }
+
+        /* Responsive Design */
+        @media screen and (max-inline-size: 768px) {
+
+            .form-container {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .form-left, .form-right {
+                inline-size: 100%;
+                text-align: center;
+            }
+
+            .button-group {
+                justify-content: center;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header class="header-container">
+        <div class="profile-icon"></div>
+        <span class="profile-title">Volunteer Profile</span>
+    </header>
+
+    <!-- Main Section -->
+    <section class="main-container">
+        <h1 class="main-heading">Volunteer Profile</h1>
+        <p class="subtext">Fill in your availability, intervention area, and skills below.</p>
+    </section>
+
+    <!-- Form Section -->
+    <section class="form-container">
+        <div class="form-left">
+            <h2 class="form-title">Volunteer Profile Form</h2>
+        </div>
+        
+        <div class="form-right">
+            <form>
+                <label for="availability">Availability</label>
+                <input type="text" id="availability" placeholder="Select your availability using the calendar">
+
+                <label for="intervention">Intervention Area</label>
+                <input type="text" id="intervention" placeholder="Enter your preferred intervention area">
+
+                <label for="skills">Skills</label>
+                <input type="text" id="skills" placeholder="Enter your skills or expertise">
+
+                <div class="button-group">
+                    <button class="btn btn-light">Back</button>
+                    <button class="btn btn-dark">Save</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+</body>
+</html>
