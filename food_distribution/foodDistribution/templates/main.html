@@ -1,9 +1,440 @@
-{% extends "master.html" %}
+<!DOCTYPE html>
+<html lang="en">
+    {% load static %}
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
 
-{% block title %}
-    HomePage
-{% endblock %}
+    <style>
 
-{% block content %}
-    <a href="/home">Home</a>
-{% endblock %}
+
+        body{
+            padding-left: 10%;
+            padding-right: 10%;
+        }
+
+/*----------- first  row -------------*/
+        
+        .row1 {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 10vh 0 50px;
+            flex-direction: row;
+        }
+
+
+        .rw1cl1, .rw1cl2 {
+            width: 48%;
+        }
+
+        .Home_caption{
+            font-size: 2.5rem;
+        }
+
+        .homesub_caption{
+            font-size: 1.2rem;
+            color: gray;
+        }
+
+
+        .home-image {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+
+        @media (max-width: 768px) {
+           
+            body{
+            padding-left: 5%;
+            padding-right: 5%;
+        }
+           
+            .row1 {
+                flex-direction: column-reverse;
+                margin: 20px;
+            }
+            
+            .rw1cl1, .rw1cl2 {
+                width: 100%;
+                margin: 10px 0;
+            }
+            
+            .Home_caption {
+                font-size: 1.8rem;
+            }
+
+            .homesub_caption {
+                font-size: 1.2rem;
+            }
+            
+            .rw1cl1 {
+                text-align: center;
+            }
+        }
+
+/*----------- second  row -------------*/
+
+        .row2{
+            margin-bottom: 7%;
+            margin-top: 7%;
+        }
+
+
+        /* Heading */
+        h1 {
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+
+        .resource-grid {
+        
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto 2rem; 
+            padding: 0 1rem;
+        }
+
+
+        .resource-card {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            text-align: center;
+            padding: 1rem;
+            transition: box-shadow 0.3s ease;
+        }
+
+
+        .resource-card:hover {
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        /* Resource Image */
+        .resource-image {
+            width: 80px;
+            height: auto;
+            margin-bottom: 1rem;
+        }
+
+        /* Search Section */
+        .search-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            max-width: 600px;
+            margin: 0 auto; 
+            gap: 0.5rem;    
+        }
+
+        /* Search Input */
+        .search-input {
+            flex: 1;  
+            height: 2rem;         
+            padding: 0.5rem 1rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        /* Search Button */
+        .search-button {
+            padding: 0.5rem 1rem;
+            background-color: #000; 
+            color: #fff;
+            border: none;
+            height: 2.8rem;
+            border-radius: 4px;
+            cursor: pointer;
+            
+        }
+
+        .search-button:hover {
+            background-color: #333;
+        }
+        
+
+
+
+/*----------- third  row -------------*/
+            
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+
+        .header p {
+            font-size: 1rem;
+            color: #666;
+        }
+
+        /* Buttons Section */
+        .buttons {
+            display: flex;
+            justify-content: center; 
+            gap: 5rem;              
+            margin-bottom: 2rem;
+        }
+
+        .buttons a{
+            text-decoration: none;
+            color: white;
+        }
+
+        .signup-button {
+            background-color: #000;
+            color: #fff;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 30%;
+
+            transition: background-color 0.3s ease;
+        }
+
+        .signup-button:hover {
+            background-color: #333;
+        }
+
+        @media (max-width: 420px) {
+            
+
+            .buttons {
+                display: flex;
+                justify-content: center; 
+                gap: 3rem;              
+                margin-bottom: 2rem;
+            }
+
+            .signup-button {
+                background-color: #000;
+                color: #fff;
+                border: none;
+                padding: 0.5rem 1rem;
+                font-size: 0.7rem;
+                border-radius: 4px;
+                cursor: pointer;
+                width: 50%;
+            }
+
+        }
+
+
+
+        
+
+
+/*----------- fourth  row -------------*/
+
+        .fonter-container{
+            margin: 20px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center; 
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .footer-links a {
+            color: #000;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s ease;
+        }
+
+        .footer-links a:hover {
+            color: #666;
+        }
+    </style>
+</head>
+
+
+<body>
+    <div>
+
+        <!-- ---------- first  row --------------->
+        <div class="row1">
+
+            <div class="rw1cl1">
+
+                <p class="Home_caption">Connecting Those in Need with Food Resources and Donors</p>
+                <p class="homesub_caption">Sign up to help or receive food aid</p>
+                
+            </div>
+            
+
+            <div class="rw1cl2">
+
+                <img src="{% static 'home_images/homepageImage.png' %}" alt="home image" class="home-image" />
+                    
+            </div>
+
+
+        </div>
+
+        <!-- ---------- second  row --------------->
+
+        
+        <div class="row2">
+
+                <!-- Heading -->
+                <h1>Available Resources</h1>
+                
+
+                <!-- Resources -->
+
+                <section class="resource-grid">
+
+                    <!-- Card 1 -->
+                    <article class="resource-card">
+                    <img src="{% static 'home_images/rize.png' %}"  alt="Rice" class="resource-image" />
+                    <h2>Rice</h2>
+                    <p>Quantity: 100 kg</p>
+                    <p>Donated by XYZ Organization</p>
+                    </article>
+
+
+                    <!-- Card 2 -->
+                    <article class="resource-card">
+                    <img src="{% static 'home_images/cans.png' %}" alt="Canned Beans" class="resource-image" />
+                    <h2>Canned Beans</h2>
+                    <p>Quantity: 200 cans</p>
+                    <p>Donated by ABC Charity</p>
+                    </article>
+
+
+                    <!-- Card 3 -->
+                    <article class="resource-card">
+                    <img src="{% static 'home_images/vegetables.png' %}" alt="Fresh Vegetables" class="resource-image" />
+                    <h2>Fresh Vegetables</h2>
+                    <p>Quantity: 50 kg</p>
+                    <p>Donated by Johnny</p>
+                    </article>
+
+                    <!-- Card 4 -->
+                    <article class="resource-card">
+                    <img src="{% static 'home_images/rize.png' %}"alt="Rice" class="resource-image" />
+                    <h2>Rice</h2>
+                    <p>Quantity: 100 kg</p>
+                    <p>Donated by XYZ Organization</p>
+                    </article>
+
+
+                    <!-- Card 5 -->
+                    <article class="resource-card">
+                    <img src="{% static 'home_images/cans.png' %}" alt="Canned Beans" class="resource-image" />
+                    <h2>Canned Beans</h2>
+                    <p>Quantity: 200 cans</p>
+                    <p>Donated by ABC Charity</p>
+                    </article>
+
+
+                    <!-- Card 6 -->
+                    <article class="resource-card">
+                    <img src="{% static 'home_images/vegetables.png' %}" alt="Fresh Vegetables" class="resource-image" />
+                    <h2>Fresh Vegetables</h2>
+                    <p>Quantity: 50 kg</p>
+                    <p>Donated by Johnny</p>
+                    </article>
+
+
+                    <!-- Card 7 -->
+                    <article class="resource-card">
+                    <img src="{% static 'home_images/vegetables.png' %}" alt="Fresh Vegetables" class="resource-image" />
+                    <h2>Fresh Vegetables</h2>
+                    <p>Quantity: 50 kg</p>
+                    <p>Donated by Johnny</p>
+                    </article>
+
+                    <!-- Card 8 -->
+                    <article class="resource-card">
+                    <img src="{% static 'home_images/rize.png' %}"  alt="Rice" class="resource-image" />
+                    <h2>Rice</h2>
+                    <p>Quantity: 100 kg</p>
+                    <p>Donated by XYZ Organization</p>
+                    </article>
+
+
+                    <!-- Card 9 -->
+                    <article class="resource-card">
+                    <img src="{% static 'home_images/cans.png' %}"  alt="Canned Beans" class="resource-image" />
+                    <h2>Canned Beans</h2>
+                    <p>Quantity: 200 cans</p>
+                    <p>Donated by ABC Charity</p>
+                    </article>
+
+                    
+                </section>
+
+                <!-- Search Bar -->
+                <div class="search-section">
+                    <input 
+                    type="text" 
+                    class="search-input" 
+                    placeholder="Search a product"
+                    aria-label="Search a product" 
+                    />
+                    <button class="search-button">Search</button>
+                </div>
+
+
+        </div>
+
+        <!-- ---------- third  row --------------->
+
+
+                <!-- Header Section -->
+        <header class="header">
+            <h1>Join Us Today!</h1>
+            <p>Sign up to help or receive food aid</p>
+        </header>
+
+
+
+        <!-- Button Section -->
+        <div class="buttons">
+            <button class="signup-button"><a href="/signup">Sign up</a></button>
+            <button class="signup-button"><a href="/login">Login</a></button>
+        </div>
+
+
+
+       
+
+        <!-- ---------- fourth  row --------------->
+
+             <!-- Footer Links -->
+        <div class="fonter-container">
+          
+         <footer class="footer-links">
+            <a href="#">About Us</a>
+            <a href="#">Contact Us</a>
+            <a href="#">Privacy Policy</a>
+        </footer> 
+
+        </div>
+         
+
+        
+    </div>
+</body>
+</html>

@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+
+
+    <style>
+
+
+        
+        body{
+
+            padding-left: 5%;
+            padding-right: 5%;
+
+        }
+
+        /*----------- first  row -------------*/
+        
+        .row1 {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 10vh 0 50px;
+            flex-direction: row;
+        }
+
+
+        .rw1cl1, .rw1cl2 {
+            width: 48%;
+        }
+
+
+        .Head_caption{
+            font-size: 2.5rem;
+        }
+
+        .headsub_caption{
+            font-size: 1.2rem;
+            color: gray;
+        }
+
+
+        .home-image {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+
+        @media (max-width: 768px) {
+           
+            body{
+            padding-left: 5%;
+            padding-right: 5%;
+        }
+           
+            .row1 {
+                flex-direction: column-reverse;
+                margin: 20px;
+            }
+            
+            .rw1cl1, .rw1cl2 {
+                width: 100%;
+                margin: 10px 0;
+            }
+            
+            .Head_caption {
+                font-size: 1.8rem;
+            }
+
+            .headsub_caption {
+                font-size: 1.2rem;
+            }
+            
+            .rw1cl1 {
+                text-align: center;
+            }
+        }
+
+
+
+        /*--------------Row2-----------*/
+
+
+                /* ROW CONTAINER */
+        .row2 {
+            display: flex;              
+            flex-wrap: wrap;            
+            gap: 1rem;                  
+            margin: 2rem 0;
+            align-items: flex-start;    
+        }
+
+        /* CHART SECTION */
+        .chart-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+           
+            flex: 1;                   
+            min-width: 300px;           
+            max-width: 55%;             
+            
+            
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            
+        }
+
+        
+        .chart-container {
+            position: relative;
+            width: 90%;
+            height: 150px;
+            margin: 1rem auto;
+        }
+
+        
+        .chart-Yaxis {
+            position: absolute;
+            top: 35%;
+            left: 2%;
+            transform: rotate(-90deg);
+            transform-origin: top left;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+
+        .chart-Xaxis {
+            position: absolute;
+            bottom: -1%;
+            right: -1%;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        /* Chart Bars Container */
+        .chart-bars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            margin-left: 30px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-around;
+            border-left: 3px solid #000;
+            border-bottom: 3px solid #000;
+        }
+
+        /* Individual Bar */
+        .chart-bar {
+            background-color: #666;
+            width: 8%;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            color: #fff;
+            font-size: 0.8rem;
+            border-radius: 4px 4px 0 0;
+            transition: background-color 0.3s;
+            cursor: pointer;
+        }
+
+        .chart-bar:hover {
+            background-color: #333;
+        }
+
+        
+
+        /*INFO CARD*/
+        .info-cards {
+            flex: 1;              
+            min-width: 300px;      
+            max-width: 45%;   
+            
+        }
+
+        
+        .info-cards h1 {
+            margin-top: -1%;
+            font-size: 2rem;
+            margin-bottom: 15%;
+        }
+
+        .subtitle {
+            font-size: 1rem;
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+
+        .stock-cards {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+
+        .stock-card {
+            flex: 1 1 100px;
+            min-width: 100px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            text-align: center;
+            padding: 1rem;
+            transition: box-shadow 0.3s ease;
+        }
+
+        .stock-card:hover {
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .stock-card p {
+            color: gray;
+            margin-bottom: 0.5rem;
+        }
+
+        .stock-value {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.2rem;
+        }
+
+        .stock-diff {
+            font-size: 1rem;
+            color: #666;
+        }
+
+        /* Search Section */
+        .search-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            max-width: 600px;
+            margin: 0 auto; 
+            gap: 0.5rem;    
+        }
+
+        /* Search Input */
+        .search-input {
+            flex: 1;  
+            height: 2rem;         
+            padding: 0.5rem 1rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+
+        @media (max-width: 700px) {
+            .chart-Yaxis {
+                left: -5px;
+            }
+            .chart-Xaxis {
+                bottom: -1%;
+            }
+            .chart-section {
+                padding: 0.2rem;
+                padding-left: 0.1rem;
+            }
+            .chart-container {
+                height: 200px;
+                margin-top: 10px;
+            }
+            .chart-bars {
+                margin-left: 10px;
+                padding-left: 5px;
+                padding-bottom: 0px;
+            }
+            
+            .row2 {
+                flex-direction: column;
+                align-items: center;
+            }
+            .chart-section, .info-cards {
+                max-width: 90%;
+            }
+
+            .info-cards h1 {
+                margin-top: 5%;
+                font-size: 2rem;
+                margin-bottom: 5%;
+            }
+
+
+        }
+
+            @media (max-width: 1024px) {
+
+                .row2 {
+                    flex-direction: column;
+                    align-items: center;
+                }
+
+                .info-cards h1 {
+                    margin-top: 1%;
+                    font-size: 2rem;
+                    margin-bottom: 5%;
+                }
+
+                .chart-section, .info-cards {
+                    max-width: 90%;
+                    width: 90%;
+                }
+
+                
+            }
+        
+        /* ----------------Row 3 ----------------*/
+
+        analysis-container {
+            margin-top: 8%;
+            max-width: 100%;     
+            margin: 0 auto;
+            text-align: center;    
+        }
+
+        
+        .analysis-container h1 {
+            font-size: 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            margin-top: 8%;
+        }
+
+        
+        .analysis-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;             
+            align-items: start;    
+        }
+
+        
+        .analysis-card {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 1rem;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;   
+            min-height: 350px;  
+            transition: box-shadow 0.3s ease;
+        }        
+
+
+        
+        .analysis-card h2 {
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+        }
+
+
+        /* Chart Placeholder */
+        .chart-placeholder {
+            flex: 1;             
+            width: 90%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #eee;
+            margin-bottom: 1rem;
+            margin-top: 1rem;
+            position: relative;
+        }
+
+        /* Pie Chart Placeholder */
+        .pie-chart {
+            
+            background: radial-gradient(circle, #bbb 50%, transparent 50%);
+            
+        }
+
+        /* Line Chart Placeholder */
+        .line-chart {
+            
+            border-bottom: 3px solid black;
+            border-left: 3px solid black;
+            
+        }
+
+
+        .line_Yaxis{
+            position: absolute;
+            left: -1.5%;
+            top: 25%;
+            color: #666;
+            margin-bottom: 1rem;
+            transform: rotate(-90deg);
+        }
+        
+
+        .line-Xaxis {
+            position: absolute;
+            right: 8%;
+            bottom: 0.3%;
+            
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        
+        @media (max-width: 1024px) {
+
+            .analysis-container h1 {
+                font-size: 1.5rem;
+            }
+
+
+            .line_Yaxis{
+                left: -5%;
+            }
+
+            .analysis-card {
+                min-height: 300px;
+            }
+        }  
+        
+        
+        /* -----------------row 4------------- */
+
+        .row4 {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 10vh 0 50px;
+            flex-direction: row;
+        }
+
+
+        .rw4cl1, .rw4cl2 {
+            width: 48%;
+        }
+
+
+        .Head_caption{
+            font-size: 2.5rem;
+        }
+
+        .headsub_caption{
+            font-size: 1.2rem;
+            color: gray;
+        }
+
+
+
+        /* report_type */
+        .report_type{
+            margin-bottom: 5%;
+        }
+
+        .report_type p{
+            margin-bottom: 0px;
+        }
+
+        .report_type button{
+            padding: 1.5%;
+            border-radius: 5px;
+            border: 1px solid rgb(190, 189, 189);
+            background-color: rgb(190, 189, 189);
+        }
+
+        /* range select */
+
+        .range_select{
+            margin-bottom: 5%;
+        }
+
+        .range_select p{
+            margin-bottom: 0px;
+        }
+
+
+        /* buttons */
+        .submit_buttons {
+            display: flex;
+            justify-content: center; 
+            gap: 2rem;              
+            margin-bottom: 2rem;
+        }
+
+        .back-button, .save-button {
+
+            background-color: #000;
+            color: #fff;
+            border: none;
+            padding: 0.7rem 2rem;
+            font-size: 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 40%;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-button{
+            background-color: white;
+            color: black;
+            border: 2px solid black;
+        }
+
+        .back-button:hover{
+            background-color: #333;
+            color: white;
+
+        }
+
+        .save-button:hover {
+            background-color: #333;
+        }
+
+
+
+        @media (max-width: 768px) {
+           
+            body{
+                padding-left: 5%;
+                padding-right: 5%;
+            }
+           
+            .row4 {
+                flex-direction: column;
+                margin: 20px;
+            }
+            
+            .rw4cl1, .rw4cl2 {
+                width: 100%;
+                margin: 10px 0;
+            }
+            
+            .Head_caption {
+                font-size: 1.8rem;
+            }
+
+            .headsub_caption {
+                font-size: 1.2rem;
+            }
+            
+            .rw4cl1 {
+                text-align: center;
+            }
+
+            .submit_buttons {
+                display: flex;
+                justify-content: center; 
+                gap: 3rem;              
+                margin-bottom: 2rem;
+             }
+        }
+
+
+    /* ------------row 5--------------- */
+
+    .row5{
+        width: 100%;
+        background-color: rgb(155, 153, 153);
+        justify-content: center;
+    }
+
+    .row5 p{
+        
+    }
+
+
+    </style>
+
+</head>
+<body>
+
+    <!------------- row 1 ------------->
+    <div class="row1">
+
+        <div class="rw1cl1">
+
+            <p class="Head_caption">Reports and Analytics</p>
+            <p class="headsub_caption">Generate and visualize data reports</p>
+            
+        </div>
+        
+
+        <div class="rw1cl2">
+
+            <img src="{% static 'home_images/homepageImage.png' %}" alt="home image" class="home-image" />
+                
+        </div>
+
+    </div>
+
+
+    <!------------- row 2 ------------->
+
+
+    <div class="row2">
+
+        <!-- Chart Section -->
+        <section class="chart-section">
+
+          <h3>Donation over time</h3>
+
+          <div class="chart-container">
+            <p class="chart-Yaxis">Donation</p>
+            <div class="chart-bars">
+              <div class="chart-bar" style="height: 50%">A</div>
+              <div class="chart-bar" style="height: 70%">B</div>
+              <div class="chart-bar" style="height: 40%">C</div>
+              <div class="chart-bar" style="height: 60%">D</div>
+              <div class="chart-bar" style="height: 70%">E</div>
+              <div class="chart-bar" style="height: 40%">F</div>
+              <div class="chart-bar" style="height: 80%">G</div>
+            </div>
+
+            <p class="chart-Xaxis">Time</p>
+
+          </div>
+
+        </section>
+      
+        <!-- Info Cards Section -->
+
+        <div class="info-cards">
+
+          <h1>Key Insights</h1>
+
+        
+          
+          <div class="stock-cards">
+
+            <!-- Card 1 -->
+
+            <div class="stock-card">
+
+              <p>Total distribution</p>
+
+              <div class="stock-value">1250</div>
+
+              <div class="stock-diff">+15%</div>
+              
+            </div>
+
+
+            <!-- Card 2 -->
+            <div class="stock-card">
+
+              <p>Total Donations</p>
+
+              <div class="stock-value">$75,000</div>
+              <div class="stock-diff">-10%</div>
+
+            </div>
+
+
+            <!-- Card 3 -->
+            <div class="stock-card">
+
+              <p>User Activity</p>
+
+              <div class="stock-value">High</div>
+              <div class="stock-diff">N/A</div>
+            </div>
+
+          </div>
+
+        </div>
+      
+    </div>
+
+    <!-------------- Row 3 ---------------->
+
+    <div class="analysis-container">
+
+        <h1>Visualizations</h1>
+        
+            
+            <div class="analysis-grid">
+              
+              
+                <article class="analysis-card">
+
+                    <h2>Distribution by Region</h2>    
+
+                    
+                    <div class="chart-placeholder pie-chart">
+                        <span>Pie Chart</span>
+                    </div>
+        
+                </article>
+        
+              
+                <article class="analysis-card">
+                    <h2>User Activity Trend</h2>
+
+                    <p class="line_Yaxis">Activity</p>
+                    
+                    
+                    <div class="chart-placeholder line-chart">
+                         <span>Line Chart</span>
+                    </div>
+            
+                    <p class="line-Xaxis">Date</p>
+              </article>
+        
+            </div>
+
+    </div>
+
+
+    <!-------------- row 4 generate reports ----------->
+
+     <div class="row4">
+
+        <div class="rw4cl1">
+
+                <p class="Head_caption">Reports and Analytics</p>
+                <p class="headsub_caption">Generate and visualize data reports</p>
+            
+        </div>
+        
+
+        <div class="rw4cl2">
+
+            <div class="report_type">
+
+                <p>Report Type</p>
+
+                <div class="buttons">
+                    <button>Distributions</button>
+                    <button>Donations</button>
+                    <button>User Activity</button>
+                </div>
+
+            </div>
+
+
+            <div class="range_select">
+
+                 
+
+                  <p>Date Range</p>
+                 <div class="search-section">
+                    <input 
+                    type="text" 
+                    class="search-input" 
+                    placeholder="Enter Date Range"
+                    aria-label="Enter Date Range" 
+                    />
+                    
+                </div>
+                
+            </div>
+
+
+
+            
+            <div class="submit_buttons">
+                <button class="back-button">Download Report</button>
+                <button class="save-button">Generate Report</button>
+            </div>
+
+
+              
+        </div>
+
+    </div> 
+
+
+    <div class="row5">
+
+        <p>Examine detailed data reports for informed decision-making.</p>
+
+    </div>
+
+       
+</body>
+</html>
