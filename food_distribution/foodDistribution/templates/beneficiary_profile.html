@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beneficiary Profile form</title>
+</head>
+<body>
+    <div class="container">
+        <h2>Beneficiary Profile Form</h2>
+        <form action="#" method="POST">
+            <label for="fullname">Full Name</label>
+           <input type="text" id="fullname" name="fullname" required>
+           <label for="age">Age</label>
+           <input type="number" id="age" name="age" required>
+           <label for="gender">Gender</label>
+           <select id="gender" name="gender" required>
+            <option value="">select</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
+            </select>
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" name="phone" required>
+            <label for="address">Address</label>
+            <textarea id="address" name="address" rows="3" required></textarea>
+            <button type="submit">Submit</button>
+            </form>
+        </div>
+</body>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+
+    .container {
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        width:300px;
+    }
+    h2 {
+        text-align: center;
+        color: #333;
+    }
+    form {
+        display: flex;
+        flex-direction: column;
+    }
+    label {
+        margin: 10px 0 5px;
+        font-weight: bold;
+    }
+    input,select,textarea {
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+    button {
+        background: #28a745;
+        color: white;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 10px;
+    }
+    button:hover {
+        background: #218838;
+    }
+
+        
+
+
+</style>
+</html>
