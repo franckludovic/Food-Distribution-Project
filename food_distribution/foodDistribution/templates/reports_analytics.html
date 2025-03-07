@@ -240,25 +240,7 @@
             color: #666;
         }
 
-        /* Search Section */
-        .search-section {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            max-width: 600px;
-            margin: 0 auto; 
-            gap: 0.5rem;    
-        }
-
-        /* Search Input */
-        .search-input {
-            flex: 1;  
-            height: 2rem;         
-            padding: 0.5rem 1rem;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-
+        
 
         @media (max-width: 700px) {
             .chart-Yaxis {
@@ -453,6 +435,7 @@
         }
 
         .headsub_caption{
+
             font-size: 1.2rem;
             color: gray;
         }
@@ -465,11 +448,14 @@
         }
 
         .report_type p{
-            margin-bottom: 0px;
+            margin-bottom: 2px;
         }
 
         .report_type button{
             padding: 1.5%;
+            padding-left: 2%;
+            padding-right: 2%;
+            margin-right: 2rem;
             border-radius: 5px;
             border: 1px solid rgb(190, 189, 189);
             background-color: rgb(190, 189, 189);
@@ -478,6 +464,7 @@
         /* range select */
 
         .range_select{
+
             margin-bottom: 5%;
         }
 
@@ -488,6 +475,7 @@
 
         /* buttons */
         .submit_buttons {
+
             display: flex;
             justify-content: center; 
             gap: 2rem;              
@@ -505,15 +493,18 @@
             cursor: pointer;
             width: 40%;
             transition: background-color 0.3s ease;
+
         }
 
         .back-button{
+
             background-color: white;
             color: black;
             border: 2px solid black;
         }
 
         .back-button:hover{
+
             background-color: #333;
             color: white;
 
@@ -523,6 +514,36 @@
             background-color: #333;
         }
 
+        /* Search Section */
+        .search-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            max-width: 600px;
+            margin: 0 auto; 
+            gap: 0.5rem;    
+        }
+
+        /* Search Input */
+        .search-input {
+            flex: 1;  
+            height: 2rem;         
+            padding: 0.5rem 1rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+
+
+        @media (max-width: 400px) {
+
+            .report_type button{
+                margin-right: 0.1rem;
+                padding-left: 1%;
+                padding-right: 1%;
+            }
+            
+        }
 
 
         @media (max-width: 768px) {
@@ -549,6 +570,13 @@
             .headsub_caption {
                 font-size: 1.2rem;
             }
+
+            .back-button, .save-button{
+                font-size: 0.8rem;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+            }
             
             .rw4cl1 {
                 text-align: center;
@@ -559,21 +587,63 @@
                 justify-content: center; 
                 gap: 3rem;              
                 margin-bottom: 2rem;
-             }
+            }
+
+            .report_type button{
+                margin-right: 0.3rem;
+            }
+
+        }
+
+        @media (max-width: 900px) {
+
+            .report_type button{
+                margin-right: 0.2rem;
+            }
+            
         }
 
 
     /* ------------row 5--------------- */
 
-    .row5{
+    .row5 {
+        display: flex;
         width: 100%;
         background-color: rgb(155, 153, 153);
-        justify-content: center;
+        justify-content: center;  
+        align-items: center;      
+        text-align: center;
+        height: 30vh;
+        border-radius: 10px;
+        margin-bottom: 3rem;
     }
 
-    .row5 p{
-        
+    .row5 p {
+        font-size: 1rem;
     }
+
+   /*------------row6--------------*/
+    .fonter-container{
+            margin: 20px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center; 
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .footer-links a {
+            color: #000;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s ease;
+        }
+
+        .footer-links a:hover {
+            color: #666;
+        }
 
 
     </style>
@@ -774,14 +844,28 @@
               
         </div>
 
+
     </div> 
 
 
+    <!------------- Row 5- ------------>
     <div class="row5">
 
         <p>Examine detailed data reports for informed decision-making.</p>
 
     </div>
+
+
+    <!-- --------------Row6---------- -->
+    <div class="fonter-container">
+          
+        <footer class="footer-links">
+           <a href="#">© 2022 Reports and Analytics Ltd. All Rights Reserved.</a>
+       </footer> 
+
+       </div>
+
+
 
        
 </body>
