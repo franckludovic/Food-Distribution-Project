@@ -1,4 +1,14 @@
 from django.db import models
+from django.contrib.auth import get_user_model
 
-
+User = get_user_model()
 # Create your models here.
+
+class Profile(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    phone = models.TextField(max_length = 35)
+    user_type = models.TextField(blank = True)
+    id_user = models.IntegerField(default = 0)
+
+    def _str_(self):
+        return self.user.username
