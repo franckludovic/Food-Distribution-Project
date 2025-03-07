@@ -10,9 +10,14 @@ def main(request):
     template = loader.get_template('main.html')
     return HttpResponse(template.render())
 
+@login_required(login_url = "login")
 def home(request):
+    context = {
+        'user_profile': Profile.objects.get(user = request.user)
+    }
+    
     template = loader.get_template('home.html')
-    return HttpResponse(template.render())
+    return HttpResponse(template.render(context))
 
 def login(request):
     
@@ -24,7 +29,11 @@ def login(request):
 
         if user is not None:
             auth.login(request, user)
-            return redirect('home')
+            profile = Profile.objects.get(user = user)
+            if profile.user_type == "volunteer":
+                return redirect('volunteerProfile')
+            elif profile.user_type == "beneficiary":
+                return redirect('beneficiaryProfile')
         else:
             messages.info(request, 'Invalid credentials')
             return redirect('login')
@@ -44,6 +53,9 @@ def signup(request):
         if User.objects.filter(email = email).exists():
             messages.info(request, "Email already exists")
             return redirect('signup')
+        elif User.objects.filter(username = username).exists():
+            messages.info(request, "Please change your username")
+            return redirect('signup')
         else:
             user = User.objects.create_user(username = username, email = email, password = password)
             user.save()
@@ -60,6 +72,11 @@ def signup(request):
             return redirect('login')
     else:
         return render(request, 'signup.html')
+
+@login_required(login_url = "login")
+def logout(request):
+    auth.logout(request)
+    return redirect('main')
 
 def forgotPassword(request):
     template = loader.get_template('forgot_password.html')
@@ -81,10 +98,12 @@ def adminDashboard(request):
     template = loader.get_template('admin_dashboard.html')
     return HttpResponse(template.render())
 
+@login_required(login_url = "login")
 def beneficiaryProfile(request):
     template = loader.get_template('beneficiary_profile.html')
     return HttpResponse(template.render())
 
+@login_required(login_url = "login")
 def volunteerProfile(request):
     template = loader.get_template('volunteer_profile.html')
     return HttpResponse(template.render())
