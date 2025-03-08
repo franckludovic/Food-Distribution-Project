@@ -30,10 +30,7 @@ def login(request):
         if user is not None:
             auth.login(request, user)
             profile = Profile.objects.get(user = user)
-            if profile.user_type == "volunteer":
-                return redirect('volunteerProfile')
-            elif profile.user_type == "beneficiary":
-                return redirect('beneficiaryProfile')
+            return redirect('home')
         else:
             messages.info(request, 'Invalid credentials')
             return redirect('login')
@@ -150,4 +147,8 @@ def settings(request):
 
 def stockMonitoring(request):
     template = loader.get_template('stock_monitoring.html')
+    return HttpResponse(template.render())
+
+def assignVolunteers(request):
+    template = loader.get_template('assignVolunteers.html')
     return HttpResponse(template.render())
