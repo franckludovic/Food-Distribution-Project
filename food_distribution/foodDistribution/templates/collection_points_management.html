@@ -1,0 +1,265 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Collection Points</title>
+</head>
+<body>
+    <div class="container">
+        <!--          FIRST SECTION           -->
+        <div class="first-section"> Manage Collection Points</div>
+
+        <!--          SECOND SECTION           -->
+        <div class="second-section">
+            <div class="map"></div>
+        </div>
+
+        <!--          THIRD SECTION           -->
+        <div class="third-section">
+            <div class="l-section">Existing Collection Points</div>
+            <div class="r-t-section">
+                <div style="margin-top: 10%; margin-left: 2%;">
+                    <div class="image-text">
+                        <button class="img"><img src="{% static 'login_images/lock.jpg' %}" alt="lock image"></button>
+                        <div>
+                            <div style="font-size: larger; font-weight: bold;">
+                                Collection Point 1
+                            </div>
+                            <div style="font-size: medium; color: gray;">
+                                123 Main Street, City
+                            </div>
+                        </div>
+                    </div>
+                    <hr width="70%" align="left" color="gray">
+                    <div class="image-text">
+                        <button class="img"><img src="{% static 'login_images/write.jpg' %}" alt=""></button>
+                        <div>
+                            <div style="font-size: larger; font-weight: bold;">
+                                <a href="/signup" style="text-decoration: none; color: black;">Collection Point 2</a>
+                            </div>
+                            <div style="font-size: medium; color: gray;">
+                                456 Elm Avenue, Town
+                            </div>
+                        </div>
+                    </div>
+                    <hr width="70%" align="left" color="gray">
+                </div>
+            </div>
+        </div>
+
+        <!--          FOURTH SECTION           -->
+        <div class="fourth-section">
+            <div class="l-section">Add New Collection Points</div>
+            <div class="r-f-section">
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    <!--Email-->
+                    <div class="reg-form">
+                        <label for="name">Name</label>
+                        <br>
+                        <input type="name" name="name" placeholder="Enter collection point name">
+                    </div>
+    
+                    <!--Password-->
+                    <div class="reg-form" style="padding-top: 60px;">
+                        <label for="address">Address</label>
+                        <br>
+                        <input type="text" name="address" placeholder="Enter collection point address">
+                    </div>
+    
+                    <!--Login button-->
+                        <div class="auth-btn">
+                            <button class="cancel-btn">Cancel</button>
+                            <button class="add-btn">Add Point</button>
+                        </div>
+                </form>
+            </div>
+        </div>
+
+        <!--          FIFTH SECTION           -->
+        <div class="fifth-section">
+            <div class="img-slider"></div>
+        </div>
+
+        <!--          SIXTH SECTION           -->
+        <div class="sixth-section">
+            <a href="/contactUs">Contact Us</a>
+            <a href="/privacyPolicy">Privacy Policy</a>
+            <a href="termsAndConditions">Terms &amp; Conditions</a>
+        </div>
+    </div>
+</body>
+
+<style>
+    .container {
+        width: 100%;
+        height: 100vh;
+    }
+
+    input {
+        width: 80%;
+        height: 45px;
+        padding-left: 15px;
+        border-radius: 5px;
+        border-color: rgb(207, 204, 204);
+    }
+
+    /* FIRST SECTION*/
+    .first-section {
+        width: 100%;
+        height: 15%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: bold;
+        font-size: xx-large;
+        border-bottom: 1px solid rgb(182, 181, 181);
+    }
+    /*-------------------------*/
+
+    /* SECOND SECTION*/
+    .second-section {
+        width: 100%;
+        height: 40%;
+        align-content: center;
+    }
+
+    .map {
+        width: 80%;
+        height: 80%;
+        margin-left: 10%;
+        background-color: rgb(145, 145, 145);
+    }
+    /*-------------------------*/
+
+    /* THIRD SECTION*/
+    .third-section {
+        width: 100%;
+        height: 40%;
+        display: flex;
+        flex-direction: row;
+        border-top: 1px solid rgb(182, 181, 181);
+    }
+
+    .auth-btn {
+        padding-left: 23%;
+        padding-top: 50px;
+    }
+
+    .image-text {
+        display: flex;
+        flex-direction: row;
+        margin-top: 10px;
+        margin-bottom: 20px;
+    }
+
+    .img {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        margin-right: 30px;
+        border-style: none;
+        cursor: pointer;
+    }
+
+    .img img {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    .r-t-section {
+        width: 50%;
+    }
+    /*-------------------------*/
+
+    /* THIRD AND FOURTH SECTION*/
+    .l-section {
+        width: 50%;
+        justify-content: center;
+        display: flex;
+        font-size: xx-large;
+        font-weight: bolder;
+        align-items: center;
+    }
+    /*-------------------------*/
+
+    /* FOURTH SECTION*/
+    .fourth-section {
+        width: 100%;
+        height: 40%;
+        display: flex;
+        flex-direction: row;
+        border-top: 1px solid rgb(182, 181, 181);
+    }
+
+    .r-f-section {
+        width: 50%;
+    }
+
+    .reg-form {
+        padding-top: 5%;
+    }
+
+    .add-btn {
+        padding: 10px 100px;
+        background-color: black;
+        color: white;
+        text-decoration: none;
+        border: none;
+        border-radius: 8px;
+        font-weight: 500;
+        font-size: large;
+    }
+
+    .cancel-btn {
+        padding: 10px 100px;
+        background-color: white;
+        color: black;
+        text-decoration: none;
+        border: 1px solid black;
+        border-radius: 8px;
+        font-weight: 500;
+        font-size: large;
+    }
+
+    .auth-btn {
+        padding-left: 10%;
+        padding-top: 5%;
+    }
+    /*-------------------------*/
+
+    /* FIFTH SECTION*/
+    .fifth-section {
+        width: 100%;
+        height: 40%;
+        align-content: center;
+        border-top: 1px solid rgb(182, 181, 181);
+    }
+
+    .img-slider {
+        width: 80%;
+        height: 80%;
+        background-color: rgb(95, 95, 95);
+        margin-left: 10%;
+    }
+    /*-------------------------*/
+
+    /* SIXTH SECTION*/
+    .sixth-section {
+        width: 40%;
+        margin: 1% 30%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+    }
+
+    a {
+        text-decoration: none;
+        color: black;
+    }
+</style>
+</html>

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 2rem;
+            background-color: #ffffff;
+        }
+
+        /* Header Section */
+        .header-container {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            border-bottom: 2px solid #ddd;
+        }
+
+        .profile-icon {
+            width: 15px;
+            height: 15px;
+            background-color: lightgray;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .profile-title {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        /* Main Section */
+        .main-container {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .main-heading {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        /* Settings Section */
+        .settings-container {
+            display: flex;
+            align-items: flex-start;
+            padding: 20px;
+            gap: 50px;
+            max-width: 1000px;
+            margin: auto;
+            flex-direction: row;
+        }
+
+        .settings-left {
+            flex: 1;
+            text-align: left;
+            flex-direction: row;
+        }
+
+        .settings-title {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            justify-content: center;
+        }
+
+        .settings-right {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        /* Form Section */
+        .settings-group {
+            margin-bottom: 20px;
+        }
+
+        .settings-label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .description {
+            color: gray;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            background-color: #f0f0f0;
+            text-align: center;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .btn:hover {
+            background-color: #ddd;
+        }
+
+        .btn-dark {
+            background-color: black;
+            color: white;
+            text-align: center;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .btn-dark:hover {
+            background-color: #333;
+        }
+
+        /* Responsive Design */
+        @media screen and (max-width: 768px) {
+            .settings-container {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .settings-left, .settings-right {
+                width: 100%;
+                text-align: center;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header class="header-container">
+        <div class="profile-icon"></div>
+        <span class="profile-title">Settings</span>
+    </header>
+
+    <!-- Main Section -->
+    <section class="main-container">
+        <h1 class="main-heading">Settings</h1>
+    </section>
+
+    <!-- Settings Section -->
+    <section class="settings-container">
+        <div class="settings-left">
+            <h2 class="settings-title">User Preferences</h2>
+        </div>
+        
+        <div class="settings-right">
+            <div class="settings-group">
+                <label class="settings-label">Language</label>
+                <div class="button-group">
+                    <div class="btn">English</div>
+                    <div class="btn">French</div>
+                </div>
+                <p class="description">Select your preferred language.</p>
+            </div>
+
+            <div class="settings-group">
+                <label class="settings-label">High-Contrast Mode</label>
+                <div class="button-group">
+                    <div class="btn">On</div>
+                    <div class="btn">Off</div>
+                </div>
+                <p class="description">Toggle high-contrast mode for better readability.</p>
+            </div>
+
+            <div class="settings-group">
+                <label class="settings-label">Account Settings</label>
+                <div class="button-group">
+                    <div class="btn">Change Password</div>
+                    <div class="btn">Logout</div>
+                </div>
+            </div>
+
+            <button class="btn-dark">Save Changes</button>
+        </div>
+    </section>
+
+</body>
+</html>

@@ -6,6 +6,7 @@ urlpatterns = [
     path('home', views.home, name='home'),
     path('login', views.login, name='login'),
     path('signup', views.signup, name='signup'),
+    path('logout', views.logout, name='logout'),
     path('forgotPassword', views.forgotPassword, name='forgotPassword'),
     path('privacyPolicy', views.privacyPolicy, name='privacyPolicy'),
     path('termsAndConditions', views.termsAndConditions, name='termsAndConditions'),
@@ -24,4 +25,5 @@ urlpatterns = [
     path('reportsAnalytics', views.reportsAnalytics, name='reportsAnalytics'),
     path('settings', views.settings, name='settings'),
     path('stockMonitoring', views.stockMonitoring, name='stockMonitoring'),
+    path('assignVolunteers', views.assignVolunteers, name='assignVolunteers'),
 ]
