@@ -25,4 +25,5 @@ urlpatterns = [
     path('reportsAnalytics', views.reportsAnalytics, name='reportsAnalytics'),
     path('settings', views.settings, name='settings'),
     path('stockMonitoring', views.stockMonitoring, name='stockMonitoring'),
+    path('assignVolunteers', views.assignVolunteers, name='assignVolunteers'),
 ]
