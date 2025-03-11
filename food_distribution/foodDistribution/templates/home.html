@@ -1,11 +1,1 @@
 <h1>This is the home page</h1>
-
-<a href="logout" style="text-align: right;">Logout</a>
-
-{% if user_profile.user_type == "volunteer" %}
-    <a href="/volunteerProfile">Volunteer Profile</a>
-    <p>{{user_profile.phone}}</p>
-{% elif user_profile.user_type == "beneficiary" %}
-    <a href="/beneficiaryProfile">Beneficiary Profile</a>
-    <p>{{user_profile.phone}}</p>
-{% endif %}
