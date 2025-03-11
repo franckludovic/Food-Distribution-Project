@@ -18,7 +18,7 @@ class Profile(AbstractUser):
 
 class Food(models.Model):
     food_id = models.IntegerField(default=0)
-    food_name = models.TextField()
+    food_name = models.TextField(blank=True)
     food_type = models.TextField(max_length=50)
     expire_date = models.DateTimeField(auto_now_add=True)
     quantity = models.FloatField(blank=False)
