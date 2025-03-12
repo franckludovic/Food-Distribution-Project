@@ -1,9 +1,12 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser, Group, Permission
+from django.contrib.auth import get_user_model
+from django.contrib.auth.models import Group, Permission
+User = get_user_model()
 
-class Profile(AbstractUser):
+class Profile(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=False, default=0)
     USER_TYPE_CHOICES = (
-        ('admin', 'Admin'),
+        ('manager', 'Manager'),
         ('volunteer', 'Volunteer'),
         ('beneficiary', 'Beneficiary'),
         ('donor', 'Donor'),
@@ -12,9 +15,10 @@ class Profile(AbstractUser):
     user_type = models.CharField(max_length=20, choices=USER_TYPE_CHOICES, default='beneficiary')
     groups = models.ManyToManyField(Group, related_name="profile_groups", blank=True)
     user_permissions = models.ManyToManyField(Permission, related_name="profile_permissions", blank=True)
+    id_user = models.IntegerField(default=0)
     
     def __str__(self):
-        return self.username
+        return self.user.username
 
 class Food(models.Model):
     food_id = models.IntegerField(default=0)
@@ -34,17 +38,17 @@ class BeneficiaryProfile(models.Model):
     location = models.CharField(max_length=255)
     
     def __str__(self):
-        return f"{self.user.username} BeneficiaryProfile"
+        return f"{self.user.user.username} BeneficiaryProfile"
 
 class VolunteerProfile(models.Model):
-    user = models.OneToOneField(Profile, on_delete=models.CASCADE, related_name='volunteer_profile')
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE)
     availability = models.TextField() 
     intervention_area = models.CharField(max_length=255)
     skills = models.TextField(blank=True, null=True)
     imageUrl = models.ImageField(upload_to="volunteer_images/", blank=True, null=True)
     
     def __str__(self):
-        return f"{self.user.username} VolunteerProfile"
+        return f"{self.user.user.username} VolunteerProfile"
 
 class FoodStock(models.Model):
     food_type = models.CharField(max_length=100)
@@ -64,7 +68,7 @@ class FoodDonation(models.Model):
     donation_date = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
-        return f"Food Donation by {self.donor.username}"
+        return f"Food Donation by {self.donor.user.username}"
 
 class MonetaryDonation(models.Model):
     PAYMENT_METHOD_CHOICES = (
@@ -78,7 +82,7 @@ class MonetaryDonation(models.Model):
     donation_date = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
-        return f"Monetary Donation by {self.donor.username}"
+        return f"Monetary Donation by {self.donor.user.username}"
 
 class FoodAidRequest(models.Model):
     URGENCY_CHOICES = (
@@ -93,7 +97,7 @@ class FoodAidRequest(models.Model):
     status = models.CharField(max_length=20, default='pending')
     
     def __str__(self):
-        return f"Food Aid Request by {self.beneficiary.username}"
+        return f"Food Aid Request by {self.beneficiary.user.username}"
 
 class DistributionPlan(models.Model):
     start_point = models.CharField(max_length=255)
@@ -122,7 +126,7 @@ class VolunteerAssignment(models.Model):
     task_details = models.TextField(blank=True, null=True)
     
     def __str__(self):
-        return f"Assignment for {self.volunteer.user.username}"
+        return f"Assignment for {self.volunteer.user.user.username}"
 
 class Notification(models.Model):
     user = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='notifications')
@@ -131,7 +135,7 @@ class Notification(models.Model):
     is_read = models.BooleanField(default=False)
     
     def __str__(self):
-        return f"Notification for {self.user.username}"
+        return f"Notification for {self.user.user.username}"
 
 class SupportTicket(models.Model):
     STATUS_CHOICES = (
@@ -147,4 +151,4 @@ class SupportTicket(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     
     def __str__(self):
-        return f"Ticket: {self.subject} by {self.user.username}"
+        return f"Ticket: {self.subject} by {self.user.user.username}"

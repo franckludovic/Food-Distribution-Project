@@ -1,1 +1,7 @@
 <h1>This is the home page</h1>
+
+{% if user_profile.user_type == "volunteer" %}
+<a href="/volunteerProfile">VolunteerProfile</a>
+{% elif user_profile.user_type == "beneficiary" %}
+<a href="/beneficiaryProfile">BeneficiaryProfile</a>
+{% endif %}

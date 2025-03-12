@@ -172,19 +172,20 @@
         </div>
         
         <div class="form-right">
-            <form>
+            <form action="" method="post">
+                {% csrf_token %}
                 <label for="availability">Availability</label>
-                <input type="text" id="availability" placeholder="Select your availability using the calendar">
+                <input type="text" id="availability" name="availability" placeholder="Select your availability using the calendar">
 
                 <label for="intervention">Intervention Area</label>
-                <input type="text" id="intervention" placeholder="Enter your preferred intervention area">
+                <input type="text" id="intervention" name="intervention" placeholder="Enter your preferred intervention area">
 
                 <label for="skills">Skills</label>
-                <input type="text" id="skills" placeholder="Enter your skills or expertise">
+                <input type="text" id="skills" name="skills" placeholder="Enter your skills or expertise">
 
                 <div class="button-group">
                     <button class="btn btn-light">Back</button>
-                    <button class="btn btn-dark">Save</button>
+                    <button class="btn btn-dark" type="submit">Save</button>
                 </div>
             </form>
         </div>
