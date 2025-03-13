@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.template import loader
-from .models import Profile
+from .models import Profile, VolunteerProfile
 
 def main(request):
     template = loader.get_template('main.html')
@@ -15,9 +15,7 @@ def home(request):
     context = {
         'user_profile': Profile.objects.get(user = request.user)
     }
-    
-    template = loader.get_template('home.html')
-    return HttpResponse(template.render(context))
+    return render(request, 'home.html', context)
 
 def login(request):
     
@@ -30,7 +28,10 @@ def login(request):
         if user is not None:
             auth.login(request, user)
             profile = Profile.objects.get(user = user)
-            return redirect('home')
+            if profile.user_type == "volunteer":
+                return redirect('volunteerProfile')
+            elif profile.user_type == "beneficiary":
+                return redirect('beneficiaryProfile')
         else:
             messages.info(request, 'Invalid credentials')
             return redirect('login')
@@ -102,8 +103,18 @@ def beneficiaryProfile(request):
 
 @login_required(login_url = "login")
 def volunteerProfile(request):
-    template = loader.get_template('volunteer_profile.html')
-    return HttpResponse(template.render())
+    if request.method == "POST":
+        availability = request.POST['availability']
+        intervention_area = request.POST['intervention']
+        skills = request.POST['skills']
+
+        user_model = request.user
+        profile_model = Profile.objects.get(id_user = user_model.id)
+        new_volunteer = VolunteerProfile.objects.create(user = profile_model, availability = availability, intervention_area = intervention_area, skills = skills)
+        new_volunteer.save()
+        return redirect('home')
+    else:
+        return render(request, 'volunteer_profile.html')
 
 def collectionPointsManagement(request):
     template = loader.get_template('collection_points_management.html')
