@@ -1,7 +1,74 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser, Group, Permission
 
-class Profile(AbstractUser):
+class Profile(models.Model):
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
     USER_TYPE_CHOICES = (
         ('admin', 'Admin'),
         ('volunteer', 'Volunteer'),
