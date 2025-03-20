@@ -492,6 +492,12 @@
     {% block sidebar %}
         {% if user_profile.user_type == "volunteer" %}
             {% include "volunteerSidebar.html" %}
+        {% elif user_profile.user_type == "beneficiary" %}
+            {% include "beneficiarySidebar.html" %}
+        {% elif user_profile.user_type == "manager" %}
+            {% include "managerSidebar.html" %}
+        {% elif user_profile.user_type == "donor" %}
+            {% include "donorSidebar.html" %}
         {% endif %}
     {% endblock %}
     <div>
