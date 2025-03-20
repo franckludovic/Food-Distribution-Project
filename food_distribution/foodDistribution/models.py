@@ -4,77 +4,7 @@ from django.contrib.auth.models import Group, Permission
 User = get_user_model()
 
 class Profile(models.Model):
-<<<<<<< HEAD
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-=======
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=False, default=0)
->>>>>>> 13be10a8a1e46fd536b609ea3f6d04d8e6b080b9
     USER_TYPE_CHOICES = (
         ('manager', 'Manager'),
         ('volunteer', 'Volunteer'),

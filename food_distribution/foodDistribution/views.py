@@ -32,6 +32,8 @@ def login(request):
                 return redirect('volunteerProfile')
             elif profile.user_type == "beneficiary":
                 return redirect('beneficiaryProfile')
+            elif profile.user_type == "manager":
+                return redirect('stockMonitoring')
         else:
             messages.info(request, 'Invalid credentials')
             return redirect('login')
