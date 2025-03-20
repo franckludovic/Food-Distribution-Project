@@ -156,9 +156,12 @@ def settings(request):
     template = loader.get_template('settings.html')
     return HttpResponse(template.render())
 
+@login_required(login_url = "login")
 def stockMonitoring(request):
-    template = loader.get_template('stock_monitoring.html')
-    return HttpResponse(template.render())
+    context = {
+        'user_profile': Profile.objects.get(user = request.user)
+    }
+    return render(request, 'stock_monitoring.html', context)
 
 def assignVolunteers(request):
     template = loader.get_template('assignVolunteers.html')
