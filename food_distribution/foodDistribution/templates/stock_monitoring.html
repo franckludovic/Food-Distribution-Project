@@ -355,7 +355,7 @@
         background-color: #fff;
         border: 1px solid #ddd;
         border-radius: 8px;
-        padding: 1rem;
+        padding: 0;
         position: relative;
         display: flex;
         flex-direction: column;
@@ -384,40 +384,7 @@
         position: relative;
     }
 
-    /* Pie Chart Placeholder */
-    .pie-chart {
-        
-        background: radial-gradient(circle, #bbb 50%, transparent 50%);
-        
-    }
 
-    /* Line Chart Placeholder */
-    .line-chart {
-        
-        border-bottom: 3px solid black;
-        border-left: 3px solid black;
-        
-    }
-
-
-    .line_Yaxis{
-        position: absolute;
-        left: -1.5%;
-        top: 25%;
-        color: #666;
-        margin-bottom: 1rem;
-        transform: rotate(-90deg);
-    }
-    
-
-    .line-Xaxis {
-        position: absolute;
-        right: 8%;
-        bottom: 0.3%;
-        
-        font-size: 0.9rem;
-        color: #666;
-    }
 
     
     @media (max-width: 1024px) {
@@ -566,24 +533,25 @@
 
                 <div class="chart-container">
 
-                    <p class="chart-Yaxis">Stock Level</p>
-
-                    <div class="chart-bars">
-
-                        <div class="chart-bar" style="height: 50%">A</div>
-                        <div class="chart-bar" style="height: 70%">B</div>
-                        <div class="chart-bar" style="height: 40%">C</div>
-                        <div class="chart-bar" style="height: 60%">D</div>
-                        <div class="chart-bar" style="height: 70%">E</div>
-                        <div class="chart-bar" style="height: 40%">F</div>
-                        <div class="chart-bar" style="height: 10%">G</div>
-                        <div class="chart-bar" style="height: 45%">H</div>
-                        <div class="chart-bar" style="height: 75%">I</div>
-                        <div class="chart-bar" style="height: 65%">J</div>
-                    </div>
-
-                    <p class="chart-Xaxis">Product</p>
-
+                    <article class="analysis-card">
+                        <div class="card">
+                            <div class="card-body">
+                              <h6 class="mb-0 ">Stocks</h6>
+                              <p class="text-sm ">Stock by product</p>
+                              <div class="pe-2">
+                                <div class="chart">
+                                  <canvas id="stockproductchart" class="chart-canvas" height="200", width="750"></canvas>
+                                </div>
+                              </div>
+                              <hr class="dark horizontal">
+                              <div class="d-flex ">
+                                <i class="material-symbols-rounded text-sm my-auto me-1">schedule</i>
+                                <p class="mb-0 text-sm"> updated 5 days ago </p>
+                              </div>
+                            </div>
+                          </div>
+                </article>
+        
                 </div>
 
             </section>
@@ -653,28 +621,44 @@
                   
                   
                     <article class="analysis-card">
-
-                        <h2>Stock Distribution</h2>    
-
-                        
-                        <div class="chart-placeholder pie-chart">
-                            <span>Pie Chart</span>
-                        </div>
-            
+                            <div class="card">
+                              <div class="card-body">
+                                <h6 class="mb-0 ">Distribution</h6>
+                                <p class="text-sm ">Distribution by region</p>
+                                <div class="pe-0">
+                                  <div class="chart">
+                                    <canvas id="stockregion" class="chart-canvas" height="200", width="400"></canvas>
+                                  </div>
+                                </div>
+                                <hr class="dark horizontal">
+                                <div class="d-flex ">
+                                  <i class="material-symbols-rounded text-sm my-auto me-1">schedule</i>
+                                  <p class="mb-0 text-sm">just updated</p>
+                                </div>
+                              </div>
+                            </div>
                     </article>
             
                   
                     <article class="analysis-card">
-                        <h2>Stock Trends</h2>
-
-                        <p class="line_Yaxis">Stock Level</p>
-                        
-                        
-                        <div class="chart-placeholder line-chart">
-                             <span>Line Chart</span>
-                        </div>
-                
-                        <p class="line-Xaxis">Time</p>
+                    
+                            <div class="card ">
+                              <div class="card-body">
+                                <h6 class="mb-0 "> Trends </h6>
+                                <p class="text-sm "> Trends by time. </p>
+                                <div class="pe-2">
+                                  <div class="chart">
+                                    <canvas id="stocktrends" class="chart-canvas" height="200", width="400"></canvas>
+                                  </div>
+                                </div>
+                                <hr class="dark horizontal">
+                                <div class="d-flex ">
+                                  <i class="material-symbols-rounded text-sm my-auto me-1">schedule</i>
+                                  <p class="mb-0 text-sm"> updated 4 min ago </p>
+                                </div>
+                              </div>
+                            </div>
+            
                   </article>
             
                 </div>
@@ -703,6 +687,128 @@
 
 
     </div>
+
+    <script>
+        (function(){
+        var xValues = ["Carrot", "Vegetables", "Rice", "Beans", "Alcohol", "Cocaina", "Marijoana"];
+        var yValues = [55, 49, 44, 24, 30, 40, 50];
+        var barColors = ["red", "green", "blue", "orange", "brown", "yellow", "purple"];
+        
+        new Chart("stockproductchart", {
+            type: "bar",
+            data: {
+            labels: xValues,
+            datasets: [{
+                backgroundColor: barColors,
+                data: yValues
+            }]
+            },
+            options: {
+            legend: { display: false }
+            }
+        });
+        })();
+
+    </script>
+
+    <script>
+        (function(){
+        const xValues = ['Rice','Beans',"Cans","Bread","Banana"];
+        
+        new Chart("stocktrends", {
+            type: "line",
+            data: {
+            labels: xValues,
+            datasets: [
+
+                { 
+                data: [860,1060,1060,1330,2478],
+                borderColor: "red",
+                fill: false
+                },
+
+                { 
+                data: [1600,1900,2000,4000,5000],
+                borderColor: "green",
+                
+                },
+
+                { 
+                data: [300,2000,4000,1000,100],
+                borderColor: "blue",
+                fill: false
+                }
+            ]
+            },
+            options: {
+            legend: { display: false }
+            
+            }
+        });
+        })();
+
+    </script>
+
+<script>
+    (function(){
+        var xValues = [
+            "Adamawa",
+            "Centre",
+            "East",
+            "Far North",
+            "Littoral",
+            "North",
+            "South",
+            "South-West",
+            "West",
+            "North-West"
+        ];
+
+        var yValues = [12, 19, 3, 5, 2, 3, 7, 9, 11, 6];
+        var barColors = [
+            "#b91d47",
+            "#00aba9",
+            "#2b5797",
+            "#e8c3b9",
+            "#1e7145",
+            "#FF6384",
+            "#36A2EB",
+            "#FFCE56",
+            "#4BC0C0",
+            "#9966FF"
+        ];
+
+        new Chart("stockregion", {
+            type: "pie",
+            data: {
+                labels: xValues,
+                datasets: [{
+                    backgroundColor: barColors,
+                    data: yValues
+                }]
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        enabled: true,
+                        callbacks: {
+                            label: function(context) {
+                                var label = context.label || '';
+                                var value = context.raw || 0;
+                                return label + ': ' + value;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    })();
+</script>
+
     
 </body>
 {% endblock %}
+
