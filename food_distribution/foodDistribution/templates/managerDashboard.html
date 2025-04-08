@@ -1,0 +1,323 @@
+{% extends "master.html" %}
+
+{% block stl %}
+    <style>
+
+    </style>
+{% endblock %}
+{% block title %}Manager Dashboard{% endblock %}
+    
+{% block content %}
+   
+        
+    {% block sidebar %}
+        {% if user_profile.user_type == "volunteer" %}
+                {% include "volunteerSidebar.html" %}
+        {% elif user_profile.user_type == "beneficiary" %}
+                {% include "beneficiarySidebar.html" %}
+        {% elif user_profile.user_type == "manager" %}
+                {% include "managerSidebar.html" %}
+        {% elif user_profile.user_type == "donor" %}
+                {% include "donorSidebar.html" %}
+        {% endif %}
+    {% endblock %}
+
+    <div class="container-fluid py-2">
+        <div class="row">
+            <div class="ms-3">
+            <h3 class="mb-0 h4 font-weight-bolder">Dashboard</h3>
+            <p class="mb-4">
+                Check Distributions, food and monetary donations
+            </p>
+            </div>
+            <h3 class="mb-0 h5 font-weight-bolder">Latest</h3>
+            <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+            <div class="card">
+                <div class="card-header p-2 ps-3">
+                <div class="d-flex justify-content-between">
+                    <div>
+                    <p class="text-sm mb-0 text-capitalize">Monetary Donations</p>
+                    <h4 class="mb-0">$53k</h4>
+                    </div>
+                    <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
+                    <i class="material-symbols-rounded opacity-10">weekend</i>
+                    </div>
+                </div>
+                </div>
+                <hr class="dark horizontal my-0">
+                <div class="card-footer p-2 ps-3">
+                <p class="mb-0 text-sm"><span class="text-success font-weight-bolder">+55% </span>than last week</p>
+                </div>
+            </div>
+            </div>
+            <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+            <div class="card">
+                <div class="card-header p-2 ps-3">
+                <div class="d-flex justify-content-between">
+                    <div>
+                    <p class="text-sm mb-0 text-capitalize">Stock Donations</p>
+                    <h4 class="mb-0">45 units</h4>
+                    </div>
+                    <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
+                    <i class="material-symbols-rounded opacity-10">person</i>
+                    </div>
+                </div>
+                </div>
+                <hr class="dark horizontal my-0">
+                <div class="card-footer p-2 ps-3">
+                <p class="mb-0 text-sm"><span class="text-success font-weight-bolder">+3% </span>than last month</p>
+                </div>
+            </div>
+            </div>
+            <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+            <div class="card">
+                <div class="card-header p-2 ps-3">
+                <div class="d-flex justify-content-between">
+                    <div>
+                    <p class="text-sm mb-0 text-capitalize">Request</p>
+                    <h4 class="mb-0">Martin Luther</h4>
+                    </div>
+                    <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
+                    <i class="material-symbols-rounded opacity-10">leaderboard</i>
+                    </div>
+                </div>
+                </div>
+                <hr class="dark horizontal my-0">
+                <div class="card-footer p-2 ps-3">
+                <p class="mb-0 text-sm"><span class="text-success font-weight-bolder">45</span> <span class="font-weight-bolder">Units</span> Rice</p>
+                </div>
+            </div>
+            </div>
+            <div class="col-xl-3 col-sm-6">
+            <div class="card">
+                <div class="card-header p-2 ps-3">
+                <div class="d-flex justify-content-between">
+                    <div>
+                    <p class="text-sm mb-0 text-capitalize">Deployment</p>
+                    <h4 class="mb-0">Delevery</h4>
+                    </div>
+                    <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
+                    <i class="material-symbols-rounded opacity-10">weekend</i>
+                    </div>
+                </div>
+                </div>
+                <hr class="dark horizontal my-0">
+                <div class="card-footer p-2 ps-3">
+                <p class="mb-0 text-sm">bali, next to church</p>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4 col-md-6 mt-4 mb-4">
+          <div class="card">
+            <div class="card-body">
+              <h6 class="mb-0 ">Stocks</h6>
+              <p class="text-sm ">Stock by product</p>
+              <div class="pe-2">
+                <div class="chart">
+                  <canvas id="stockproductchart" class="chart-canvas" height="200"></canvas>
+                </div>
+              </div>
+              <hr class="dark horizontal">
+              <div class="d-flex ">
+                <i class="material-symbols-rounded text-sm my-auto me-1">schedule</i>
+                <p class="mb-0 text-sm"> updated 5 days ago </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6 mt-4 mb-4">
+          <div class="card ">
+            <div class="card-body">
+              <h6 class="mb-0 "> Trends </h6>
+              <p class="text-sm "> Trends by time. </p>
+              <div class="pe-2">
+                <div class="chart">
+                  <canvas id="stocktrends" class="chart-canvas" height="200"></canvas>
+                </div>
+              </div>
+              <hr class="dark horizontal">
+              <div class="d-flex ">
+                <i class="material-symbols-rounded text-sm my-auto me-1">schedule</i>
+                <p class="mb-0 text-sm"> updated 4 min ago </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 mt-4 mb-3">
+          <div class="card">
+            <div class="card-body">
+              <h6 class="mb-0 ">Distribution</h6>
+              <p class="text-sm ">Distribution by region</p>
+              <div class="pe-2">
+                <div class="chart">
+                  <canvas id="stockregion" class="chart-canvas" height="200"></canvas>
+                </div>
+              </div>
+              <hr class="dark horizontal">
+              <div class="d-flex ">
+                <i class="material-symbols-rounded text-sm my-auto me-1">schedule</i>
+                <p class="mb-0 text-sm">just updated</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      
+
+
+
+        <script>
+            (function(){
+            var xValues = ["A", "B", "C", "D", "E"];
+            var yValues = [55, 49, 44, 24, 30];
+            var barColors = ["red", "green", "blue", "orange", "brown"];
+            
+            new Chart("stockproductchart", {
+                type: "bar",
+                data: {
+                labels: xValues,
+                datasets: [{
+                    backgroundColor: barColors,
+                    data: yValues
+                }]
+                },
+                options: {
+                legend: { display: false }
+                }
+            });
+            })();
+
+        </script>
+
+        
+        <script>
+            (function(){
+            const xValues = [100,300,500,700,900];
+            
+            new Chart("stocktrends", {
+                type: "line",
+                data: {
+                labels: xValues,
+                datasets: [
+
+                    { 
+                    data: [860,1060,1060,1330,2478],
+                    borderColor: "red",
+                    fill: false
+                    },
+
+                    { 
+                    data: [1600,1900,2000,4000,5000],
+                    borderColor: "green",
+                    
+                    },
+
+                    { 
+                    data: [300,2000,4000,1000,100],
+                    borderColor: "blue",
+                    fill: false
+                    }
+                ]
+                },
+                options: {
+                legend: { display: false }
+                
+                }
+            });
+            })();
+
+        </script>
+
+
+        <!-- <script>
+            (function(){
+                var xValues = [
+                    "Adamawa",
+                    "Centre",
+                    "East",
+                    "Far North",
+                    "Littoral",
+                    "North",
+                    "South",
+                    "South-West",
+                    "West",
+                    "North-West"
+                ];
+
+                var yValues = [12, 19, 3, 5, 2, 3, 7, 9, 11, 6];
+                var barColors = [
+                    "#b91d47",
+                    "#00aba9",
+                    "#2b5797",
+                    "#e8c3b9",
+                    "#1e7145",
+                    "#FF6384",
+                    "#36A2EB",
+                    "#FFCE56",
+                    "#4BC0C0",
+                    "#9966FF"
+                ];
+
+                new Chart("stockregion", {
+                    type: "pie",
+                    data: {
+                        labels: xValues,
+                        datasets: [{
+                            backgroundColor: barColors,
+                            data: yValues
+                        }]
+                    },
+                    options: {
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            tooltip: {
+                                enabled: true,
+                                callbacks: {
+                                    label: function(context) {
+                                        var label = context.label || '';
+                                        var value = context.raw || 0;
+                                        return label + ': ' + value;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            })();
+        </script> -->
+
+
+        <script>
+            google.charts.load('current', {'packages':['corechart']});
+            google.charts.setOnLoadCallback(drawChart);
+            
+            function drawChart() {
+            const data = google.visualization.arrayToDataTable([
+              ['Contry', 'Mhl'],
+              ['Italy',54.8],
+              ['France',48.6],
+              ['Spain',44.4],
+              ['USA',23.9],
+              ['Argentina',14.5]
+            ]);
+            
+            const options = {
+              title:'World Wide Wine Production'
+            };
+            
+            const chart = new google.visualization.PieChart(document.getElementById('stockregion'));
+              chart.draw(data, options);
+            }
+            </script>
+            
+
+
+
+
+
+
+{% endblock %}

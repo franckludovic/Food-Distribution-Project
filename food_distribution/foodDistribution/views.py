@@ -33,7 +33,7 @@ def login(request):
             elif profile.user_type == "beneficiary":
                 return redirect('beneficiaryProfile')
             elif profile.user_type == "manager":
-                return redirect('stockMonitoring')
+                return redirect('managerDashboard')
         else:
             messages.info(request, 'Invalid credentials')
             return redirect('login')
@@ -121,6 +121,14 @@ def volunteerProfile(request):
 def collectionPointsManagement(request):
     template = loader.get_template('collection_points_management.html')
     return HttpResponse(template.render())
+
+@login_required(login_url = "login")
+def managerDashboard(request):
+    context = {
+        'user_profile': Profile.objects.get(user = request.user)
+    }
+    return render(request, 'managerDashboard.html', context)
+
 
 def confirmationPage(request):
     template = loader.get_template('confirmation_page.html')
