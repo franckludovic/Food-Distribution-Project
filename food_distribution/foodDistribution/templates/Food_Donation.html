@@ -1,0 +1,128 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Food Donation Form</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f7f9fc;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-block-size: 100vh;
+    }
+
+    .form-container {
+      background-color: #ffffff;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      width: 90%;
+      max-width: 500px;
+    }
+
+    .form-container h2 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      color: #333;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: #444;
+      font-weight: bold;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 0.6rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      background-color: #fafafa;
+      font-size: 1rem;
+    }
+
+    input:focus,
+    select:focus {
+      border-color: #007bff;
+      outline: none;
+      background-color: #fff;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 0.75rem;
+      background-color: #28a745;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn:hover {
+      background-color: #218838;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 480px) {
+      .form-container {
+        padding: 1.2rem;
+      }
+
+      label, input, select {
+        font-size: 0.95rem;
+      }
+
+      .btn {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="form-container">
+    <h2>Food Donation Form</h2>
+    <form>
+      <label for="food-id">Food ID</label>
+      <input type="text" id="food-id" name="food-id" required />
+
+      <label for="food-name">Food Name</label>
+      <input type="text" id="food-name" name="food-name" required />
+
+      <label for="food-type">Food Type</label>
+      <select id="food-type" name="food-type" required>
+        <option value="">Select Type</option>
+        <option value="Perishable">Perishable</option>
+        <option value="Non-Perishable">Non-Perishable</option>
+        <option value="Frozen">Frozen</option>
+        <option value="Canned">Canned</option>
+      </select>
+
+      <label for="expire-date">Expire Date</label>
+      <input type="date" id="expire-date" name="expire-date" required />
+
+      <label for="quantity">Quantity</label>
+      <input type="number" id="quantity" name="quantity" required min="1" />
+
+      <label for="storage-location">Storage Location</label>
+      <input type="text" id="storage-location" name="storage-location" required />
+
+      <button type="submit" class="btn">Donate Food</button>
+    </form>
+  </div>
+</body>
+</html>

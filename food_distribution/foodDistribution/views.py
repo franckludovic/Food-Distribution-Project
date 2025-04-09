@@ -178,3 +178,7 @@ def stockMonitoring(request):
 def assignVolunteers(request):
     template = loader.get_template('assignVolunteers.html')
     return HttpResponse(template.render())
+
+def foodDonation(request):
+    template = loader.get_template('Food_Donation.html')
+    return HttpResponse(template.render())
