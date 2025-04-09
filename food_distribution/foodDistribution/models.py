@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group, Permission
+import datetime
 User = get_user_model()
 
 class Profile(models.Model):
@@ -38,9 +39,9 @@ class Food(models.Model):
     food_id = models.AutoField(primary_key=True)
     food_name = models.TextField(blank=True)
     food_type = models.CharField(max_length=50, choices=FOOD_TYPE_CHOICES, default='')
-    created_at = models.DateField(auto_now_add=True)
+    created_at = models.DateField(default=datetime.date.today)
     expire_date = models.DateField(blank=True)
-    quantity = models.FloatField(blank=False)
+    quantity = models.DecimalField(max_digits=10, decimal_places=2, default=0, blank=False)
     storage_location = models.TextField(blank=True)
 
     def __str__(self):

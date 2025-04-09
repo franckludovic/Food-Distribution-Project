@@ -96,7 +96,8 @@
 
   <div class="form-container">
     <h2>Food Donation Form</h2>
-    <form>
+    <form action="" method="POST">
+      {% csrf_token %}
      <label for="food-name">Food Name</label>
       <input type="text" id="food-name" name="food-name" required />
 
@@ -128,6 +129,7 @@
 
       <button type="submit" class="btn">Donate Food</button>
     </form>
+    <a href="/logout"><button>Logout</button></a>
   </div>
 </body>
 </html>

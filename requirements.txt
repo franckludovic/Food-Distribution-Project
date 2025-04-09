@@ -1,0 +1,3 @@
+#python with pip added to path
+#django
+#Pillow

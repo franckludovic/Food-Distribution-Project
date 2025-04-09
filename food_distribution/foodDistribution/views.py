@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.template import loader
-from .models import Profile, VolunteerProfile
+from .models import *
 
 def main(request):
     template = loader.get_template('main.html')
@@ -126,8 +126,14 @@ def collectionPointsManagement(request):
 
 @login_required(login_url = "login")
 def managerDashboard(request):
+    food_stock = FoodStock.objects.all()
+
+    food_types = [stock.food_type for stock in food_stock]
+    food_quantity = [int(stock.quantity) for stock in food_stock]
     context = {
-        'user_profile': Profile.objects.get(user = request.user)
+        'user_profile': Profile.objects.get(user = request.user),
+        'food_types': food_types,
+        'food_quantity': food_quantity,
     }
     return render(request, 'managerDashboard.html', context)
 
@@ -179,6 +185,32 @@ def assignVolunteers(request):
     template = loader.get_template('assignVolunteers.html')
     return HttpResponse(template.render())
 
+@login_required(login_url = "login")
 def foodDonation(request):
-    template = loader.get_template('Food_Donation.html')
-    return HttpResponse(template.render())
+    if request.method == 'POST':
+        food_type = request.POST.get('food-type')
+        food_name = request.POST['food-name']
+        expiry_date = request.POST.get('expire-date')
+        quantity = request.POST['quantity']
+        storage_location = request.POST['storage-location']
+
+        #creates a new food
+        new_food = Food.objects.create(food_name = food_name, food_type = food_type, expire_date = expiry_date, quantity = quantity, storage_location = storage_location)
+        new_food.save()
+
+        #adds the new food according to the food_type
+        try:
+            food_stock = FoodStock.objects.get(food_type=food_type)
+
+        # Update the quantity
+            food_stock.quantity = food_stock.quantity + int(quantity)  # Increment the quantity
+            food_stock.save()  # Save the updated food stock instance
+            return redirect('foodDonation')
+    
+        except FoodStock.DoesNotExist:
+            # If FoodStock does not exist, create a new record
+            food_stock = FoodStock(food_type=food_type, quantity=new_food.quantity)
+            food_stock.save()  # Save the new food stock instance
+            return redirect('foodDonation')
+    else:
+        return render(request, 'Food_Donation.html')
