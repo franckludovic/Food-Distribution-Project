@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+<<<<<<< HEAD
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Online Support</title>
     <style>
@@ -208,11 +209,173 @@
                 flex: 1;
                 margin: 5px;
             }
+=======
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Online Support</title>
+    <style>
+        body {
+          margin: 0;
+          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+          background-color: #e3dbc0;
+          color: #000;
+        }
+
+        header {
+          text-align: center;
+          padding: 40px 20px 10px;
+        }
+
+        header h1 {
+          font-size: 28px;
+          font-weight: bold;
+        }
+
+        hr {
+          border: none;
+          border-top: 1px solid #ccc4a3;
+          margin: 0 40px;
+        }
+
+        .support-section {
+          display: flex;
+          justify-content: space-between;
+          padding: 50px 80px;
+          flex-wrap: wrap;
+        }
+
+        .left-text {
+          flex: 1;
+          min-width: 250px;
+        }
+
+        .left-text h2 {
+          font-size: 24px;
+          font-weight: bold;
+          margin-bottom: 10px;
+        }
+
+        .left-text p {
+          font-size: 14px;
+          color: #333;
+        }
+
+        .cards-container {
+          flex: 1;
+          min-width: 280px;
+          display: flex;
+          flex-direction: column;
+          gap: 20px;
+        }
+
+        .card {
+          display: flex;
+          background-color: #f0ead2;
+          border-radius: 10px;
+          padding: 20px;
+          align-items: flex-start;
+          box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .card .icon {
+          width: 60px;
+          height: 60px;
+          background-color: #d5cfb3;
+          border-radius: 6px;
+          margin-right: 15px;
+        }
+
+        .card-content h3 {
+          margin: 0;
+          font-size: 16px;
+          font-weight: bold;
+        }
+
+        .card-content p {
+          margin: 5px 0 0;
+          font-size: 14px;
+        }
+
+        .chat-section {
+          border-top: 1px solid #ccc4a3;
+          padding: 40px 80px;
+        }
+
+        .chat-section h2 {
+          font-size: 22px;
+          font-weight: bold;
+          margin-bottom: 20px;
+        }
+
+        .chat-form {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+          max-width: 600px;
+        }
+
+        .chat-form label {
+          font-size: 14px;
+          font-weight: bold;
+        }
+
+        .chat-form input[type="text"] {
+          padding: 10px;
+          font-size: 14px;
+          border: 1px solid #ccc4a3;
+          border-radius: 6px;
+          background-color: #f9f5dd;
+        }
+
+        .chat-buttons {
+          margin-top: 10px;
+          display: flex;
+          gap: 10px;
+        }
+
+        .chat-buttons button {
+          padding: 10px 20px;
+          font-size: 14px;
+          border: none;
+          border-radius: 6px;
+          cursor: pointer;
+          transition: 0.3s ease;
+        }
+
+        .chat-buttons .connect {
+          background-color: #fff;
+          border: 1px solid #000;
+        }
+
+        .chat-buttons .send {
+          background-color: #000;
+          color: #fff;
+        }
+
+        .chat-buttons button:hover {
+          opacity: 0.9;
+        }
+
+        @media (max-width: 768px) {
+          .support-section,
+          .chat-section {
+            padding: 30px;
+          }
+
+          .chat-buttons {
+            flex-direction: column;
+            width: 100%;
+          }
+
+          .chat-buttons button {
+            width: 100%;
+          }
+>>>>>>> 06d99b8f22d9dd1b90c0d911ec1152703c48a048
         }
     </style>
 </head>
 <body>
 
+<<<<<<< HEAD
     <!-- Header Section -->
     <div class="header">
         <div class="logo">
@@ -273,5 +436,50 @@
             </div>
         </div>
     </div>
+=======
+<header>
+    <h1>Support</h1>
+    <hr>
+</header>
+
+<section class="support-section">
+    <div class="left-text">
+        <h2>Any Question? Ask us!</h2>
+        <p>Get assistance within a short time frame.</p>
+    </div>
+
+    <div class="cards-container">
+        <div class="card">
+            <div class="icon"></div>
+            <div class="card-content">
+                <h3>Welcome User</h3>
+                <p>Hi! How can we help you today?</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="icon"></div>
+            <div class="card-content">
+                <h3>FAQs</h3>
+                <p>How do I request food aid?</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="chat-section">
+    <h2>Chat Input</h2>
+    <form class="chat-form">
+        <label for="chat">Type your question...</label>
+        <input type="text" id="chat" name="chat" placeholder="Type your question here">
+
+        <div class="chat-buttons">
+            <button type="button" class="connect">Connect to a Representative</button>
+            <button type="submit" class="send">Send Message</button>
+        </div>
+    </form>
+</section>
+
+>>>>>>> 06d99b8f22d9dd1b90c0d911ec1152703c48a048
 </body>
 </html>

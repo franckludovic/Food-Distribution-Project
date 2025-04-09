@@ -1,500 +1,472 @@
-<!DOCTYPE html>
+{% extends "master.html" %}
 
-{% load static %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+{% block stl %}
+<style>
 
+    body{
+        padding-left: 5%;
+        padding-right: 5%;
+    }
 
-    <style>
+/* page header row 1 */
+    .page-header{
+        display: flex;             
+        align-items: center;
+        margin: 10vh 0 50px;
+        justify-content: center;
+        text-align: center;
+        flex-direction: column;
+        height: 40vh;
+        width: 100%;
+        border-radius: 8px;
+        background-color: gray;
+    }
 
-        body{
-            padding-left: 5%;
-            padding-right: 5%;
-        }
+    .page-header h1{
+        text-align: center;
+        font-size: 2.5rem;
+        width: 50%;
+    }
 
-    /* page header row 1 */
-        .page-header{
-            display: flex;             
-            align-items: center;
-            margin: 10vh 0 50px;
-            justify-content: center;
-            text-align: center;
-            flex-direction: column;
-            height: 40vh;
-            width: 100%;
-            border-radius: 8px;
-            background-color: gray;
-        }
+     .page-header p{
+        text-align: center;
+        width: 50%;
+    }
+
+    @media (max-width: 430px) {
 
         .page-header h1{
-            text-align: center;
-            font-size: 2.5rem;
-            width: 50%;
-        }
-
-         .page-header p{
-            text-align: center;
-            width: 50%;
-        }
-
-        @media (max-width: 430px) {
-
-            .page-header h1{
-                width: 70%;
-                font-size: 2rem;
-            }
-            
-
-        }
-
-
-        /*------------------------second row ------------------*/
-
-        .Row2 {
-            max-width: 100%; 
-            margin: 0 auto;
-            margin-top: 8%;
-            margin-bottom: 8%;
-
-        }
-
-        /* Heading */
-        h1 {
+            width: 70%;
             font-size: 2rem;
-            text-align: center;
-            margin-bottom: 0.5rem;
         }
-
-        .subtitle {
-            text-align: center;
-            color: #666;
-            margin-bottom: 2rem;
-        }
-
-        /* Stock Cards */
         
-        .stock-cards {
-            display: flex;
-            flex-wrap: wrap;           
-            gap: 1rem;                
-            margin-bottom: 2rem;
-        }
 
-        .stock-card {
-            flex: 1 1 200px;           
-            min-width: 200px;          
-            background-color: #fff;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            text-align: center;
-            padding: 1rem;
-            transition: box-shadow 0.3s ease;
-        }
+    }
 
+
+    /*------------------------second row ------------------*/
+
+    .Row2 {
+        max-width: 100%; 
+        margin: 0 auto;
+        margin-top: 8%;
+        margin-bottom: 8%;
+
+    }
+
+    /* Heading */
+    h1 {
+        font-size: 2rem;
+        text-align: center;
+        margin-bottom: 0.5rem;
+    }
+
+    .subtitle {
+        text-align: center;
+        color: #666;
+        margin-bottom: 2rem;
+    }
+
+    /* Stock Cards */
+    
+    .stock-cards {
+        display: flex;
+        flex-wrap: wrap;           
+        gap: 1rem;                
+        margin-bottom: 2rem;
+    }
+
+    .stock-card {
+        flex: 1 1 200px;           
+        min-width: 200px;          
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        text-align: center;
+        padding: 1rem;
+        transition: box-shadow 0.3s ease;
+    }
+
+    
+    .stock-card:hover {
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .stock-card h2 {
+        font-size: 1.3rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .stock-value {
+        font-size: 2rem;
+        font-weight: bold;
+        margin-bottom: 0.2rem;
+    }
+
+    .stock-diff {
+        font-size: 1rem;
+        color: #666;
+    }
+
+
+
+    /* Chart Section */
         
-        .stock-card:hover {
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-
-        .stock-card h2 {
-            font-size: 1.3rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .stock-value {
-            font-size: 2rem;
-            font-weight: bold;
-            margin-bottom: 0.2rem;
-        }
-
-        .stock-diff {
-            font-size: 1rem;
-            color: #666;
-        }
-
-
-
-        /* Chart Section */
+    .chart-section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 300px;
+        background-color: #fff;
+        margin: 1rem 0;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 1rem;
             
-        .chart-section {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 300px;
-            background-color: #fff;
-            margin: 1rem 0;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 1rem;
-                
+    }
+
+    .chart-container {
+        position: relative;
+        width: 90%;
+        height: 350px;
+        margin: 1rem auto;
+        
+    }
+
+
+    .chart-Yaxis {
+        position: absolute;
+        top: 4.5rem;
+        left: 5px;
+        transform: rotate(-90deg);
+        transform-origin: top left;
+        font-size: 0.9rem;
+        color: #666;
+        margin: 0;
+    }
+
+
+    .chart-Xaxis {
+        position: absolute;
+        bottom: 5px;
+        right: 5px;
+        font-size: 0.9rem;
+        color: #666;
+        margin: 0;
+    }
+
+    .chart-bars {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin-left: 30px; 
+        margin-bottom: 30px; 
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-around;
+        border-left: 3px solid #000;
+        border-bottom: 3px solid #000;
+    }
+
+
+    .chart-bar {
+        background-color: #666;
+        width: 8%;
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+        color: #fff;
+        font-size: 0.8rem;
+        border-radius: 4px 4px 0 0;
+        transition: background-color 0.3s;
+        cursor: pointer;
+    }
+
+    .chart-bar:hover {
+        background-color: #333;
+    }
+
+
+    @media (max-width: 700px) {
+
+        .chart-Yaxis{
+            left: -5px;
+        }
+
+        .chart-Xaxis{
+            bottom: 10px;
+        }
+
+        .chart-section{
+            padding: 0.2rem;
+            padding-left: 0.1rem;
         }
 
         .chart-container {
-            position: relative;
-            width: 90%;
-            height: 350px;
-            margin: 1rem auto;
-            
+            height: 200px;
+            margin-top: 10px;
         }
-
-
-        .chart-Yaxis {
-            position: absolute;
-            top: 4.5rem;
-            left: 5px;
-            transform: rotate(-90deg);
-            transform-origin: top left;
-            font-size: 0.9rem;
-            color: #666;
-            margin: 0;
-        }
-
- 
-        .chart-Xaxis {
-            position: absolute;
-            bottom: 5px;
-            right: 5px;
-            font-size: 0.9rem;
-            color: #666;
-            margin: 0;
-        }
-
         .chart-bars {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            margin-left: 30px; 
-            margin-bottom: 30px; 
-            display: flex;
-            align-items: flex-end;
-            justify-content: space-around;
-            border-left: 3px solid #000;
-            border-bottom: 3px solid #000;
+            margin-left: 10px;
+            padding-left: 5px;
+            padding-bottom: 0px;
         }
+    }
 
 
-        .chart-bar {
-            background-color: #666;
-            width: 8%;
-            display: flex;
-            justify-content: center;
-            align-items: flex-end;
-            color: #fff;
-            font-size: 0.8rem;
-            border-radius: 4px 4px 0 0;
-            transition: background-color 0.3s;
-            cursor: pointer;
-        }
+    /*---------------third row-------------------------*/
 
-        .chart-bar:hover {
-            background-color: #333;
-        }
-
-
-        @media (max-width: 700px) {
-
-            .chart-Yaxis{
-                left: -5px;
-            }
-
-            .chart-Xaxis{
-                bottom: 10px;
-            }
-
-            .chart-section{
-                padding: 0.2rem;
-                padding-left: 0.1rem;
-            }
-
-            .chart-container {
-                height: 200px;
-                margin-top: 10px;
-            }
-            .chart-bars {
-                margin-left: 10px;
-                padding-left: 5px;
-                padding-bottom: 0px;
-            }
-        }
-
-
-        /*---------------third row-------------------------*/
-
-        product-details {
-            max-width: 100%; 
-            margin: 0 auto;
-            text-align: center;
-            margin-bottom: 8%;
-            
-        }
-
+    product-details {
+        max-width: 100%; 
+        margin: 0 auto;
+        text-align: center;
+        margin-bottom: 8%;
         
+    }
+
+    
+    .product-details h1 {
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .product-subtitle {
+        color: #666;
+        margin-bottom: 2rem;
+        text-align: center;
+    }
+
+    /* Product Grid Layout */
+    .product-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        
+    }
+
+    
+    .product-card {
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 1rem;
+        position: relative; /* For positioning the badge */
+        transition: box-shadow 0.3s ease;
+    }
+
+   
+    .product-card:hover {
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    
+    .badge {
+        position: absolute;
+        top: 1rem;
+        left: 1rem;
+        background-color: #000;
+        color: #fff;
+        padding: 0.3rem 0.5rem;
+        font-size: 0.8rem;
+        border-bottom-right-radius: 4px;
+        border-top-left-radius: 0px;
+        border-top-right-radius: 0px;
+        border-bottom-left-radius: 0px;
+        
+    }
+
+    
+    .low-stock {
+        background-color: #d9534f; 
+    }
+    .expiring-soon {
+        background-color: #f0ad4e; 
+    }
+
+    
+    .product-image {
+        background-color: #eee;
+        border: 1px dashed #ccc;
+        height: 200px; 
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #999;
+        font-size: 0.9rem;
+    }
+
+    
+    .product-card h2 {
+        font-size: 1.1rem;
+        margin-bottom: 0.5rem;
+    }
+
+    /* Stock Status */
+    .stock-status {
+        font-size: 1rem;
+        color: #666;
+    }
+
+    
+    @media (max-width: 768px) {
+
         .product-details h1 {
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
+            font-size: 1.5rem;
         }
-
-        .product-subtitle {
-            color: #666;
-            margin-bottom: 2rem;
-            text-align: center;
-        }
-
-        /* Product Grid Layout */
-        .product-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            
-        }
-
-        
-        .product-card {
-            background-color: #fff;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 1rem;
-            position: relative; /* For positioning the badge */
-            transition: box-shadow 0.3s ease;
-        }
-
-       
-        .product-card:hover {
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-
-        
-        .badge {
-            position: absolute;
-            top: 1rem;
-            left: 1rem;
-            background-color: #000;
-            color: #fff;
-            padding: 0.3rem 0.5rem;
-            font-size: 0.8rem;
-            border-bottom-right-radius: 4px;
-            border-top-left-radius: 0px;
-            border-top-right-radius: 0px;
-            border-bottom-left-radius: 0px;
-            
-        }
-
-        
-        .low-stock {
-            background-color: #d9534f; 
-        }
-        .expiring-soon {
-            background-color: #f0ad4e; 
-        }
-
-        
         .product-image {
-            background-color: #eee;
-            border: 1px dashed #ccc;
-            height: 200px; 
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #999;
-            font-size: 0.9rem;
+            height: 150px;
         }
-
-        
-        .product-card h2 {
-            font-size: 1.1rem;
-            margin-bottom: 0.5rem;
-        }
-
-        /* Stock Status */
-        .stock-status {
-            font-size: 1rem;
-            color: #666;
-        }
-
-        
-        @media (max-width: 768px) {
-
-            .product-details h1 {
-                font-size: 1.5rem;
-            }
-            .product-image {
-                height: 150px;
-            }
-        }
+    }
 
 
 
 
-        /*----------fourth row----------------*/
+    /*----------fourth row----------------*/
 
 
-        analysis-container {
-            margin-top: 8%;
-            max-width: 100%;     
-            margin: 0 auto;
-            text-align: center;    
-        }
+    analysis-container {
+        margin-top: 8%;
+        max-width: 100%;     
+        margin: 0 auto;
+        text-align: center;    
+    }
 
-        
+    
+    .analysis-container h1 {
+        font-size: 2rem;
+        margin-bottom: 2rem;
+        margin-top: 8%;
+    }
+
+    
+    .analysis-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;             
+        align-items: start;    
+    }
+
+    
+    .analysis-card {
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 0;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;   
+        min-height: 350px;  
+        transition: box-shadow 0.3s ease;
+    }        
+
+
+    
+    .analysis-card h2 {
+        font-size: 1.4rem;
+        margin-bottom: 0.5rem;
+    }
+
+    /* Chart Placeholder */
+    .chart-placeholder {
+        flex: 1;             
+        width: 90%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #eee;
+        margin-bottom: 1rem;
+        margin-top: 1rem;
+        position: relative;
+    }
+
+
+
+    
+    @media (max-width: 1024px) {
+
         .analysis-container h1 {
-            font-size: 2rem;
-            margin-bottom: 2rem;
-            margin-top: 8%;
-        }
-
-        
-        .analysis-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;             
-            align-items: start;    
-        }
-
-        
-        .analysis-card {
-            background-color: #fff;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 1rem;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;   
-            min-height: 350px;  
-            transition: box-shadow 0.3s ease;
-        }        
-
-
-        
-        .analysis-card h2 {
-            font-size: 1.4rem;
-            margin-bottom: 0.5rem;
-        }
-
-        /* Chart Placeholder */
-        .chart-placeholder {
-            flex: 1;             
-            width: 90%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: #eee;
-            margin-bottom: 1rem;
-            margin-top: 1rem;
-            position: relative;
-        }
-
-        /* Pie Chart Placeholder */
-        .pie-chart {
-            
-            background: radial-gradient(circle, #bbb 50%, transparent 50%);
-            
-        }
-
-        /* Line Chart Placeholder */
-        .line-chart {
-            
-            border-bottom: 3px solid black;
-            border-left: 3px solid black;
-            
+            font-size: 1.5rem;
         }
 
 
         .line_Yaxis{
-            position: absolute;
-            left: -1.5%;
-            top: 25%;
-            color: #666;
-            margin-bottom: 1rem;
-            transform: rotate(-90deg);
-        }
-        
-
-        .line-Xaxis {
-            position: absolute;
-            right: 8%;
-            bottom: 0.3%;
-            
-            font-size: 0.9rem;
-            color: #666;
+            left: -5%;
         }
 
-        
-        @media (max-width: 1024px) {
-
-            .analysis-container h1 {
-                font-size: 1.5rem;
-            }
-
-
-            .line_Yaxis{
-                left: -5%;
-            }
-
-            .analysis-card {
-                min-height: 300px;
-            }
-        }   
-
-
-     
-
-        /*----------- fith  row -------------*/
-
-        .fonter-container{
-            margin: 20px;
+        .analysis-card {
+            min-height: 300px;
         }
-
-        .footer-links {
-            display: flex;
-            justify-content: center; 
-            gap: 1rem;
-            margin-top: 2rem;
-        }
-
-        .footer-links a {
-            color: #000;
-            text-decoration: none;
-            font-size: 1.1rem;
-            transition: color 0.2s ease;
-        }
-
-        .footer-links a:hover {
-            color: #666;
-        }
-
-    @media (max-width: 500px) {
-
-        .footer-links a {
-
-            font-size: 1rem;
-
-        }
-
-        .footer-links {
-
-            gap: 1rem;
-            margin-top: 1rem;
-        }
+    }   
 
 
-    
+ 
+
+    /*----------- fith  row -------------*/
+
+    .fonter-container{
+        margin: 20px;
+    }
+
+    .footer-links {
+        display: flex;
+        justify-content: center; 
+        gap: 1rem;
+        margin-top: 2rem;
+    }
+
+    .footer-links a {
+        color: #000;
+        text-decoration: none;
+        font-size: 1.1rem;
+        transition: color 0.2s ease;
+    }
+
+    .footer-links a:hover {
+        color: #666;
+    }
+
+@media (max-width: 500px) {
+
+    .footer-links a {
+
+        font-size: 1rem;
+
+    }
+
+    .footer-links {
+
+        gap: 1rem;
+        margin-top: 1rem;
     }
 
 
-    </style>
+
+}
 
 
-</head>
-<body>
+</style>
+{% endblock %}
+{% block title %}Stock Monitoring{% endblock %}
 
+{% block content %}
+    {% include "navbar.html" %}
+    
+    {% block sidebar %}
+        {% if user_profile.user_type == "volunteer" %}
+            {% include "volunteerSidebar.html" %}
+        {% elif user_profile.user_type == "beneficiary" %}
+            {% include "beneficiarySidebar.html" %}
+        {% elif user_profile.user_type == "manager" %}
+            {% include "managerSidebar.html" %}
+        {% elif user_profile.user_type == "donor" %}
+            {% include "donorSidebar.html" %}
+        {% endif %}
+    {% endblock %}
     <div>
 
 
@@ -561,24 +533,25 @@
 
                 <div class="chart-container">
 
-                    <p class="chart-Yaxis">Stock Level</p>
-
-                    <div class="chart-bars">
-
-                        <div class="chart-bar" style="height: 50%">A</div>
-                        <div class="chart-bar" style="height: 70%">B</div>
-                        <div class="chart-bar" style="height: 40%">C</div>
-                        <div class="chart-bar" style="height: 60%">D</div>
-                        <div class="chart-bar" style="height: 70%">E</div>
-                        <div class="chart-bar" style="height: 40%">F</div>
-                        <div class="chart-bar" style="height: 10%">G</div>
-                        <div class="chart-bar" style="height: 45%">H</div>
-                        <div class="chart-bar" style="height: 75%">I</div>
-                        <div class="chart-bar" style="height: 65%">J</div>
-                    </div>
-
-                    <p class="chart-Xaxis">Product</p>
-
+                    <article class="analysis-card">
+                        <div class="card">
+                            <div class="card-body">
+                              <h6 class="mb-0 ">Stocks</h6>
+                              <p class="text-sm ">Stock by product</p>
+                              <div class="pe-2">
+                                <div class="chart">
+                                  <canvas id="stockproductchart" class="chart-canvas" height="200", width="750"></canvas>
+                                </div>
+                              </div>
+                              <hr class="dark horizontal">
+                              <div class="d-flex ">
+                                <i class="material-symbols-rounded text-sm my-auto me-1">schedule</i>
+                                <p class="mb-0 text-sm"> updated 5 days ago </p>
+                              </div>
+                            </div>
+                          </div>
+                </article>
+        
                 </div>
 
             </section>
@@ -613,7 +586,7 @@
                   <!-- Card 2 -->
                 <article class="product-card">
 
-                    <span class="badge expiring-soon">Expiring Soon</span>
+                    <span class="badge expiring-soon">Expiring Soon </span>
                     <div class="product-image">Product B Image</div>
                     <h2>Product B</h2>
                     <p class="stock-status">In Stock</p>
@@ -645,33 +618,41 @@
             
                 
                 <div class="analysis-grid">
-                  
-                  
-                    <article class="analysis-card">
-
-                        <h2>Stock Distribution</h2>    
-
-                        
-                        <div class="chart-placeholder pie-chart">
-                            <span>Pie Chart</span>
-                        </div>
-            
-                    </article>
-            
-                  
-                    <article class="analysis-card">
-                        <h2>Stock Trends</h2>
-
-                        <p class="line_Yaxis">Stock Level</p>
-                        
-                        
-                        <div class="chart-placeholder line-chart">
-                             <span>Line Chart</span>
-                        </div>
+                                   
+                            <div class="card">
+                              <div class="card-body">
+                                <h6 class="mb-0 ">Distribution</h6>
+                                <p class="text-sm ">Distribution by region</p>
+                                <div class="pe-0">
+                                  <div class="chart">
+                                    <canvas id="stockregion" class="chart-canvas" height="200", width="400"></canvas>
+                                  </div>
+                                </div>
+                                <hr class="dark horizontal">
+                                <div class="d-flex ">
+                                  <i class="material-symbols-rounded text-sm my-auto me-1">schedule</i>
+                                  <p class="mb-0 text-sm">just updated</p>
+                                </div>
+                              </div>
+                            </div>
+                   
                 
-                        <p class="line-Xaxis">Time</p>
-                  </article>
-            
+                            <div class="card ">
+                              <div class="card-body">
+                                <h6 class="mb-0 "> Trends </h6>
+                                <p class="text-sm "> Trends by time. </p>
+                                <div class="pe-2">
+                                  <div class="chart">
+                                    <canvas id="Stocktrends" class="chart-canvas" height="200", width="400"></canvas>
+                                  </div>
+                                </div>
+                                <hr class="dark horizontal">
+                                <div class="d-flex ">
+                                  <i class="material-symbols-rounded text-sm my-auto me-1">schedule</i>
+                                  <p class="mb-0 text-sm"> updated 4 min ago </p>
+                                </div>
+                              </div>
+                            </div>
                 </div>
 
         </div>
@@ -698,6 +679,181 @@
 
 
     </div>
+
+    <script>
+        (function(){
+        var xValues = ["Carrot", "Vegetables", "Rice", "Beans", "Alcohol", "Cocaina", "Marijoana"];
+        var yValues = [55, 49, 44, 24, 30, 40, 50];
+        var barColors = ["red", "green", "blue", "orange", "brown", "yellow", "purple"];
+        
+        new Chart("stockproductchart", {
+            type: "bar",
+            data: {
+            labels: xValues,
+            datasets: [{
+                backgroundColor: barColors,
+                data: yValues
+            }]
+            },
+            options: {
+            legend: { display: false }
+            }
+        });
+        })();
+
+    </script>
+
+<script>
+    (function () {
+        const labels = ['January', 'February', 'March', 'April', 'May', 'June'];
+
+        new Chart("Stocktrends", {
+            type: "line",
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: "Vegetables (kg)",
+                        data: [120, 150, 200, 170, 220, 250],
+                        borderColor: "rgba(75, 192, 192, 1)",
+                        backgroundColor: "rgba(75, 192, 192, 0.2)",
+                        fill: true,
+                    },
+                    {
+                        label: "Fruits(kg)",
+                        data: [600, 130, 180, 160, 200, 240],
+                        borderColor: "rgba(255, 159, 64, 1)",
+                        backgroundColor: "rgba(255, 159, 64, 0.2)",
+                        fill: true,
+                    },
+                    {
+                        label: "Cans(kg)",
+                        data: [300, 400, 500, 700, 800, 900],
+                        borderColor: "rgba(54, 162, 235, 1)",
+                        backgroundColor: "rgba(54, 162, 235, 0.2)",
+                        fill: true,
+                    },
+                    {
+                        label: "Grains(kg)",
+                        data: [900, 250, 500, 450, 810, 100],
+                        borderColor: "rgba(110, 65, 168, 1)",
+                        backgroundColor: "rgba(110, 65, 168, 0.2)",
+                        fill: true,
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: "top",
+                    },
+                    tooltip: {
+                        enabled: true,
+                    },
+                    title: {
+                        display: true,
+                        text: "Food Distribution Trends Over Time",
+                        font: {
+                            size: 12,
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: "Months",
+                            font: {
+                                size: 14,
+                            }
+                        },
+                        grid: {
+                            display: true,
+                            color: "rgba(200, 200, 200, 0.2)",
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: "Quantity Distributed (kg)",
+                            font: {
+                                size: 14,
+                            }
+                        },
+                        grid: {
+                            display: true,
+                            color: "rgba(200, 200, 200, 0.2)",
+                        },
+                        beginAtZero: true,
+                    }
+                }
+            }
+        });
+    })();
+</script>
+
+<script>
+    (function(){
+        var xValues = [
+            "Adamawa",
+            "Centre",
+            "East",
+            "Far North",
+            "Littoral",
+            "North",
+            "South",
+            "South-West",
+            "West",
+            "North-West"
+        ];
+
+        var yValues = [12, 19, 3, 5, 2, 3, 7, 9, 11, 6];
+        var barColors = [
+            "#b91d47",
+            "#00aba9",
+            "#2b5797",
+            "#e8c3b9",
+            "#1e7145",
+            "#FF6384",
+            "#36A2EB",
+            "#FFCE56",
+            "#4BC0C0",
+            "#9966FF"
+        ];
+
+        new Chart("stockregion", {
+            type: "pie",
+            data: {
+                labels: xValues,
+                datasets: [{
+                    backgroundColor: barColors,
+                    data: yValues
+                }]
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        enabled: true,
+                        callbacks: {
+                            label: function(context) {
+                                var label = context.label || '';
+                                var value = context.raw || 0;
+                                return label + ': ' + value;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    })();
+</script>
+
     
 </body>
-</html>
+{% endblock %}
+

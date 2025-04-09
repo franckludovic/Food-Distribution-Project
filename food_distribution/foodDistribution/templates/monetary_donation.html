@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donation Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .donation-container {
+            background-color: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+        .intro-text {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 25px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        input[type="text"],
+        input[type="number"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        .payment-notice {
+            background-color: #f8f9fa;
+            padding: 12px;
+            border-radius: 6px;
+            margin: 20px 0;
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+        .support-text {
+            font-style: italic;
+            color: #7f8c8d;
+            margin: 20px 0;
+            text-align: center;
+        }
+        .confirmation {
+            background-color: #e8f5e9;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 25px;
+            text-align: center;
+            color: #2e7d32;
+            display: none; /* Hidden by default, would show after submission */
+        }
+        .donate-btn {
+            background-color: #27ae60;
+            color: white;
+            padding: 14px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            font-weight: bold;
+            margin-top: 10px;
+            transition: background-color 0.3s;
+        }
+        .donate-btn:hover {
+            background-color: #2ecc71;
+        }
+    </style>
+</head>
+<body>
+<div class="donation-container">
+    <h1>Make a Donation</h1>
+    <p class="intro-text">Enter your donation details below.</p>
+
+    <div class="form-group">
+        <label>Donate Name</label>
+        <input type="text" placeholder="Enter your name">
+    </div>
+
+    <div class="payment-notice">
+        At 13 specials on your payment method
+    </div>
+
+    <div class="form-group">
+        <label>Donation Amount</label>
+        <input type="number" placeholder="Enter amount">
+    </div>
+
+    <p class="support-text">Please fill in the required fields to proceed with your donation.</p>
+
+    <div class="form-group">
+        <label>Donate Name</label>
+        <input type="text" placeholder="Enter your name again">
+    </div>
+
+    <p class="support-text">Your donation will support these's need. Thank you for your generosity.</p>
+
+    <button class="donate-btn">Donate Now</button>
+
+    <div class="confirmation">
+        Thank you for your donation! Your contribution will make a positive impact.
+    </div>
+</div>
+
+<script>
+    // Simple script to show confirmation when form is submitted
+    document.querySelector('.donate-btn').addEventListener('click', function() {
+        document.querySelector('.confirmation').style.display = 'block';
+        // In a real form, you would validate and submit data here
+    });
+</script>
+</body>
+</html>
