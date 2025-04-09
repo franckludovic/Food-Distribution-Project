@@ -21,10 +21,25 @@ class Profile(models.Model):
         return self.user.username
 
 class Food(models.Model):
-    food_id = models.IntegerField(default=0)
+    FOOD_TYPE_CHOICES = (
+        ('grains', 'Grains'),
+        ('canned', 'Canned'),
+        ('dried', 'Dried'),
+        ('fruits', 'Fruits'),
+        ('vegetables', 'Vegetables'),
+        ('frozen', 'Frozen'),
+        ('baked', 'Baked'),
+        ('dairy', 'Dairy'),
+        ('meat', 'Meat'),
+        ('beverages', 'Beverages'),
+        ('snacks', 'Snacks'),
+        ('spices', 'Spices'),
+    )
+    food_id = models.AutoField(primary_key=True)
     food_name = models.TextField(blank=True)
-    food_type = models.TextField(max_length=50)
-    expire_date = models.DateTimeField(auto_now_add=True)
+    food_type = models.CharField(max_length=50, choices=FOOD_TYPE_CHOICES, default='')
+    created_at = models.DateField(auto_now_add=True)
+    expire_date = models.DateField(blank=True)
     quantity = models.FloatField(blank=False)
     storage_location = models.TextField(blank=True)
 
@@ -51,11 +66,22 @@ class VolunteerProfile(models.Model):
         return f"{self.user.user.username} VolunteerProfile"
 
 class FoodStock(models.Model):
-    food_type = models.CharField(max_length=100)
-    quantity = models.DecimalField(max_digits=10, decimal_places=2)
-    expiry_date = models.DateField()
-    storage_location = models.CharField(max_length=255)
-    created_at = models.DateTimeField(auto_now_add=True)
+    FOOD_TYPE_CHOICES = (
+        ('grains', 'Grains'),
+        ('canned', 'Canned'),
+        ('dried', 'Dried'),
+        ('fruits', 'Fruits'),
+        ('vegetables', 'Vegetables'),
+        ('frozen', 'Frozen'),
+        ('baked', 'Baked'),
+        ('dairy', 'Dairy'),
+        ('meat', 'Meat'),
+        ('beverages', 'Beverages'),
+        ('snacks', 'Snacks'),
+        ('spices', 'Spices'),
+    )
+    food_type = models.CharField(max_length=100, choices=FOOD_TYPE_CHOICES, default='')
+    quantity = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     
     def __str__(self):
         return f"{self.food_type} - {self.quantity}"

@@ -34,6 +34,8 @@ def login(request):
                 return redirect('beneficiaryProfile')
             elif profile.user_type == "manager":
                 return redirect('managerDashboard')
+            elif profile.user_type == "donor":
+                return redirect('monetaryDonation')
         else:
             messages.info(request, 'Invalid credentials')
             return redirect('login')
@@ -60,7 +62,7 @@ def signup(request):
             user = User.objects.create_user(username = username, email = email, password = password)
             user.save()
 
-            #Logs the user in and redirect to the home page
+            #Logs the user in
             user_login = auth.authenticate(username = username, password = password)
             auth.login(request, user_login)
 

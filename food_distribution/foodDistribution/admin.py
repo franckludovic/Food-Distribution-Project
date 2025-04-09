@@ -12,7 +12,6 @@ admin.site.register(DistributionPlan)
 admin.site.register(CollectionPoint)
 admin.site.register(VolunteerAssignment)
 admin.site.register(Notification)
-admin.site.register(Notification)
 admin.site.register(BeneficiaryProfile)
 admin.site.register(SupportTicket)
 
