@@ -202,8 +202,16 @@ def settings(request):
 
 @login_required(login_url = "login")
 def stockMonitoring(request):
+    food = Food.objects.all()
+
+    food_name = [name.food_name for name in food]
+    food_quantity = [int(name.quantity) for name in food]
+    food_items = zip(food_name, food_quantity)
     context = {
-        'user_profile': Profile.objects.get(user = request.user)
+        'user_profile': Profile.objects.get(user = request.user),
+        'food_name': food_name,
+        'food_quantity': food_quantity,
+        'food_items': food_items
     }
     return render(request, 'stock_monitoring.html', context)
 
@@ -220,9 +228,16 @@ def foodDonation(request):
         quantity = request.POST['quantity']
         storage_location = request.POST['storage-location']
 
+        #Try to get the food name that already exists
+        try:
+            new_food = Food.objects.get(food_name = food_name)
+            new_food.quantity = new_food.quantity + int(quantity)
+            new_food.save()
+        
         #creates a new food
-        new_food = Food.objects.create(food_name = food_name, food_type = food_type, expire_date = expiry_date, quantity = quantity, storage_location = storage_location)
-        new_food.save()
+        except Food.DoesNotExist:
+            new_food = Food.objects.create(food_name = food_name, food_type = food_type, expire_date = expiry_date, quantity = quantity, storage_location = storage_location)
+            new_food.save()
 
         #adds the new food according to the food_type
         try:
