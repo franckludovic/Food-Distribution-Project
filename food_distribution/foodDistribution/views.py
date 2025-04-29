@@ -128,6 +128,7 @@ def collectionPointsManagement(request):
 
 @login_required(login_url = "login")
 def managerDashboard(request):
+    foodDonation = FoodDonation.objects.all()
     food_stock = FoodStock.objects.all()
     food_types = [stock.food_type for stock in food_stock]
     food_quantity = [int(stock.quantity) for stock in food_stock]
@@ -144,8 +145,19 @@ def managerDashboard(request):
         ft: [temp[ft][d] for d in unique_dates]
         for ft in temp
     }
+<<<<<<< HEAD
     date_labels = [d.strftime('%Y-%m-%d') for d in unique_dates]
 
+=======
+
+    # Convert dates to string format for JSON serialization
+    date_labels = [date.strftime('%Y-%m-%d') for date in dates]
+
+    units = 0
+    #Calculate the total units of stock
+    for donation in foodDonation:
+        units = units + int(donation.quantity)
+>>>>>>> 557a19d2974ba4fecab970c6cff5f42b8ad02aa0
     
     context = {
         'user_profile': Profile.objects.get(user = request.user),
@@ -153,8 +165,8 @@ def managerDashboard(request):
         'food_quantity': food_quantity,
         'dates': date_labels,
         'stock_series': stock_series,
-
-        
+        'food_donation': foodDonation,
+        'units': units,
     }
 
 
@@ -241,6 +253,10 @@ def foodDonation(request):
         expiry_date = request.POST.get('expire-date')
         quantity = request.POST['quantity']
         storage_location = request.POST['storage-location']
+
+        #Create a food donation
+        new_foodDonation = FoodDonation.objects.create(donor = Profile.objects.get(user = request.user), food_type = food_type, quantity = int(quantity), expiry_date = expiry_date)
+        new_foodDonation.save()
 
         #Try to get the food name that already exists
         try:
