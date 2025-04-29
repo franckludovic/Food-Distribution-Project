@@ -145,19 +145,8 @@ def managerDashboard(request):
         ft: [temp[ft][d] for d in unique_dates]
         for ft in temp
     }
-<<<<<<< HEAD
     date_labels = [d.strftime('%Y-%m-%d') for d in unique_dates]
 
-=======
-
-    # Convert dates to string format for JSON serialization
-    date_labels = [date.strftime('%Y-%m-%d') for date in dates]
-
-    units = 0
-    #Calculate the total units of stock
-    for donation in foodDonation:
-        units = units + int(donation.quantity)
->>>>>>> 557a19d2974ba4fecab970c6cff5f42b8ad02aa0
     
     context = {
         'user_profile': Profile.objects.get(user = request.user),
@@ -193,19 +182,28 @@ def foodStockManagement(request):
 @login_required(login_url = "login")
 def monetaryDonation(request):
     if request.method == 'POST':
-        username = request.POST.get('donor_name')  
-        profile = Profile.objects.get(user =request.user)  
-        try:
-            md = MonetaryDonation.objects.get(donor=profile)
-            md.donation_amount += Decimal(request.POST['donation_amount'])
+        # Retrieve or create the Profile instance
+        profile, created = Profile.objects.get_or_create(user=request.user)
+
+        donation_amount = Decimal(request.POST.get('donation_amount', '0'))
+        payment_method = request.POST.get('donation_method')
+
+        # Update existing donation or create a new one
+        md, created = MonetaryDonation.objects.get_or_create(
+            donor=profile,
+            defaults={
+                'donation_amount': donation_amount,
+                'payment_method': payment_method
+            }
+        )
+        if not created:
+            md.donation_amount += donation_amount
+            md.payment_method = payment_method  # Update payment method if needed
             md.save()
-        except MonetaryDonation.DoesNotExist:
-            MonetaryDonation.objects.create(
-                donor=profile,
-                donation_amount=request.POST['donation_amount'],
-                payment_method=request.POST['donation_method']
-            )
+
         return redirect('monetaryDonation')
+
+    
     return render(request, 'monetary_donation.html')
 
 

@@ -103,7 +103,7 @@ class MonetaryDonation(models.Model):
         ('mobile_money', 'Mobile Money'),
         ('bank_transfer', 'Bank Transfer'),
     )
-    MonetaryDonation_id = models.AutoField(primary_key=True, default=0)
+    MonetaryDonation_id = models.AutoField(primary_key=True, default=1)
     donor = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='monetary_donations')
     donation_amount = models.DecimalField(max_digits=10, decimal_places=2)
     payment_method = models.CharField(max_length=20, choices=PAYMENT_METHOD_CHOICES)
