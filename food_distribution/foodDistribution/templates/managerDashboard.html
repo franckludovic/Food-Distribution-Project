@@ -2,7 +2,61 @@
 
 {% block stl %}
     <style>
+    .overlay-container {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
 
+.popup-box {
+    background: #fff;
+    padding: 24px;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+    width: 50%;
+    text-align: center;
+    opacity: 0;
+    transform: scale(0.8);
+    animation: fadeInUp 0.5s ease-out forwards;
+}
+
+.btn-close-popup {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 12px;
+    background-color: #e74c3c;
+    color: #fff;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Keyframes for fadeInUp animation */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Animation for popup */
+.overlay-container.show {
+    display: flex;
+    opacity: 1;
+}
     </style>
 {% endblock %}
 {% block title %}Manager Dashboard{% endblock %}
@@ -51,12 +105,12 @@
             </div>
             </div>
             <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-            <div class="card">
+            <div class="card" onclick="togglePopup()">
                 <div class="card-header p-2 ps-3">
                 <div class="d-flex justify-content-between">
                     <div>
                     <p class="text-sm mb-0 text-capitalize">Stock Donations</p>
-                    <h4 class="mb-0">45 units</h4>
+                    <h4 class="mb-0">{{units}} units</h4>
                     </div>
                     <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
                     <i class="material-symbols-rounded opacity-10">person</i>
@@ -69,6 +123,8 @@
                 </div>
             </div>
             </div>
+            
+
             <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
             <div class="card">
                 <div class="card-header p-2 ps-3">
@@ -164,9 +220,32 @@
             </div>
           </div>
         </div>
-      
-
-
+      <!--Food Donation Table Part-->
+      <div id="popupOverlay" class="overlay-container">
+        <div class="popup-box">
+            <table style="border-collapse: separate; border-spacing: 30px;">
+                <thead>
+                    <tr>
+                        <th>Donor Name</th>
+                        <th>Food Type</th>
+                        <th>Quantity</th>
+                        <th>Expiry Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for donation in food_donation %}
+                        <tr>
+                            <td>{{donation.donor.user.username}}</td>
+                            <td>{{donation.food_type}}</td>
+                            <td>{{donation.quantity}}</td>
+                            <td>{{donation.expiry_date}}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <button class="btn-close-popup" onclick="togglePopup()">Close</button>
+        </div>
+    </div>
 
         <script>
             (function(){
@@ -297,6 +376,14 @@
                 });
             })();
         </script>
+
+<script>
+  //For popup
+  function togglePopup() {
+    const overlay = document.getElementById('popupOverlay');
+    overlay.classList.toggle('show');
+}
+</script>
 
 
         <!-- <script>
