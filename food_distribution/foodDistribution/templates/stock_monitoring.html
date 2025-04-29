@@ -285,6 +285,9 @@
     .expiring-soon {
         background-color: #f0ad4e; 
     }
+    .in-stock {
+        background-color: green;
+    }
 
     
     .product-image {
@@ -492,36 +495,16 @@
 
             <!-- Stock Cards Row -->
             <div class="stock-cards">
-
+            
+                {% for name, quantity in food_items %}
               <!-- Card 1 -->
               <div class="stock-card">
 
-                <h2>Product A</h2>
-                <div class="stock-value">250</div>
-                <div class="stock-diff">-15</div>
+                <h2>{{name}}</h2>
+                <div class="stock-value">{{quantity}}</div>
 
               </div>
-
-
-              <!-- Card 2 -->
-              <div class="stock-card">
-
-                <h2>Product B</h2>
-                <div class="stock-value">120</div>
-                <div class="stock-diff">+5</div>
-
-              </div>
-
-
-              <!-- Card 3 -->
-              <div class="stock-card">
-
-                <h2>Product C</h2>
-                <div class="stock-value">80</div>
-                <div class="stock-diff">0</div>
-
-              </div>
-
+              {% endfor %}
              
             </div>
 
@@ -564,51 +547,26 @@
 
 
         <div class="product-details">
-    
-               
             <h1>Product Details</h1>
             <p class="product-subtitle">View detailed information about each product</p>
             
             <!-- Product Grid -->
             <div class="product-grid">
-                  
+
+
+                {% for name in food_name %}  
                   <!-- Card 1 -->
                 <article class="product-card">
 
-                    <span class="badge low-stock">Low Stock</span>
-                    <div class="product-image">Product A Image</div>
-                    <h2>Product A</h2>
-                    <p class="stock-status">In Stock</p>
-
-                  </article>
-            
-
-                  <!-- Card 2 -->
-                <article class="product-card">
-
-                    <span class="badge expiring-soon">Expiring Soon </span>
-                    <div class="product-image">Product B Image</div>
-                    <h2>Product B</h2>
+                    <span class="badge in-stock">In Stock</span>
+                    <div class="product-image">{{name}} Image</div>
+                    <h2>{{name}}</h2>
                     <p class="stock-status">In Stock</p>
 
                 </article>
-            
-
-                  <!-- Card 3 -->
-                <article class="product-card">
-
-                    <span class="badge expiring-soon">Expiring Soon</span>
-                    <div class="product-image">Product C Image</div>
-                    <h2>Product C</h2>
-                    <p class="stock-status">Low Stock</p>
-
-                </article>
-            
-                
-                </div>
+                {% endfor %}
             </div>
-
-        
+        </div>
 
         <!-- analysis row 4-->
         
@@ -682,8 +640,8 @@
 
     <script>
         (function(){
-        var xValues = ["Carrot", "Vegetables", "Rice", "Beans", "Alcohol", "Cocaina", "Marijoana"];
-        var yValues = [55, 49, 44, 24, 30, 40, 50];
+        var xValues = {{food_name | safe}};
+        var yValues = {{food_quantity | safe}};
         var barColors = ["red", "green", "blue", "orange", "brown", "yellow", "purple"];
         
         new Chart("stockproductchart", {
