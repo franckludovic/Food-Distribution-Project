@@ -86,7 +86,7 @@
             </div>
             <h3 class="mb-0 h5 font-weight-bolder">Latest</h3>
             <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-            <div class="card">
+            <div class="card" onclick="togglePopup()">
                 <div class="card-header p-2 ps-3">
                 <div class="d-flex justify-content-between">
                     <div>
@@ -220,6 +220,7 @@
             </div>
           </div>
         </div>
+        
       <!--Food Donation Table Part-->
       <div id="popupOverlay" class="overlay-container">
         <div class="popup-box">
@@ -246,6 +247,31 @@
             <button class="btn-close-popup" onclick="togglePopup()">Close</button>
         </div>
     </div>
+
+    <div id="monetaryPopup" class="overlay-container">
+      <div class="popup-box">
+          <table style="border-collapse: separate; border-spacing: 30px;">
+              <thead>
+                  <tr>
+                      <th>Donor Name</th>
+                      <th>Donor amount</th>
+                      <th>Donor Method</th>
+                      
+                  </tr>
+              </thead>
+              <tbody>
+                  {% for donation in monetary_donation %}
+                      <tr>
+                          <td>{{donation.donor.user.username}}</td>
+                          <td>{{donation.donation_amount}}</td>
+                          <td>{{donation.payment_method}}</td>
+                      </tr>
+                  {% endfor %}
+              </tbody>
+          </table>
+          <button class="btn-close-popup" onclick="togglePopup()">Close</button>
+      </div>
+  </div>
 
         <script>
             (function(){
