@@ -196,45 +196,48 @@
 
         </script>
 
-        
         <script>
-            (function(){
-            const xValues = [100,300,500,700,900];
-            
-            new Chart("stocktrends", {
-                type: "line",
-                data: {
-                labels: xValues,
-                datasets: [
+          document.addEventListener('DOMContentLoaded', () => {
+              const dates = {{ dates|safe }};
+              const stockSeries = {{ stock_series|safe }};
+              const colors = ['red', 'green', 'blue', 'orange', 'brown', 'purple', 'cyan', 'magenta', 'yellow', 'black', 'gray', 'pink'];
 
-                    { 
-                    data: [860,1060,1060,1330,2478],
-                    borderColor: "red",
-                    fill: false
-                    },
+              const datasets = Object.keys(stockSeries).map((type, index) => ({
+                  label: type,
+                  data: stockSeries[type],
+                  borderColor: colors[index % colors.length],
+                  fill: false,
+                  tension: 0.1
+              }));
 
-                    { 
-                    data: [1600,1900,2000,4000,5000],
-                    borderColor: "green",
-                    
-                    },
-
-                    { 
-                    data: [300,2000,4000,1000,100],
-                    borderColor: "blue",
-                    fill: false
-                    }
-                ]
-                },
-                options: {
-                legend: { display: false }
-                
-                }
-            });
-            })();
-
+              const ctx = document.getElementById('stocktrends').getContext('2d');
+              new Chart(ctx, {
+                  type: 'line',
+                  data: {
+                      labels: dates,
+                      datasets: datasets
+                  },
+                  options: {
+                      responsive: true,
+                      plugins: {
+                          legend: {
+                              display: true
+                          },
+                          title: {
+                              display: true,
+                              text: 'Food Quantity Trends Over Time'
+                          }
+                      },
+                      scales: {
+                          y: {
+                              beginAtZero: true
+                          }
+                      }
+                  }
+              });
+          });
         </script>
-
+        
 
         <script>
             (function(){

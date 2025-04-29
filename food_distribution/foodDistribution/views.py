@@ -1,3 +1,4 @@
+from collections import defaultdict
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
@@ -127,14 +128,39 @@ def collectionPointsManagement(request):
 @login_required(login_url = "login")
 def managerDashboard(request):
     food_stock = FoodStock.objects.all()
-
     food_types = [stock.food_type for stock in food_stock]
     food_quantity = [int(stock.quantity) for stock in food_stock]
+
+
+    foods = Food.objects.all().order_by('created_at')
+    dates = sorted({f.created_at for f in foods})
+    # Initialize a nested dictionary to hold quantities per food_type per date
+    temp = defaultdict(lambda: {date: 0 for date in dates})
+    for f in foods:
+        temp[f.food_type][f.created_at] += float(f.quantity)
+
+    stock_series = {
+        food_type: [temp[food_type][date] for date in dates]
+        for food_type in temp
+    }
+
+    # Convert dates to string format for JSON serialization
+    date_labels = [date.strftime('%Y-%m-%d') for date in dates]
+
+
+    
     context = {
         'user_profile': Profile.objects.get(user = request.user),
         'food_types': food_types,
         'food_quantity': food_quantity,
+        'dates': date_labels,
+        'stock_series': stock_series,
+
+        
     }
+
+
+   
     return render(request, 'managerDashboard.html', context)
 
 
