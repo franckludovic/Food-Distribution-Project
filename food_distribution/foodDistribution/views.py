@@ -1,4 +1,5 @@
 from collections import defaultdict
+from decimal import Decimal
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
@@ -132,21 +133,18 @@ def managerDashboard(request):
     food_quantity = [int(stock.quantity) for stock in food_stock]
 
 
-    foods = Food.objects.all().order_by('created_at')
-    dates = sorted({f.created_at for f in foods})
-    # Initialize a nested dictionary to hold quantities per food_type per date
-    temp = defaultdict(lambda: {date: 0 for date in dates})
+    foods  = Food.objects.order_by('created_at')                     # 1 :contentReference[oaicite:4]{index=4}
+    unique_dates = sorted({f.created_at for f in foods})                   # 2 :contentReference[oaicite:5]{index=5}
+
+    temp = defaultdict(lambda: {d: 0 for d in unique_dates})              # 3 :contentReference[oaicite:6]{index=6}
     for f in foods:
         temp[f.food_type][f.created_at] += float(f.quantity)
 
-    stock_series = {
-        food_type: [temp[food_type][date] for date in dates]
-        for food_type in temp
+    stock_series = {                                                     # 4 :contentReference[oaicite:7]{index=7}
+        ft: [temp[ft][d] for d in unique_dates]
+        for ft in temp
     }
-
-    # Convert dates to string format for JSON serialization
-    date_labels = [date.strftime('%Y-%m-%d') for date in dates]
-
+    date_labels = [d.strftime('%Y-%m-%d') for d in unique_dates]
 
     
     context = {
@@ -180,9 +178,25 @@ def foodStockManagement(request):
     template = loader.get_template('food_stock_management.html')
     return HttpResponse(template.render())
 
+@login_required(login_url = "login")
 def monetaryDonation(request):
-    template = loader.get_template('monetary_donation.html')
-    return HttpResponse(template.render())
+    if request.method == 'POST':
+        username = request.POST.get('donor_name')  
+        profile = Profile.objects.get(user =request.user)  
+        try:
+            md = MonetaryDonation.objects.get(donor=profile)
+            md.donation_amount += Decimal(request.POST['donation_amount'])
+            md.save()
+        except MonetaryDonation.DoesNotExist:
+            MonetaryDonation.objects.create(
+                donor=profile,
+                donation_amount=request.POST['donation_amount'],
+                payment_method=request.POST['donation_method']
+            )
+        return redirect('monetaryDonation')
+    return render(request, 'monetary_donation.html')
+
+
 
 def notifications(request):
     template = loader.get_template('notifications.html')
