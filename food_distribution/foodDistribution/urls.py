@@ -18,7 +18,7 @@ urlpatterns = [
     path('confirmationPage', views.confirmationPage, name='confirmationPage'),
     path('foodAidRequest', views.foodAidRequest, name='foodAidRequest'),
     path('foodDistributionPlanning', views.foodDistributionPlanning, name='foodDistributionPlanning'),
-    path('foodStockManagement', views.foodStockManagement, name='foodStockManagement'),
+    # path('foodStockManagement', views.foodStockManagement, name='foodStockManagement'),
     path('monetaryDonation', views.monetaryDonation, name='monetaryDonation'),
     path('notifications', views.notifications, name='notifications'),
     path('onlineSupport', views.onlineSupport, name='onlineSupport'),
@@ -27,4 +27,5 @@ urlpatterns = [
     path('stockMonitoring', views.stockMonitoring, name='stockMonitoring'),
     path('assignVolunteers', views.assignVolunteers, name='assignVolunteers'),
     path('foodDonation', views.foodDonation, name='foodDonation'),
+
 ]

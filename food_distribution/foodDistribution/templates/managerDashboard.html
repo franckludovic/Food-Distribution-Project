@@ -1,470 +1,198 @@
-{% extends "master.html" %}
+<!-- {% extends "master.html" %}
 
-{% block stl %}
-    <style>
-    .overlay-container {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.6);
-    justify-content: center;
-    align-items: center;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
+{% block stl %} -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+<style>
 
-.popup-box {
-    background: #fff;
-    padding: 24px;
-    border-radius: 12px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
-    width: 50%;
-    text-align: center;
-    opacity: 0;
-    transform: scale(0.8);
-    animation: fadeInUp 0.5s ease-out forwards;
-}
-
-.btn-close-popup {
-    padding: 12px 24px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    margin-top: 12px;
-    background-color: #e74c3c;
-    color: #fff;
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-/* Keyframes for fadeInUp animation */
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
+body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
 
-    to {
-        opacity: 1;
-        transform: translateY(0);
+    header {
+      text-align: center;
+      padding: 20px;
     }
-}
 
-/* Animation for popup */
-.overlay-container.show {
-    display: flex;
-    opacity: 1;
-}
-    </style>
-{% endblock %}
-{% block title %}Manager Dashboard{% endblock %}
+    header h1 {
+      font-size: 2rem;
+      margin: 10px 0;
+    }
+
+    header p {
+      font-size: 1rem;
+      color: #555;
+    }
+
+    .form-container {
+      text-align: center;
+      margin: 20px auto;
+      max-width: 400px;
+    }
+
+    .form-container input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+
+    .form-container button {
+      width: 100%;
+      padding: 10px;
+      background-color: black;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
     
-{% block content %}
-   
-        
-    {% block sidebar %}
-        {% if user_profile.user_type == "volunteer" %}
-                {% include "volunteerSidebar.html" %}
-        {% elif user_profile.user_type == "beneficiary" %}
-                {% include "beneficiarySidebar.html" %}
-        {% elif user_profile.user_type == "manager" %}
-                {% include "managerSidebar.html" %}
-        {% elif user_profile.user_type == "donor" %}
-                {% include "donorSidebar.html" %}
-        {% endif %}
-    {% endblock %}
+    .search-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            max-width: 600px;
+            margin: 0 auto; 
+            gap: 0.5rem;    
+        }
 
-    <div class="container-fluid py-2">
-        <div class="row">
-            <div class="ms-3">
-            <h3 class="mb-0 h4 font-weight-bolder">Dashboard</h3>
-            <p class="mb-4">
-                Check Distributions, food and monetary donations
-            </p>
-            </div>
-            <h3 class="mb-0 h5 font-weight-bolder">Latest</h3>
-            <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-            <div class="card" onclick="toggleMonetaryPopup()">
-                <div class="card-header p-2 ps-3">
-                <div class="d-flex justify-content-between">
-                    <div>
-                    <p class="text-sm mb-0 text-capitalize">Monetary Donations</p>
-                    <h4 class="mb-0">{{totalMonetaryDonation}}</h4>
-                    </div>
-                    <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
-                    <i class="material-symbols-rounded opacity-10">weekend</i>
-                    </div>
-                </div>
-                </div>
-                <hr class="dark horizontal my-0">
-                <div class="card-footer p-2 ps-3">
-                <p class="mb-0 text-sm"><span class="text-success font-weight-bolder">+55% </span>than last week</p>
-                </div>
-            </div>
-            </div>
-            <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-            <div class="card" onclick="togglePopup()">
-                <div class="card-header p-2 ps-3">
-                <div class="d-flex justify-content-between">
-                    <div>
-                    <p class="text-sm mb-0 text-capitalize">Stock Donations</p>
-                    <h4 class="mb-0">{{units}} units</h4>
-                    </div>
-                    <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
-                    <i class="material-symbols-rounded opacity-10">person</i>
-                    </div>
-                </div>
-                </div>
-                <hr class="dark horizontal my-0">
-                <div class="card-footer p-2 ps-3">
-                <p class="mb-0 text-sm"><span class="text-success font-weight-bolder">+3% </span>than last month</p>
-                </div>
-            </div>
-            </div>
+        /* Search Input */
+        .search-input {
+            flex: 1;  
+            height: 3rem;         
+            padding: 0.5rem 1rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        /* Search Button */
+        .search-button {
+            padding: 0.5rem 1rem;
+            background-color: #000; 
+            color: #fff;
+            border: none;
+            height: 2.8rem;
+            border-radius: 4px;
+            cursor: pointer;
             
+        }
 
-            <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-            <div class="card">
-                <div class="card-header p-2 ps-3">
-                <div class="d-flex justify-content-between">
-                    <div>
-                    <p class="text-sm mb-0 text-capitalize">Request</p>
-                    <h4 class="mb-0">Martin Luther</h4>
-                    </div>
-                    <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
-                    <i class="material-symbols-rounded opacity-10">leaderboard</i>
-                    </div>
-                </div>
-                </div>
-                <hr class="dark horizontal my-0">
-                <div class="card-footer p-2 ps-3">
-                <p class="mb-0 text-sm"><span class="text-success font-weight-bolder">45</span> <span class="font-weight-bolder">Units</span> Rice</p>
-                </div>
-            </div>
-            </div>
-            <div class="col-xl-3 col-sm-6">
-            <div class="card">
-                <div class="card-header p-2 ps-3">
-                <div class="d-flex justify-content-between">
-                    <div>
-                    <p class="text-sm mb-0 text-capitalize">Deployment</p>
-                    <h4 class="mb-0">Delevery</h4>
-                    </div>
-                    <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
-                    <i class="material-symbols-rounded opacity-10">weekend</i>
-                    </div>
-                </div>
-                </div>
-                <hr class="dark horizontal my-0">
-                <div class="card-footer p-2 ps-3">
-                <p class="mb-0 text-sm">bali, next to church</p>
-                </div>
-            </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-lg-4 col-md-6 mt-4 mb-4">
-          <div class="card">
-            <div class="card-body">
-              <h6 class="mb-0 ">Stocks</h6>
-              <p class="text-sm ">Stock by product</p>
-              <div class="pe-2">
-                <div class="chart">
-                  <canvas id="stockproductchart" class="chart-canvas" height="200"></canvas>
-                </div>
-              </div>
-              <hr class="dark horizontal">
-              <div class="d-flex ">
-                <i class="material-symbols-rounded text-sm my-auto me-1">schedule</i>
-                <p class="mb-0 text-sm"> updated 5 days ago </p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-4 col-md-6 mt-4 mb-4">
-          <div class="card ">
-            <div class="card-body">
-              <h6 class="mb-0 "> Trends </h6>
-              <p class="text-sm "> Trends by time. </p>
-              <div class="pe-2">
-                <div class="chart">
-                  <canvas id="stocktrends" class="chart-canvas" height="200"></canvas>
-                </div>
-              </div>
-              <hr class="dark horizontal">
-              <div class="d-flex ">
-                <i class="material-symbols-rounded text-sm my-auto me-1">schedule</i>
-                <p class="mb-0 text-sm"> updated 4 min ago </p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-4 mt-4 mb-3">
-          <div class="card">
-            <div class="card-body">
-              <h6 class="mb-0  ">Distribution</h6>
-              <p class="text-sm ">Distribution by region</p>
-              <div class="pe-2">
-                <div class="chart">
-                  <canvas id="stockregion" class="chart-canvas" height="200"></canvas>
-                </div>
-              </div>
-              <hr class="dark horizontal">
-              <div class="d-flex ">
-                <i class="material-symbols-rounded text-sm my-auto me-1">schedule</i>
-                <p class="mb-0 text-sm">just updated</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-      <!--Food Donation Table Part-->
-      <div id="popupOverlay" class="overlay-container">
-        <div class="popup-box">
-            <table style="border-collapse: separate; border-spacing: 30px;">
-                <thead>
-                    <tr>
-                        <th>Donor Name</th>
-                        <th>Food Type</th>
-                        <th>Quantity</th>
-                        <th>Expiry Date</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for donation in food_donation %}
-                        <tr>
-                            <td>{{donation.donor.user.username}}</td>
-                            <td>{{donation.food_type}}</td>
-                            <td>{{donation.quantity}}</td>
-                            <td>{{donation.expiry_date}}</td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-            <button class="btn-close-popup" onclick="togglePopup()">Close</button>
-        </div>
+        .search-button:hover {
+            background-color: #333;
+        }
+
+    /* Fixed Table Container */
+    .foodTable-container {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 80%;
+        max-width: 600px;
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 20px rgba(0,0,0,0.2);
+        z-index: 1000;
+        display: none;
+    }
+
+    .table-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.5);
+        z-index: 999;
+    }
+
+    .urgency-buttons .selected {
+        background-color: #e74c3c;
+        color: white;
+        border-color: #e74c3c;
+    }
+
+  
+</style>
+<!-- {% endblock %}
+
+{% block content %} -->
+</head>
+<body>
+    <div class="search-section">
+        <input 
+            type="text" 
+            class="search-input" 
+            id="searchInput"
+            placeholder="Search a product"
+            aria-label="Search food items"
+            name="search"
+        >
+        <button type="button" class="search-button" onclick="showFoodTable()">
+            Search
+        </button>
     </div>
 
-    <div id="monetaryPopup" class="overlay-container">
-      
-      <div class="popup-box">
-          <table style="border-collapse: separate; border-spacing: 30px;">
-              <thead>
-                  <tr>
-                      <th>Donor Name</th>
-                      <th>Donor amount</th>
-                      <th>Donor Method</th>
-                      
-                  </tr>
-              </thead>
-              <tbody>
-                  {% for donation in monetary_donation %}
-                      <tr>
-                          <td>{{donation.donor.user.username}}</td>
-                          <td>{{donation.donation_amount}}</td>
-                          <td>{{donation.payment_method}}</td>
-                      </tr>
-                  {% endfor %}
-              </tbody>
-          </table>
-          <button class="btn-close-popup" onclick="toggleMonetaryPopup()">Close</button>
-      </div>
-  </div>
+    <!-- Food Table Modal -->
+    <div class="table-overlay" id="tableOverlay"></div>
+    <div id="foodtable" class="foodTable-container">
+        <table class="food-table">
+                <tr>
+                    <th>Food Name</th>
+                    <th>Quantity</th>
+                    <th>Action</th>
+                </tr>
+                <!-- {% for name, quantity in food_items %} -->
+                <tr>
+                    <td>{{ name }}</td>
+                    <td>{{ quantity }}</td>
+                    <td>
+                        <button type="button" class="select-btn" 
+                                onclick="selectFoodItem('{{ name }}')">
+                            Select
+                        </button>
+                    </td>
+                </tr>
+                <!-- {% endfor %} -->
+        </table>
+    </div>
 
-        <pre>{{ food_donation }}</pre>
-        <pre>{{ monetary_donation }}</pre>
+    <!-- Urgency Section -->
+    <section class="urgency-section">
+        <h3>Urgency Level</h3>
+        <div class="urgency-buttons">
+            <label class="urgency-label">
+                <input type="radio" name="urgency" value="low" hidden>
+                <span class="urgency-btn">Low</span>
+            </label>
+            <label class="urgency-label">
+                <input type="radio" name="urgency" value="medium" hidden>
+                <span class="urgency-btn">Medium</span>
+            </label>
+            <label class="urgency-label">
+                <input type="radio" name="urgency" value="high" hidden>
+                <span class="urgency-btn">High</span>
+            </label>
+        </div>
+    </section>
 
-        <script>
-            (function(){
-            var xValues = {{ food_types|safe }};
-            var yValues = {{ food_quantity|safe }};
-            var barColors = ["red", "green", "blue", "orange", "brown"];
-            
-            new Chart("stockproductchart", {
-                type: "bar",
-                data: {
-                labels: xValues,
-                datasets: [{
-                    backgroundColor: barColors,
-                    data: yValues
-                }]
-                },
-                options: {
-                legend: { display: false },
-                scales: {
-                  y: {
-                      beginAtZero: true
-                  }
-              }
-                }
-            });
-            })();
+    <button type="submit" class="submit-btn">
+        Submit Request
+    </button>
 
-        </script>
+</body>
 
-        <script>
-          document.addEventListener('DOMContentLoaded', () => {
-            const dates = {{ dates|safe }}; // e.g. ['2025-04-01', …]
-            const stockSeries = {{ stock_series|safe }}; // { 'grains': [..], 'canned': [..], … }
-            const colors = [
-              'red', 'green', 'blue', 'orange', 'brown', 'purple', 'cyan', 'magenta', 'yellow', 'black', 'gray', 'pink'
-            ];
-
-            // Build one dataset per food type
-            const datasets = Object.keys(stockSeries).map((type, i) => ({
-              label: type,
-              data: stockSeries[type],
-              borderColor: colors[i % colors.length],
-              backgroundColor: colors[i % colors.length],
-              fill: false,
-              tension: 0.3
-            }));
-
-            const ctx = document.getElementById('stocktrends').getContext('2d');
-            new Chart(ctx, {
-              type: 'line',
-              data: {
-                labels: dates,
-                datasets: datasets
-              },
-              options: {
-                responsive: true,
-                animation: {
-                  duration: 1000,
-                  easing: 'easeInOutQuad'
-                },
-                plugins: {
-                  legend: { display: true },
-                  title: {
-                    display: true,
-                    text: 'Food Type Trends Over Time'
-                  },
-                  tooltip: {
-                    enabled: true,
-                    callbacks: {
-                      label: function(context) {
-                        const label = context.dataset.label || '';
-                        const value = context.raw || 0;
-                        return `${label}: ${value} units`;
-                      }
-                    }
-                  }
-                },
-                scales: {
-                  x: {
-                    type: 'time',
-                    time: {
-                      parser: 'YYYY-MM-DD',
-                      unit: 'day',
-                      displayFormats: { day: 'MMM D' }
-                    },
-                    title: {
-                      display: true,
-                      text: 'Date'
-                    },
-                    grid: {
-                      color: 'rgba(200, 200, 200, 0.2)',
-                      drawBorder: false
-                    }
-                  },
-                  y: {
-                    beginAtZero: true,
-                    title: { display: true, text: 'Quantity' },
-                    grid: {
-                      color: 'rgba(200, 200, 200, 0.2)',
-                      drawBorder: false
-                    }
-                  }
-                }
-              }
-            });
-          });
-        </script>
-
-        <script>
-            (function(){
-                var xValues = [
-                    "Adamawa",
-                    "Centre",
-                    "East",
-                    "Far North",
-                    "Littoral",
-                    "North",
-                    "South",
-                    "South-West",
-                    "West",
-                    "North-West"
-                ];
-
-                var yValues = [12, 19, 3, 5, 2, 3, 7, 9, 11, 6];
-                var barColors = [
-                    "#b91d47",
-                    "#00aba9",
-                    "#2b5797",
-                    "#e8c3b9",
-                    "#1e7145",
-                    "#FF6384",
-                    "#36A2EB",
-                    "#FFCE56",
-                    "#4BC0C0",
-                    "#9966FF"
-                ];
-
-                new Chart("stockregion", {
-                    type: "pie",
-                    data: {
-                        labels: xValues,
-                        datasets: [{
-                            backgroundColor: barColors,
-                            data: yValues
-                        }]
-                    },
-                    options: {
-                        plugins: {
-                            legend: {
-                                display: false
-                            },
-                            tooltip: {
-                                enabled: true,
-                                callbacks: {
-                                    label: function(context) {
-                                        var label = context.label || '';
-                                        var value = context.raw || 0;
-                                        return label + ': ' + value;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                });
-            })();
-        </script>
-
-<script>
-  //For food domination popup
-  function togglePopup() {
-    const overlay = document.getElementById('popupOverlay');
-    overlay.classList.toggle('show');
-}
-</script>
-
-<script>
-  //For monetary popup
-  function toggleMonetaryPopup() {
-    const overlay = document.getElementById('monetaryPopup');
-    overlay.classList.toggle('show');
-}
-</script>
-
-
-      
-
-
-
-
-
-
-{% endblock %}
+</html>
+<!-- {% endblock %} -->

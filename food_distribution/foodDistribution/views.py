@@ -1,6 +1,7 @@
 from collections import defaultdict
 from decimal import Decimal, InvalidOperation
 from datetime import datetime, timedelta
+import json
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
@@ -9,6 +10,7 @@ from django.http import HttpResponse
 from django.template import loader
 from django.db.models import Sum
 from django.db.models.functions import TruncMonth
+from django.urls import reverse
 from .models import *
 
 def main(request):
@@ -178,23 +180,11 @@ def confirmationPage(request):
     template = loader.get_template('confirmation_page.html')
     return HttpResponse(template.render())
 
-@login_required(login_url="login")
+@login_required
 def foodAidRequest(request):
-    # Fetch all food items grouped by food type
-    food_data = list(Food.objects.values('food_type', 'food_name', 'quantity'))  # Convert to list for JSON serialization
-
-    context = {
-        'food_data': food_data,  # Pass food data to the template
-    }
-    return render(request, 'food_aid_request.html', context)
-
-def foodDistributionPlanning(request):
-    template = loader.get_template('food_distribution_planning.html')
-    return HttpResponse(template.render())
-
-def foodStockManagement(request):
-    template = loader.get_template('food_stock_management.html')
-    return HttpResponse(template.render())
+   
+    
+    return render(request, 'food_aid_request.html')
 
 @login_required(login_url = "login")
 def monetaryDonation(request):
@@ -328,3 +318,7 @@ def foodDonation(request):
             return redirect('foodDonation')
     else:
         return render(request, 'Food_Donation.html')
+
+def foodDistributionPlanning(request):
+    template = loader.get_template('food_distribution_planning.html')
+    return HttpResponse(template.render())
