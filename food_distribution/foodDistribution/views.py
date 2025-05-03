@@ -1,11 +1,13 @@
 from collections import defaultdict
-from decimal import Decimal
+from decimal import Decimal, InvalidOperation
+from datetime import datetime, timedelta
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.template import loader
+from django.db.models import Sum
 from .models import *
 
 def main(request):
@@ -146,7 +148,13 @@ def managerDashboard(request):
         for ft in temp
     }
     date_labels = [d.strftime('%Y-%m-%d') for d in unique_dates]
+    
+    units = sum(stock.quantity for stock in food_stock)  # lets say it is the total quantity of food in stock
 
+    monetary_donation = MonetaryDonation.objects.all()
+
+    start_date = datetime.datetime.now() - timedelta(days=30)  # Last 30 days
+    totalMonetaryDonation = MonetaryDonation.objects.filter(donation_date__gte=start_date).aggregate(Sum('donation_amount'))['donation_amount__sum'] or 0
     
     context = {
         'user_profile': Profile.objects.get(user = request.user),
@@ -156,6 +164,8 @@ def managerDashboard(request):
         'stock_series': stock_series,
         'food_donation': foodDonation,
         'units': units,
+        'monetary_donation': monetary_donation,
+        'totalMonetaryDonation': totalMonetaryDonation,
     }
 
 
@@ -182,10 +192,16 @@ def foodStockManagement(request):
 @login_required(login_url = "login")
 def monetaryDonation(request):
     if request.method == 'POST':
+        # Example validation:
+        try:
+            donation_amount = Decimal(request.POST.get('donation_amount', '0'))
+        except InvalidOperation:
+            messages.error(request, "Invalid donation amount")
+            return redirect('monetaryDonation')
+
         # Retrieve or create the Profile instance
         profile, created = Profile.objects.get_or_create(user=request.user)
 
-        donation_amount = Decimal(request.POST.get('donation_amount', '0'))
         payment_method = request.POST.get('donation_method')
 
         # Update existing donation or create a new one

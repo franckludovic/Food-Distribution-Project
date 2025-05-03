@@ -86,12 +86,12 @@
             </div>
             <h3 class="mb-0 h5 font-weight-bolder">Latest</h3>
             <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-            <div class="card" onclick="togglePopup()">
+            <div class="card" onclick="toggleMonetaryPopup()">
                 <div class="card-header p-2 ps-3">
                 <div class="d-flex justify-content-between">
                     <div>
                     <p class="text-sm mb-0 text-capitalize">Monetary Donations</p>
-                    <h4 class="mb-0">$53k</h4>
+                    <h4 class="mb-0">{{totalMonetaryDonation}}</h4>
                     </div>
                     <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
                     <i class="material-symbols-rounded opacity-10">weekend</i>
@@ -249,6 +249,7 @@
     </div>
 
     <div id="monetaryPopup" class="overlay-container">
+      
       <div class="popup-box">
           <table style="border-collapse: separate; border-spacing: 30px;">
               <thead>
@@ -269,9 +270,12 @@
                   {% endfor %}
               </tbody>
           </table>
-          <button class="btn-close-popup" onclick="togglePopup()">Close</button>
+          <button class="btn-close-popup" onclick="toggleMonetaryPopup()">Close</button>
       </div>
   </div>
+
+        <pre>{{ food_donation }}</pre>
+        <pre>{{ monetary_donation }}</pre>
 
         <script>
             (function(){
@@ -303,53 +307,76 @@
 
         <script>
           document.addEventListener('DOMContentLoaded', () => {
-            const dates       = {{ dates|safe }};           // e.g. ['2025-04-01', …]
-            const stockSeries = {{ stock_series|safe }};    // { 'grains': [..], 'canned': [..], … }
-            const colors      = [
-              'red','green','blue','orange','brown','purple','cyan','magenta','yellow','black','gray','pink'
+            const dates = {{ dates|safe }}; // e.g. ['2025-04-01', …]
+            const stockSeries = {{ stock_series|safe }}; // { 'grains': [..], 'canned': [..], … }
+            const colors = [
+              'red', 'green', 'blue', 'orange', 'brown', 'purple', 'cyan', 'magenta', 'yellow', 'black', 'gray', 'pink'
             ];
 
-            // Build one dataset per food type :contentReference[oaicite:9]{index=9}
+            // Build one dataset per food type
             const datasets = Object.keys(stockSeries).map((type, i) => ({
-              label:       type,
-              data:        stockSeries[type],
+              label: type,
+              data: stockSeries[type],
               borderColor: colors[i % colors.length],
-              fill:        false,
-              tension:     0.1
+              backgroundColor: colors[i % colors.length],
+              fill: false,
+              tension: 0.3
             }));
 
             const ctx = document.getElementById('stocktrends').getContext('2d');
             new Chart(ctx, {
               type: 'line',
               data: {
-                labels:   dates,
+                labels: dates,
                 datasets: datasets
               },
               options: {
                 responsive: true,
+                animation: {
+                  duration: 1000,
+                  easing: 'easeInOutQuad'
+                },
                 plugins: {
                   legend: { display: true },
                   title: {
                     display: true,
                     text: 'Food Type Trends Over Time'
+                  },
+                  tooltip: {
+                    enabled: true,
+                    callbacks: {
+                      label: function(context) {
+                        const label = context.dataset.label || '';
+                        const value = context.raw || 0;
+                        return `${label}: ${value} units`;
+                      }
+                    }
                   }
                 },
                 scales: {
                   x: {
-                    type: 'time',              // time-scale X axis :contentReference[oaicite:10]{index=10}
+                    type: 'time',
                     time: {
-                      parser: 'YYYY-MM-DD',     // specify your date format :contentReference[oaicite:11]{index=11}
-                      unit:   'day',
+                      parser: 'YYYY-MM-DD',
+                      unit: 'day',
                       displayFormats: { day: 'MMM D' }
                     },
                     title: {
                       display: true,
                       text: 'Date'
+                    },
+                    grid: {
+                      color: 'rgba(200, 200, 200, 0.2)',
+                      drawBorder: false
                     }
                   },
                   y: {
                     beginAtZero: true,
-                    title:      { display: true, text: 'Quantity' }
+                    title: { display: true, text: 'Quantity' },
+                    grid: {
+                      color: 'rgba(200, 200, 200, 0.2)',
+                      drawBorder: false
+                    }
                   }
                 }
               }
@@ -417,9 +444,17 @@
         </script>
 
 <script>
-  //For popup
+  //For food domination popup
   function togglePopup() {
     const overlay = document.getElementById('popupOverlay');
+    overlay.classList.toggle('show');
+}
+</script>
+
+<script>
+  //For monetary popup
+  function toggleMonetaryPopup() {
+    const overlay = document.getElementById('monetaryPopup');
     overlay.classList.toggle('show');
 }
 </script>
