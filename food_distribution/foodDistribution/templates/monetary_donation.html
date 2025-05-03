@@ -85,6 +85,25 @@
         .donate-btn:hover {
             background-color: #2ecc71;
         }
+
+        input,
+    select {
+      width: 100%;
+      padding: 0.6rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      background-color: #fafafa;
+      font-size: 1rem;
+    }
+
+    input:focus,
+    select:focus {
+      border-color: #007bff;
+      outline: none;
+      background-color: #fff;
+    }
+
     </style>
 </head>
 <body>
@@ -92,34 +111,40 @@
     <h1>Make a Donation</h1>
     <p class="intro-text">Enter your donation details below.</p>
 
-    <div class="form-group">
-        <label>Donate Name</label>
-        <input type="text" placeholder="Enter your name">
-    </div>
+    <form action="", method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label>Donate Name</label>
+            <input type="text" placeholder="Enter your name", name="donor_name">
+        </div>
 
-    <div class="payment-notice">
-        At 13 specials on your payment method
-    </div>
+        <div class="payment-notice">
+            At 13 specials on your payment method
+        </div>
 
-    <div class="form-group">
-        <label>Donation Amount</label>
-        <input type="number" placeholder="Enter amount">
-    </div>
+        <div class="form-group">
+            <label>Donation Amount</label>
+            <input type="number" placeholder="Enter amount", name="donation_amount">
+        </div>
 
-    <p class="support-text">Please fill in the required fields to proceed with your donation.</p>
+        <p class="support-text">Please fill in the required fields to proceed with your donation.</p>
 
-    <div class="form-group">
-        <label>Donate Name</label>
-        <input type="text" placeholder="Enter your name again">
-    </div>
+        <label for="donation_method">Monetory donation</label>
+      <select id="donation_method" name="donation_method" required>
+        <option value="Bank Card">Bank Card</option>
+        <option value="Mobile Money">Mobile Money</option>
+        <option value="Bank Transfer">Bank Transfer</option>
+      </select>
 
-    <p class="support-text">Your donation will support these's need. Thank you for your generosity.</p>
+        <p class="support-text">Your donation will support these's need. Thank you for your generosity.</p>
 
-    <button class="donate-btn">Donate Now</button>
+        <button type="submit" class="donate-btn">Donate Now</button>
 
-    <div class="confirmation">
-        Thank you for your donation! Your contribution will make a positive impact.
-    </div>
+        <div class="confirmation">
+            Thank you for your donation! Your contribution will make a positive impact.
+        </div>
+    </form>
+
     <a href="/logout"><button>Logout</button></a>
 </div>
 

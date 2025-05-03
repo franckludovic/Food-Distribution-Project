@@ -1,10 +1,14 @@
 from collections import defaultdict
+from decimal import Decimal, InvalidOperation
+from datetime import datetime, timedelta
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.template import loader
+from django.db.models import Sum
+from django.db.models.functions import TruncMonth
 from .models import *
 
 def main(request):
@@ -127,27 +131,31 @@ def collectionPointsManagement(request):
 
 @login_required(login_url = "login")
 def managerDashboard(request):
+    foodDonation = FoodDonation.objects.all()
     food_stock = FoodStock.objects.all()
     food_types = [stock.food_type for stock in food_stock]
     food_quantity = [int(stock.quantity) for stock in food_stock]
 
 
-    foods = Food.objects.all().order_by('created_at')
-    dates = sorted({f.created_at for f in foods})
-    # Initialize a nested dictionary to hold quantities per food_type per date
-    temp = defaultdict(lambda: {date: 0 for date in dates})
+    foods  = Food.objects.order_by('created_at')                     # 1 :contentReference[oaicite:4]{index=4}
+    unique_dates = sorted({f.created_at for f in foods})                   # 2 :contentReference[oaicite:5]{index=5}
+
+    temp = defaultdict(lambda: {d: 0 for d in unique_dates})              # 3 :contentReference[oaicite:6]{index=6}
     for f in foods:
         temp[f.food_type][f.created_at] += float(f.quantity)
 
-    stock_series = {
-        food_type: [temp[food_type][date] for date in dates]
-        for food_type in temp
+    stock_series = {                                                     # 4 :contentReference[oaicite:7]{index=7}
+        ft: [temp[ft][d] for d in unique_dates]
+        for ft in temp
     }
+    date_labels = [d.strftime('%Y-%m-%d') for d in unique_dates]
+    
+    units = sum(stock.quantity for stock in food_stock)  # lets say it is the total quantity of food in stock
 
-    # Convert dates to string format for JSON serialization
-    date_labels = [date.strftime('%Y-%m-%d') for date in dates]
+    monetary_donation = MonetaryDonation.objects.all()
 
-
+    start_date = datetime.datetime.now() - timedelta(days=30)  # Last 30 days
+    totalMonetaryDonation = MonetaryDonation.objects.filter(donation_date__gte=start_date).aggregate(Sum('donation_amount'))['donation_amount__sum'] or 0
     
     context = {
         'user_profile': Profile.objects.get(user = request.user),
@@ -155,8 +163,10 @@ def managerDashboard(request):
         'food_quantity': food_quantity,
         'dates': date_labels,
         'stock_series': stock_series,
-
-        
+        'food_donation': foodDonation,
+        'units': units,
+        'monetary_donation': monetary_donation,
+        'totalMonetaryDonation': totalMonetaryDonation,
     }
 
 
@@ -168,9 +178,15 @@ def confirmationPage(request):
     template = loader.get_template('confirmation_page.html')
     return HttpResponse(template.render())
 
+@login_required(login_url="login")
 def foodAidRequest(request):
-    template = loader.get_template('food_aid_request.html')
-    return HttpResponse(template.render())
+    # Fetch all food items grouped by food type
+    food_data = list(Food.objects.values('food_type', 'food_name', 'quantity'))  # Convert to list for JSON serialization
+
+    context = {
+        'food_data': food_data,  # Pass food data to the template
+    }
+    return render(request, 'food_aid_request.html', context)
 
 def foodDistributionPlanning(request):
     template = loader.get_template('food_distribution_planning.html')
@@ -180,9 +196,40 @@ def foodStockManagement(request):
     template = loader.get_template('food_stock_management.html')
     return HttpResponse(template.render())
 
+@login_required(login_url = "login")
 def monetaryDonation(request):
-    template = loader.get_template('monetary_donation.html')
-    return HttpResponse(template.render())
+    if request.method == 'POST':
+        # Example validation:
+        try:
+            donation_amount = Decimal(request.POST.get('donation_amount', '0'))
+        except InvalidOperation:
+            messages.error(request, "Invalid donation amount")
+            return redirect('monetaryDonation')
+
+        # Retrieve or create the Profile instance
+        profile, created = Profile.objects.get_or_create(user=request.user)
+
+        payment_method = request.POST.get('donation_method')
+
+        # Update existing donation or create a new one
+        md, created = MonetaryDonation.objects.get_or_create(
+            donor=profile,
+            defaults={
+                'donation_amount': donation_amount,
+                'payment_method': payment_method
+            }
+        )
+        if not created:
+            md.donation_amount += donation_amount
+            md.payment_method = payment_method  # Update payment method if needed
+            md.save()
+
+        return redirect('monetaryDonation')
+
+    
+    return render(request, 'monetary_donation.html')
+
+
 
 def notifications(request):
     template = loader.get_template('notifications.html')
@@ -200,18 +247,40 @@ def settings(request):
     template = loader.get_template('settings.html')
     return HttpResponse(template.render())
 
-@login_required(login_url = "login")
+@login_required(login_url="login")
 def stockMonitoring(request):
+    # Existing logic
     food = Food.objects.all()
-
     food_name = [name.food_name for name in food]
     food_quantity = [int(name.quantity) for name in food]
     food_items = zip(food_name, food_quantity)
+
+    # New logic for Stocktrends graph
+    food_requests = FoodAidRequest.objects.annotate(month=TruncMonth('request_date')).values('month', 'requested_items').annotate(total_quantity=Sum('requested_items')).order_by('month')
+
+    # Prepare data for the chart
+    monthly_data = defaultdict(lambda: defaultdict(int))
+    for request in food_requests:
+        month = request['month'].strftime('%Y-%m')  # Format month as 'YYYY-MM'
+        food_type = request['requested_items']
+        monthly_data[month][food_type] += request['total_quantity']
+
+    # Convert data to a format suitable for the chart
+    months = sorted(monthly_data.keys())
+    food_types = set()
+    for month_data in monthly_data.values():
+        food_types.update(month_data.keys())
+
+    chart_data = {food: [monthly_data[month].get(food, 0) for month in months] for food in food_types}
+
+    # Context for the template
     context = {
-        'user_profile': Profile.objects.get(user = request.user),
+        'user_profile': Profile.objects.get(user=request.user),
         'food_name': food_name,
         'food_quantity': food_quantity,
-        'food_items': food_items
+        'food_items': food_items,
+        'months': months,  # Add months for the chart
+        'chart_data': chart_data,  # Add chart data for the graph
     }
     return render(request, 'stock_monitoring.html', context)
 
@@ -227,6 +296,10 @@ def foodDonation(request):
         expiry_date = request.POST.get('expire-date')
         quantity = request.POST['quantity']
         storage_location = request.POST['storage-location']
+
+        #Create a food donation
+        new_foodDonation = FoodDonation.objects.create(donor = Profile.objects.get(user = request.user), food_type = food_type, quantity = int(quantity), expiry_date = expiry_date)
+        new_foodDonation.save()
 
         #Try to get the food name that already exists
         try:

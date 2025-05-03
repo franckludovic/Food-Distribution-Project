@@ -663,42 +663,32 @@
 
 <script>
     (function () {
-        const labels = ['January', 'February', 'March', 'April', 'May', 'June'];
+        const months = {{ months|safe }}; // e.g., ['2025-01', '2025-02', '2025-03']
+        const chartData = {{ chart_data|safe }}; // e.g., { 'Grains': [10, 20, 15], 'Fruits': [5, 10, 8] }
+        const colors = [
+            'rgba(75, 192, 192, 1)',
+            'rgba(255, 159, 64, 1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(153, 102, 255, 1)',
+            'rgba(255, 205, 86, 1)',
+            'rgba(201, 203, 207, 1)',
+        ];
 
+        // Prepare datasets for the chart
+        const datasets = Object.keys(chartData).map((foodType, index) => ({
+            label: foodType,
+            data: chartData[foodType],
+            borderColor: colors[index % colors.length],
+            backgroundColor: colors[index % colors.length].replace('1)', '0.2)'), // Transparent background
+            fill: true,
+        }));
+
+        // Create the chart
         new Chart("Stocktrends", {
             type: "line",
             data: {
-                labels: labels,
-                datasets: [
-                    {
-                        label: "Vegetables (kg)",
-                        data: [120, 150, 200, 170, 220, 250],
-                        borderColor: "rgba(75, 192, 192, 1)",
-                        backgroundColor: "rgba(75, 192, 192, 0.2)",
-                        fill: true,
-                    },
-                    {
-                        label: "Fruits(kg)",
-                        data: [600, 130, 180, 160, 200, 240],
-                        borderColor: "rgba(255, 159, 64, 1)",
-                        backgroundColor: "rgba(255, 159, 64, 0.2)",
-                        fill: true,
-                    },
-                    {
-                        label: "Cans(kg)",
-                        data: [300, 400, 500, 700, 800, 900],
-                        borderColor: "rgba(54, 162, 235, 1)",
-                        backgroundColor: "rgba(54, 162, 235, 0.2)",
-                        fill: true,
-                    },
-                    {
-                        label: "Grains(kg)",
-                        data: [900, 250, 500, 450, 810, 100],
-                        borderColor: "rgba(110, 65, 168, 1)",
-                        backgroundColor: "rgba(110, 65, 168, 0.2)",
-                        fill: true,
-                    }
-                ]
+                labels: months,
+                datasets: datasets,
             },
             options: {
                 responsive: true,
@@ -712,11 +702,11 @@
                     },
                     title: {
                         display: true,
-                        text: "Food Distribution Trends Over Time",
+                        text: "Food Requests Per Month",
                         font: {
-                            size: 12,
-                        }
-                    }
+                            size: 16,
+                        },
+                    },
                 },
                 scales: {
                     x: {
@@ -725,29 +715,29 @@
                             text: "Months",
                             font: {
                                 size: 14,
-                            }
+                            },
                         },
                         grid: {
                             display: true,
                             color: "rgba(200, 200, 200, 0.2)",
-                        }
+                        },
                     },
                     y: {
                         title: {
                             display: true,
-                            text: "Quantity Distributed (kg)",
+                            text: "Quantity Requested",
                             font: {
                                 size: 14,
-                            }
+                            },
                         },
                         grid: {
                             display: true,
                             color: "rgba(200, 200, 200, 0.2)",
                         },
                         beginAtZero: true,
-                    }
-                }
-            }
+                    },
+                },
+            },
         });
     })();
 </script>

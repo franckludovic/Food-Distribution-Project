@@ -2,7 +2,61 @@
 
 {% block stl %}
     <style>
+    .overlay-container {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
 
+.popup-box {
+    background: #fff;
+    padding: 24px;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+    width: 50%;
+    text-align: center;
+    opacity: 0;
+    transform: scale(0.8);
+    animation: fadeInUp 0.5s ease-out forwards;
+}
+
+.btn-close-popup {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 12px;
+    background-color: #e74c3c;
+    color: #fff;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Keyframes for fadeInUp animation */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Animation for popup */
+.overlay-container.show {
+    display: flex;
+    opacity: 1;
+}
     </style>
 {% endblock %}
 {% block title %}Manager Dashboard{% endblock %}
@@ -32,12 +86,12 @@
             </div>
             <h3 class="mb-0 h5 font-weight-bolder">Latest</h3>
             <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-            <div class="card">
+            <div class="card" onclick="toggleMonetaryPopup()">
                 <div class="card-header p-2 ps-3">
                 <div class="d-flex justify-content-between">
                     <div>
                     <p class="text-sm mb-0 text-capitalize">Monetary Donations</p>
-                    <h4 class="mb-0">$53k</h4>
+                    <h4 class="mb-0">{{totalMonetaryDonation}}</h4>
                     </div>
                     <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
                     <i class="material-symbols-rounded opacity-10">weekend</i>
@@ -51,12 +105,12 @@
             </div>
             </div>
             <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-            <div class="card">
+            <div class="card" onclick="togglePopup()">
                 <div class="card-header p-2 ps-3">
                 <div class="d-flex justify-content-between">
                     <div>
                     <p class="text-sm mb-0 text-capitalize">Stock Donations</p>
-                    <h4 class="mb-0">45 units</h4>
+                    <h4 class="mb-0">{{units}} units</h4>
                     </div>
                     <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
                     <i class="material-symbols-rounded opacity-10">person</i>
@@ -69,6 +123,8 @@
                 </div>
             </div>
             </div>
+            
+
             <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
             <div class="card">
                 <div class="card-header p-2 ps-3">
@@ -164,9 +220,62 @@
             </div>
           </div>
         </div>
+        
+      <!--Food Donation Table Part-->
+      <div id="popupOverlay" class="overlay-container">
+        <div class="popup-box">
+            <table style="border-collapse: separate; border-spacing: 30px;">
+                <thead>
+                    <tr>
+                        <th>Donor Name</th>
+                        <th>Food Type</th>
+                        <th>Quantity</th>
+                        <th>Expiry Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for donation in food_donation %}
+                        <tr>
+                            <td>{{donation.donor.user.username}}</td>
+                            <td>{{donation.food_type}}</td>
+                            <td>{{donation.quantity}}</td>
+                            <td>{{donation.expiry_date}}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <button class="btn-close-popup" onclick="togglePopup()">Close</button>
+        </div>
+    </div>
+
+    <div id="monetaryPopup" class="overlay-container">
       
+      <div class="popup-box">
+          <table style="border-collapse: separate; border-spacing: 30px;">
+              <thead>
+                  <tr>
+                      <th>Donor Name</th>
+                      <th>Donor amount</th>
+                      <th>Donor Method</th>
+                      
+                  </tr>
+              </thead>
+              <tbody>
+                  {% for donation in monetary_donation %}
+                      <tr>
+                          <td>{{donation.donor.user.username}}</td>
+                          <td>{{donation.donation_amount}}</td>
+                          <td>{{donation.payment_method}}</td>
+                      </tr>
+                  {% endfor %}
+              </tbody>
+          </table>
+          <button class="btn-close-popup" onclick="toggleMonetaryPopup()">Close</button>
+      </div>
+  </div>
 
-
+        <pre>{{ food_donation }}</pre>
+        <pre>{{ monetary_donation }}</pre>
 
         <script>
             (function(){
@@ -198,46 +307,82 @@
 
         <script>
           document.addEventListener('DOMContentLoaded', () => {
-              const dates = {{ dates|safe }};
-              const stockSeries = {{ stock_series|safe }};
-              const colors = ['red', 'green', 'blue', 'orange', 'brown', 'purple', 'cyan', 'magenta', 'yellow', 'black', 'gray', 'pink'];
+            const dates = {{ dates|safe }}; // e.g. ['2025-04-01', …]
+            const stockSeries = {{ stock_series|safe }}; // { 'grains': [..], 'canned': [..], … }
+            const colors = [
+              'red', 'green', 'blue', 'orange', 'brown', 'purple', 'cyan', 'magenta', 'yellow', 'black', 'gray', 'pink'
+            ];
 
-              const datasets = Object.keys(stockSeries).map((type, index) => ({
-                  label: type,
-                  data: stockSeries[type],
-                  borderColor: colors[index % colors.length],
-                  fill: false,
-                  tension: 0.1
-              }));
+            // Build one dataset per food type
+            const datasets = Object.keys(stockSeries).map((type, i) => ({
+              label: type,
+              data: stockSeries[type],
+              borderColor: colors[i % colors.length],
+              backgroundColor: colors[i % colors.length],
+              fill: false,
+              tension: 0.3
+            }));
 
-              const ctx = document.getElementById('stocktrends').getContext('2d');
-              new Chart(ctx, {
-                  type: 'line',
-                  data: {
-                      labels: dates,
-                      datasets: datasets
+            const ctx = document.getElementById('stocktrends').getContext('2d');
+            new Chart(ctx, {
+              type: 'line',
+              data: {
+                labels: dates,
+                datasets: datasets
+              },
+              options: {
+                responsive: true,
+                animation: {
+                  duration: 1000,
+                  easing: 'easeInOutQuad'
+                },
+                plugins: {
+                  legend: { display: true },
+                  title: {
+                    display: true,
+                    text: 'Food Type Trends Over Time'
                   },
-                  options: {
-                      responsive: true,
-                      plugins: {
-                          legend: {
-                              display: true
-                          },
-                          title: {
-                              display: true,
-                              text: 'Food Quantity Trends Over Time'
-                          }
-                      },
-                      scales: {
-                          y: {
-                              beginAtZero: true
-                          }
+                  tooltip: {
+                    enabled: true,
+                    callbacks: {
+                      label: function(context) {
+                        const label = context.dataset.label || '';
+                        const value = context.raw || 0;
+                        return `${label}: ${value} units`;
                       }
+                    }
                   }
-              });
+                },
+                scales: {
+                  x: {
+                    type: 'time',
+                    time: {
+                      parser: 'YYYY-MM-DD',
+                      unit: 'day',
+                      displayFormats: { day: 'MMM D' }
+                    },
+                    title: {
+                      display: true,
+                      text: 'Date'
+                    },
+                    grid: {
+                      color: 'rgba(200, 200, 200, 0.2)',
+                      drawBorder: false
+                    }
+                  },
+                  y: {
+                    beginAtZero: true,
+                    title: { display: true, text: 'Quantity' },
+                    grid: {
+                      color: 'rgba(200, 200, 200, 0.2)',
+                      drawBorder: false
+                    }
+                  }
+                }
+              }
+            });
           });
         </script>
-        
 
         <script>
             (function(){
@@ -298,30 +443,24 @@
             })();
         </script>
 
+<script>
+  //For food domination popup
+  function togglePopup() {
+    const overlay = document.getElementById('popupOverlay');
+    overlay.classList.toggle('show');
+}
+</script>
 
-        <!-- <script>
-            google.charts.load('current', {'packages':['corechart']});
-            google.charts.setOnLoadCallback(drawChart);
-            
-            function drawChart() {
-            const data = google.visualization.arrayToDataTable([
-              ['Contry', 'Mhl'],
-              ['Italy',54.8],
-              ['France',48.6],
-              ['Spain',44.4],
-              ['USA',23.9],
-              ['Argentina',14.5]
-            ]);
-            
-            const options = {
-              title:'World Wide Wine Production'
-            };
-            
-            const chart = new google.visualization.PieChart(document.getElementById('stockregion'));
-              chart.draw(data, options);
-            }
-            </script> -->
-            
+<script>
+  //For monetary popup
+  function toggleMonetaryPopup() {
+    const overlay = document.getElementById('monetaryPopup');
+    overlay.classList.toggle('show');
+}
+</script>
+
+
+      
 
 
 
