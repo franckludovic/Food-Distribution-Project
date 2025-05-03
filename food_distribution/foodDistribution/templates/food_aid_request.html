@@ -1,0 +1,276 @@
+{% extends "master.html" %}
+
+{% block stl %}
+<style>
+    body {
+        padding-left: 10%;
+        padding-right: 10%;
+    }
+
+    /* Page Header */
+    .page-header {
+        text-align: center;
+        margin: 5vh 0;
+    }
+
+    .page-header h1 {
+        font-size: 2.5rem;
+        color: #333;
+    }
+
+    .page-header p {
+        font-size: 1.2rem;
+        color: gray;
+    }
+
+    /* Form Section */
+    .form-container {
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 2rem;
+        max-width: 800px;
+        margin: 0 auto;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-container h2 {
+        text-align: center;
+        margin-bottom: 1.5rem;
+        color: #333;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+        display: block;
+        font-size: 1rem;
+        margin-bottom: 0.5rem;
+        color: #555;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        width: 100%;
+        padding: 0.8rem;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 1rem;
+    }
+
+    .form-group textarea {
+        resize: vertical;
+        height: 100px;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+        border-color: #000;
+        outline: none;
+    }
+
+    /* Submit Button */
+    .submit-button {
+        display: block;
+        width: 100%;
+        padding: 1rem;
+        background-color: #000;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        font-size: 1.2rem;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .submit-button:hover {
+        background-color: #333;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        body {
+            padding-left: 5%;
+            padding-right: 5%;
+        }
+
+        .page-header h1 {
+            font-size: 2rem;
+        }
+
+        .form-container {
+            padding: 1.5rem;
+        }
+
+        .submit-button {
+            font-size: 1rem;
+        }
+    }
+
+    .resource-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;
+        margin-top: 2rem;
+    }
+
+    .resource-card {
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 1rem;
+        text-align: center;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .resource-card h2 {
+        font-size: 1.2rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .resource-card p {
+        font-size: 1rem;
+        color: #555;
+    }
+
+    .resource-card button {
+        margin-top: 1rem;
+        padding: 0.5rem 1rem;
+        background-color: #000;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .resource-card button:hover {
+        background-color: #333;
+    }
+</style>
+{% endblock %}
+
+{% block title %}Food Aid Request{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Request Food Aid</h1>
+    <p>Fill out the form below to request food aid for yourself or your organization.</p>
+</div>
+
+<div class="form-container">
+    <h2>Food Aid Request Form</h2>
+    <form method="POST" action="">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="name">Your Name</label>
+            <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+        </div>
+
+        <div class="form-group">
+            <label for="email">Your Email</label>
+            <input type="email" id="email" name="email" placeholder="Enter your email address" required>
+        </div>
+
+        <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input type="text" id="phone" name="phone" placeholder="Enter your phone number" required>
+        </div>
+
+        <div class="form-group">
+            <label for="food-type">Food Type</label>
+            <select id="food-type" name="food_type" required>
+                <option value="" disabled selected>Select the type of food</option>
+                <option value="Frozen">Frozen</option>
+                <option value="Canned">Canned</option>
+                <option value="Dried">Dried</option> 
+                <option value="Baked">Baked</option>
+                <option value="Beverages">Beverages</option>
+                <option value="Snacks">Snacks</option>
+                <option value="Dairy">Dairy</option>
+                <option value="Meat">Meat</option>
+                <option value="Vegetables">Vegetables</option>
+                <option value="Fruits">Fruits</option>
+                <option value="Grains">Grains</option>
+                <option value="Spices">Spices</option>
+            </select>
+        </div>
+
+        <!-- Food Cards Section -->
+        <div id="food-cards-container" class="resource-grid" style="display: none;">
+            <!-- Cards will be dynamically inserted here -->
+        </div>
+
+        <div class="form-group">
+            <label for="quantity">Quantity Needed</label>
+            <input type="number" id="quantity" name="quantity" placeholder="Enter the quantity needed (e.g., 10 kg)" required>
+        </div>
+
+        <div class="form-group">
+            <label for="reason">Reason for Request</label>
+            <textarea id="reason" name="reason" placeholder="Explain why you need this food aid" required></textarea>
+        </div>
+
+        <button type="submit" class="submit-button">Submit Request</button>
+    </form>
+</div>
+
+<pre>{{ food_data|safe }}</pre>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Load the food data from the backend
+        const foodData = {{ food_data|safe }};
+        const foodTypeSelect = document.getElementById('food-type');
+        const foodCardsContainer = document.getElementById('food-cards-container');
+
+        // Listen for changes in the dropdown
+        foodTypeSelect.addEventListener('change', () => {
+            const selectedType = foodTypeSelect.value;
+
+            // Clear existing cards
+            foodCardsContainer.innerHTML = '';
+
+            // Filter food data by the selected type
+            const filteredFoods = foodData.filter(food => food.food_type === selectedType);
+
+            // Check if there are any foods for the selected type
+            if (filteredFoods.length === 0) {
+                foodCardsContainer.innerHTML = `<p>No foods available for the selected type.</p>`;
+                return;
+            }
+
+            // Generate cards for the filtered foods
+            filteredFoods.forEach(food => {
+                const card = document.createElement('article');
+                card.classList.add('resource-card');
+                card.innerHTML = `
+                    <h2>${food.food_name}</h2>
+                    <p>Available Quantity: ${food.quantity}</p>
+                    <button class="select-food-button" data-food-name="${food.food_name}">Select</button>
+                `;
+                foodCardsContainer.appendChild(card);
+            });
+
+            // Show the container
+            foodCardsContainer.style.display = 'grid';
+
+            // Add event listeners to the buttons
+            document.querySelectorAll('.select-food-button').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const foodName = e.target.getAttribute('data-food-name');
+                    const quantity = prompt(`Enter the quantity for ${foodName}:`);
+                    if (quantity) {
+                        alert(`You selected ${quantity} units of ${foodName}`);
+                        // You can send this data to the server or handle it as needed
+                    }
+                });
+            });
+        });
+    });
+</script>
+{% endblock %}

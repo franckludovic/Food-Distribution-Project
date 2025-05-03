@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.template import loader
 from django.db.models import Sum
+from django.db.models.functions import TruncMonth
 from .models import *
 
 def main(request):
@@ -177,9 +178,15 @@ def confirmationPage(request):
     template = loader.get_template('confirmation_page.html')
     return HttpResponse(template.render())
 
+@login_required(login_url="login")
 def foodAidRequest(request):
-    template = loader.get_template('food_aid_request.html')
-    return HttpResponse(template.render())
+    # Fetch all food items grouped by food type
+    food_data = list(Food.objects.values('food_type', 'food_name', 'quantity'))  # Convert to list for JSON serialization
+
+    context = {
+        'food_data': food_data,  # Pass food data to the template
+    }
+    return render(request, 'food_aid_request.html', context)
 
 def foodDistributionPlanning(request):
     template = loader.get_template('food_distribution_planning.html')
@@ -240,18 +247,40 @@ def settings(request):
     template = loader.get_template('settings.html')
     return HttpResponse(template.render())
 
-@login_required(login_url = "login")
+@login_required(login_url="login")
 def stockMonitoring(request):
+    # Existing logic
     food = Food.objects.all()
-
     food_name = [name.food_name for name in food]
     food_quantity = [int(name.quantity) for name in food]
     food_items = zip(food_name, food_quantity)
+
+    # New logic for Stocktrends graph
+    food_requests = FoodAidRequest.objects.annotate(month=TruncMonth('request_date')).values('month', 'requested_items').annotate(total_quantity=Sum('requested_items')).order_by('month')
+
+    # Prepare data for the chart
+    monthly_data = defaultdict(lambda: defaultdict(int))
+    for request in food_requests:
+        month = request['month'].strftime('%Y-%m')  # Format month as 'YYYY-MM'
+        food_type = request['requested_items']
+        monthly_data[month][food_type] += request['total_quantity']
+
+    # Convert data to a format suitable for the chart
+    months = sorted(monthly_data.keys())
+    food_types = set()
+    for month_data in monthly_data.values():
+        food_types.update(month_data.keys())
+
+    chart_data = {food: [monthly_data[month].get(food, 0) for month in months] for food in food_types}
+
+    # Context for the template
     context = {
-        'user_profile': Profile.objects.get(user = request.user),
+        'user_profile': Profile.objects.get(user=request.user),
         'food_name': food_name,
         'food_quantity': food_quantity,
-        'food_items': food_items
+        'food_items': food_items,
+        'months': months,  # Add months for the chart
+        'chart_data': chart_data,  # Add chart data for the graph
     }
     return render(request, 'stock_monitoring.html', context)
 
