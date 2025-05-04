@@ -12,6 +12,14 @@ from django.db.models import Sum
 from django.db.models.functions import TruncMonth
 from django.urls import reverse
 from .models import *
+import json
+from decimal import Decimal, InvalidOperation
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.urls import reverse
+from .models import Profile, Food, FoodAidRequest, MonetaryDonation
+
 
 def main(request):
     template = loader.get_template('main.html')
@@ -180,11 +188,6 @@ def confirmationPage(request):
     template = loader.get_template('confirmation_page.html')
     return HttpResponse(template.render())
 
-@login_required
-def foodAidRequest(request):
-   
-    
-    return render(request, 'food_aid_request.html')
 
 @login_required(login_url = "login")
 def monetaryDonation(request):
@@ -319,6 +322,100 @@ def foodDonation(request):
     else:
         return render(request, 'Food_Donation.html')
 
+
+@login_required(login_url='login')
+def monetaryDonation(request):
+    if request.method == 'POST':
+        try:
+            donation_amount = Decimal(request.POST.get('donation_amount', '0'))
+        except InvalidOperation:
+            messages.error(request, "Invalid donation amount")
+            return redirect('monetaryDonation')
+
+        profile, _ = Profile.objects.get_or_create(user=request.user)
+        payment_method = request.POST.get('donation_method')
+
+        md, created = MonetaryDonation.objects.get_or_create(
+            donor=profile,
+            defaults={
+                'donation_amount': donation_amount,
+                'payment_method': payment_method,
+            }
+        )
+        if not created:
+            md.donation_amount += donation_amount
+            md.payment_method = payment_method
+            md.save()
+        return redirect('monetaryDonation')
+
+    return render(request, 'monetary_donation.html')
+
+@login_required(login_url='login')
+def foodAidRequest(request):
+
+    # Ensure profile exists
+    profile, _ = Profile.objects.get_or_create(user=request.user)
+
+    # Prepare food items for template
+    foods_qs = Food.objects.all().order_by('food_name')
+    foods = []
+    for f in foods_qs:
+        foods.append({
+            'id': f.food_id,
+            'name': f.food_name,
+            'type': f.food_type,
+            # quantity shown but not enforced here
+            'stock': float(f.quantity),
+        })
+
+    if request.method == 'POST':
+        raw = request.POST.get('requested_items', '[]')
+        urgency = request.POST.get('urgency', 'low')
+        try:
+            selections = json.loads(raw)
+        except json.JSONDecodeError:
+            messages.error(request, 'Invalid selection data')
+            return redirect('request_food')
+
+        # Validate selections check weither there is the requested food, quantity, in the stock
+        valid = True
+        for sel in selections:
+            if ('id' not in sel or 'qty' not in sel or 'urgency' not in sel):
+                valid = False
+                break
+            if sel['qty'] < 1:
+                valid = False
+                break
+        if not selections:
+            valid = False
+        if not valid:
+            messages.error(request, 'Please select valid items with quantity.')
+            return redirect('foodAidRequest')
+
+        
+        FoodAidRequest.objects.create(
+            beneficiary=profile,
+            requested_items=json.dumps(selections),
+            urgency=urgency
+        )
+        return redirect('foodAidRequest')
+    context = {
+        'food_items': foods,
+        'food_items_json': json.dumps(foods),
+    }
+
+    return render(request, 'food_aid_request.html', context)
+
+@login_required(login_url='login')
+def request_food_confirmation(request):
+    return render(request, 'food_request_confirmation.html')
+
+@login_required(login_url='login')
 def foodDistributionPlanning(request):
     template = loader.get_template('food_distribution_planning.html')
+    return HttpResponse(template.render())
+
+@login_required(login_url='login')
+def foodStockManagement(request):
+    template = loader.get_template('food_stock_management.html')
     return HttpResponse(template.render())
