@@ -1,0 +1,136 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Distribution Planning</title>
+    <style>
+    .container {
+        width: 100%;
+        height: 100vh;
+    }
+
+    /* FIRST SECTION*/
+    .first-section {
+        width: 100%;
+        height: 40%;
+        align-content: center;
+        border-bottom: 1px solid black ;
+    }
+
+    .map {
+        width: 80%;
+        height: 80%;
+        margin-left: 10%;
+        background-color: rgb(145, 145, 145);
+    }
+    /*-------------------------*/
+
+    /* SECOND SECTION*/
+    .second-section {
+        border-bottom: 1px solid black ;
+        width: 100%;
+        max-height: 30%;
+        overflow-y: auto;
+        margin: 0 auto;
+    }
+
+    table {
+        width: 100%;
+    }
+    
+    tr {
+        text-align: center;
+    }
+    /*-------------------------*/
+
+    /* THIRD SECTION*/
+    .third-section {
+        border-bottom: 1px solid black ;
+        width: 100%;
+        height: 50%;
+    }
+
+    .main-text {
+        text-align: center;
+    }
+
+    .input-area {
+        display: flex;
+        flex-direction: row;
+        margin: 0 auto;
+    }
+
+    .text-input {
+        margin: 0 auto;
+    }
+
+    .route-generation-btn {
+        background-color: black;
+        color: white;
+        border: none;
+        padding: 7px 30px;
+        border-radius: 7px;
+        display: block;
+        margin: 3% auto;
+    }
+    /*-------------------------*/
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!--SECTION 1-->
+        <div class="first-section">
+            <div class="map"></div>
+        </div>
+        <!--END OF SECTION 1-->
+
+        <!--SECTION 2-->
+        <div class="second-section">
+            <table>
+                <thead>
+                    <th>Name</th>
+                    <th>Skills</th>
+                    <th>Intervention Area</th>
+                    <th>Available</th>
+                    <th></th>
+                </thead>
+                <tbody>
+                    {% for volunteer in volunteers %}
+                    <tr>
+                        <td>{{volunteer.user.user.username}}</td>
+                        <td>{{volunteer.skills}}</td>
+                        <td>{{volunteer.intervention_area}}</td>
+                        <td>{{volunteer.availability}}</td>
+                        <td hidden>{{volunteer.user.user.id}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <!--END OF SECTION 2-->
+
+        <!--SECTION 3-->
+        <div class="third-section">
+            <h1 class="main-text">Plan Route</h1>
+            <p class="main-text">Plan the distribution route</p>
+
+            <div class="input-area">
+                <div class="text-input">
+                    <p>Starting Point</p>
+                    <input type="text" placeholder="Enter Starting Point">
+                </div>
+                <div class="text-input">
+                    <p>Ending Point</p>
+                    <input type="text" placeholder="Enter Ending Point">
+                </div>
+            </div>
+
+            <button class="route-generation-btn">Generate Route</button>
+        </div>
+        <!--END OF SECTION 3-->
+
+    </div>
+</body>
+</html>
