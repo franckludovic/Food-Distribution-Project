@@ -124,26 +124,8 @@
             </div>
             </div>
             
-
-            <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-            <div class="card">
-                <div class="card-header p-2 ps-3">
-                <div class="d-flex justify-content-between">
-                    <div>
-                    <p class="text-sm mb-0 text-capitalize">Request</p>
-                    <h4 class="mb-0">Martin Luther</h4>
-                    </div>
-                    <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
-                    <i class="material-symbols-rounded opacity-10">leaderboard</i>
-                    </div>
-                </div>
-                </div>
-                <hr class="dark horizontal my-0">
-                <div class="card-footer p-2 ps-3">
-                <p class="mb-0 text-sm"><span class="text-success font-weight-bolder">45</span> <span class="font-weight-bolder">Units</span> Rice</p>
-                </div>
-            </div>
-            </div>
+            <!-- start table -->
+          
             <div class="col-xl-3 col-sm-6">
             <div class="card">
                 <div class="card-header p-2 ps-3">
@@ -220,6 +202,82 @@
             </div>
           </div>
         </div>
+
+
+        
+
+        <!-- Start table -->
+
+        <div class="row">
+          <div class="col-12">
+            <div class="card my-4">
+              <!-- Header -->
+              <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                <div class="bg-gradient-dark shadow-dark border-radius-lg pt-4 pb-3">
+                  <h6 class="text-white text-capitalize ps-3">Food Aid Requests</h6>
+                </div>
+              </div>
+        
+              <!-- Body / Table -->
+              <div class="card-body px-0 pb-2">
+                <div class="table-responsive p-0">
+                  <p class="text-end mb-2">Total Food Aid Requests: {{ totalFoodAidRequest }}</p>
+                  <table class="table align-items-center mb-0">
+                    <thead>
+                      <tr>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Beneficiary</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Date Submitted</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Urgency</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Items Summary</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Status</th>
+                        <th class="text-secondary opacity-7">&nbsp;</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for request in foodAidList %}
+                      <tr>
+                        <td><p class="text-sm mb-0">{{ request.beneficiary.user.username }}</p></td>
+                        <td><p class="text-sm mb-0">{{ request.request_date|date:"Y-m-d H:i" }}</p></td>
+                        <td>
+                          <span class="badge 
+                            {% if request.urgency == 'high' %} bg-gradient-danger
+                            {% elif request.urgency == 'medium' %} bg-gradient-warning
+                            {% else %} bg-gradient-secondary{% endif %}
+                            text-xs">
+                            {{ request.get_urgency_display }}
+                          </span>
+                        </td>
+                        <td>
+                          <p class="text-sm mb-0">
+                            {% for item in request.requested_items %}
+                              {{ item.name }}{% if not forloop.last %}, {% endif %}
+                            {% empty %}
+                              —  
+                            {% endfor %}
+                          </p>
+                        </td>
+                        <td>
+                          <span class="text-xs font-weight-bold 
+                            {% if request.status == 'pending' %}text-info
+                            {% elif request.status == 'approved' %}text-success
+                            {% else %}text-secondary{% endif %}">
+                            {{ request.status|capfirst }}
+                          </span>
+                        </td>
+                        <td class="align-middle">
+                          <button class="btn btn-sm btn-primary">View Details</button>
+                        </td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              
+
+      <!-- end Table -->
+
+
         
       <!--Food Donation Table Part-->
       <div id="popupOverlay" class="overlay-container">
@@ -274,8 +332,6 @@
       </div>
   </div>
 
-        <pre>{{ food_donation }}</pre>
-        <pre>{{ monetary_donation }}</pre>
 
         <script>
             (function(){

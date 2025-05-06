@@ -22,7 +22,7 @@
             justify-content: center;
             text-align: center;
             flex-direction: column;
-            height: 40vh;
+            height: 20vh;
             width: 100%;
             border-radius: 8px;
             background-color: gray;
@@ -30,7 +30,7 @@
 
         .request-confirmation h1 {
             text-align: center;
-            font-size: 2.5rem;
+            font-size: 2rem;
             width: 50%;
         }
 
@@ -38,7 +38,7 @@
             text-align: center;
             width: 50%;
             color: #141414;
-            margin-bottom: 2rem;
+            margin-bottom: 1rem;
         }
 
                 
@@ -47,7 +47,6 @@
             .request-confirmation h1 {
                 font-size: 1.6rem;
                 width: 70%;
-                font-size: 2rem;
             }
         
         }
@@ -73,7 +72,7 @@
         
         .details-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 3rem; 
             row-gap: 1rem;
             justify-items: center; 
@@ -100,7 +99,7 @@
         
         .detail-img {
             flex: 0 0 80px;          
-            height: 90px;
+            height: 80px;
             background-color: #eee;
             border: 1px dashed #ccc;
             border-radius: 4px;
@@ -115,13 +114,13 @@
 
         
         .detail-text h3 {
-            font-size: 1.2rem;
+            font-size: 1rem;
             margin-top: 0px;
             margin-bottom: 0.5rem;
         }
 
         .detail-text p {
-            font-size: 1rem;
+            font-size: 0.8rem;
             color: #666;
             margin-top: 0.2rem;
             margin-bottom: 0px;
@@ -173,6 +172,8 @@
             line-height: 1.5;
             color: #666;
         }
+
+      
 
         .profile-image{
             width: 7rem;
@@ -363,100 +364,9 @@
             }
             
         }
+
+
     
-    /*-------------Row5-----------------*/
-
-        .review-container {
-            max-width: 100%;
-            display: flex;
-            flex-direction: row;
-            margin: 0 auto;
-            padding: 20px;
-            justify-content: space-between;
-            text-align: center;
-        }
-
-        /* Heading and subheading */
-        .review-container h1 {
-            
-            font-size: 3rem;
-        }
-
-        .review-container p {
-            
-            line-height: 1.5;
-        }
-
-        
-        .cards-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;
-        }
-
-        /* Individual card styles */
-        .review-card {
-            background-color: #ffffff;
-            border-radius: 10%;
-            width: 180px;
-            padding: 20px;
-            border: 2px solid gray;
-            text-align: center;
-        }
-
-        .review-card img {
-            max-width: 60px;
-            margin-bottom: 15px;
-        }
-
-        .review-card h2 {
-            font-size: 1.25rem;
-            margin-bottom: 10px;
-        }
-
-        .review-card p {
-            font-size: 1rem;
-            color: #666;
-        }
-
-        /* Responsive breakpoints */
-        @media (max-width: 768px) {
-
-            .review-container{
-                flex-direction: column;
-            }
-
-            .review-card {
-                width: 45%;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .review-card {
-                width: 100%;
-            }
-        }
-
-
-    /* ------------row 6--------------- */
-
-    .row6 {
-        display: flex;
-        width: 100%;
-        background-color: rgb(155, 153, 153);
-        justify-content: center;  
-        align-items: center;      
-        text-align: center;
-        height: 30vh;
-        border-radius: 10px;
-        margin-bottom: 3rem;
-    }
-
-    .row5 p {
-        font-size: 1rem;
-    }
-
    /*------------row7--------------*/
     .fonter-container{
             margin: 20px;
@@ -499,10 +409,37 @@
     <div class="Row1">
 
         <section class="request-confirmation">
-            <h1>Request Confirmation</h1>
-            <p>Details of your food request and confirmation message.</p>
+            <h1>Request Confirmation page</h1>
+            <p>Details of beneficiaries food request and confirmation.</p>
           </section>
         
+
+    </div>
+
+    
+    <div class="Row3">
+
+        <div class="profile_container">
+            <div class="profile-section">
+
+                <div class="profile-image">
+                
+                   
+
+                </div>
+              <div class="profile-text">
+                <h2>Beneficiary Name</h2>
+                <Span class="userInfo">
+                    <p>Number of Dependent: </p>
+                    <p>Specific Needs: </p>
+                    <p>Location : </p>
+                    <p>Region : </p>
+                </Span>
+                
+              </div>
+              
+            </div>
+          </div>
 
     </div>
 
@@ -519,6 +456,8 @@
                 <div class="detail-img">Image Placeholder</div>
                 <div class="detail-text">
                   <h3>Food Info :</h3>
+                
+                
                   <p>Bread</p>
                   <p>10 loaves</p>
                   <p>12-05-2025</p>
@@ -570,7 +509,6 @@
                   <p>12-05-2025</p>
                 </div>
               </div>
-        
             </div>
           </section>
 
@@ -579,26 +517,6 @@
 
     <!-- --------------Row3------------- -->
 
-    <div class="Row3">
-
-        <div class="profile_container">
-            <div class="profile-section">
-
-                <div class="profile-image">
-                
-                   
-
-                </div>
-
-              <div class="profile-text">
-                <h2>Beneficiary Name</h2>
-                <p>Your request has been successfully submitted. We'll notify you once it's approved.</p>
-              </div>
-              
-            </div>
-          </div>
-
-    </div>
 
 
     <div class="row4">
@@ -639,71 +557,17 @@
                 </div>
                 
             </div>
-
-
-
             
             <div class="submit_buttons">
                 <button class="back-button">Cancel</button>
                 <button class="save-button">Submit</button>
             </div>
-
-
               
         </div>
-
 
     </div> 
 
 
-    <!-- --------------------Row5 --------------->
-    <div class="Row5">
-
-        <div class="review-container">
-
-            <div>
-                <h1>Food Request</h1>
-                <p>Please review your food request details</p>
-            </div>
-
-            <div class="cards-container ">
-
-              <!-- Card 1 -->
-              <div class="review-card">
-                <img src="{% static 'home_images/vegetables.png' %}" alt="Fresh Vegetables" class="resource-image" />
-                <h2>Food Items</h2>
-                <p>Rice, Bread, Vegetables</p>
-              </div>
-        
-              <!-- Card 2 -->
-              <div class="review-card">
-                <img src="{% static 'home_images/rize.png' %}"alt="Rice" class="resource-image" />
-                <h2>Quantity</h2>
-                <p>5kg, 10 loaves, 2kg</p>
-              </div>
-        
-              <!-- Card 3 -->
-              <div class="review-card">
-                <img src="{% static 'home_images/cans.png' %}" alt="Canned Beans" class="resource-image" />
-                <h2>Expected Delivery</h2>
-                <p>16th March 2023</p>
-              </div>
-
-            </div>
-            
-          </div>
-
-        
-
-    </div>
-
-
-   <!------------- Row 6------------->
-    <div class="row6">
-
-        <p>Thank you for your request. Your well-being matters to us.</p>
-
-    </div>
 
 
     <!-- --------------Row7---------- -->

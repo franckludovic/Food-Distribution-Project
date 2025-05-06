@@ -48,11 +48,25 @@ class Food(models.Model):
         return self.food_name
 
 class BeneficiaryProfile(models.Model):
+    REGION_CHOICES = (
+        ('adamawa', 'Adamawa'),
+        ('centre', 'Centre'),
+        ('east', 'East'),
+        ('far_north', 'Far North'),
+        ('littoral', 'Littoral'),
+        ('north', 'North'),
+        ('south', 'South'),
+        ('south_west', 'South-West'),
+        ('west', 'West'),
+        ('north_west', 'North-West'),
+    )
+
     user = models.OneToOneField(Profile, on_delete=models.CASCADE, related_name='beneficiary_profile')
     number_of_dependents = models.IntegerField(default=0)
     specific_needs = models.TextField(blank=True, null=True)
-    location = models.CharField(max_length=255)
-    
+    location = models.CharField(max_length=255) 
+    region = models.CharField(max_length=50, choices=REGION_CHOICES, default='littoral')  
+
     def __str__(self):
         return f"{self.user.user.username} BeneficiaryProfile"
 

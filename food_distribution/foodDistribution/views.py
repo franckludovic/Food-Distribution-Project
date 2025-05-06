@@ -167,6 +167,19 @@ def managerDashboard(request):
     start_date = datetime.datetime.now() - timedelta(days=30)  # Last 30 days
     totalMonetaryDonation = MonetaryDonation.objects.filter(donation_date__gte=start_date).aggregate(Sum('donation_amount'))['donation_amount__sum'] or 0
     
+    foodAidRequest = FoodAidRequest.objects.all()
+    foodAidList= foodAidRequest.exclude(status='fulfilled').order_by('-request_date')
+    totalFoodAidRequest = len(foodAidList)
+
+    for req in foodAidList:                  # renamed from `for request in …`
+        try:
+            req.requested_items = json.loads(req.requested_items)
+        except json.JSONDecodeError:
+            req.requested_items = []
+
+ 
+
+   
     context = {
         'user_profile': Profile.objects.get(user = request.user),
         'food_types': food_types,
@@ -177,6 +190,9 @@ def managerDashboard(request):
         'units': units,
         'monetary_donation': monetary_donation,
         'totalMonetaryDonation': totalMonetaryDonation,
+        'foodAidRequest': foodAidRequest,
+        'foodAidList': foodAidList,
+        'totalFoodAidRequest': totalFoodAidRequest,
     }
 
 
@@ -364,7 +380,6 @@ def foodAidRequest(request):
             'id': f.food_id,
             'name': f.food_name,
             'type': f.food_type,
-            # quantity shown but not enforced here
             'stock': float(f.quantity),
         })
 
@@ -407,8 +422,9 @@ def foodAidRequest(request):
     return render(request, 'food_aid_request.html', context)
 
 @login_required(login_url='login')
-def request_food_confirmation(request):
-    return render(request, 'food_request_confirmation.html')
+def confirmationPage(request):
+    template = loader.get_template('confirmation_page.html')
+    return HttpResponse(template.render())
 
 @login_required(login_url='login')
 def foodDistributionPlanning(request):
