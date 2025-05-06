@@ -412,8 +412,12 @@ def request_food_confirmation(request):
 
 @login_required(login_url='login')
 def foodDistributionPlanning(request):
-    template = loader.get_template('food_distribution_planning.html')
-    return HttpResponse(template.render())
+    volunteers = VolunteerProfile.objects.all()
+
+    context = {
+        'volunteers': volunteers,
+    }
+    return render(request, 'food_distribution_planning.html', context)
 
 @login_required(login_url='login')
 def foodStockManagement(request):
