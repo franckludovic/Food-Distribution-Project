@@ -189,8 +189,19 @@ def foodAidRequest(request):
     return render(request, 'food_aid_request.html', context)
 
 def foodDistributionPlanning(request):
-    template = loader.get_template('food_distribution_planning.html')
-    return HttpResponse(template.render())
+    volunteers = VolunteerProfile.objects.all()
+    names = [name.user.user.username for name in volunteers]
+    skills = [skill.skills for skill in volunteers]
+    areas = [area.intervention_area for area in volunteers]
+    availables = [available.availability for available in volunteers]
+    context = {
+        'names': names,
+        'skills': skills,
+        'areas': areas,
+        'availables': availables,
+        'volunteers': volunteers,
+    }
+    return render(request, 'food_distribution_planning.html', context)
 
 def foodStockManagement(request):
     template = loader.get_template('food_stock_management.html')
