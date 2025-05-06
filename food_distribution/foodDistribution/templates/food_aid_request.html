@@ -1,276 +1,236 @@
-{% extends "master.html" %}
-
-{% block stl %}
-<style>
+<!-- templates/food_request.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Food Request</title>
+  <style>
+    /* Base Styles */
     body {
-        padding-left: 10%;
-        padding-right: 10%;
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+      margin: 0;
+      padding: 1rem;
+      color: #333;
     }
-
-    /* Page Header */
-    .page-header {
-        text-align: center;
-        margin: 5vh 0;
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: #f9f9f9;
+      padding: 1rem;
     }
-
-    .page-header h1 {
-        font-size: 2.5rem;
-        color: #333;
+    h1 {
+      text-align: center;
+      margin-bottom: 1rem;
     }
-
-    .page-header p {
-        font-size: 1.2rem;
-        color: gray;
+    /* Urgency Radios */
+    #urgency-fieldset {
+      border: 1px solid #ccc;
+      padding: 0.5rem;
+      margin-bottom: 1rem;
     }
-
-    /* Form Section */
-    .form-container {
-        background-color: #fff;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        padding: 2rem;
-        max-width: 800px;
-        margin: 0 auto;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    #urgency-fieldset legend {
+      font-weight: bold;
     }
-
-    .form-container h2 {
-        text-align: center;
-        margin-bottom: 1.5rem;
-        color: #333;
+    #urgency-fieldset label {
+      margin-right: 1rem;
+      cursor: pointer;
+      font-size: 0.9rem;
     }
-
-    .form-group {
-        margin-bottom: 1.5rem;
+    /* Search Bar */
+    #search-input {
+      width: 100%;
+      padding: 0.5rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 0.9rem;
+      box-sizing: border-box;
     }
-
-    .form-group label {
-        display: block;
-        font-size: 1rem;
-        margin-bottom: 0.5rem;
-        color: #555;
+    /* Table Container */
+    .table-container {
+      max-height: 40vh;
+      overflow-y: auto;
+      margin-bottom: 1rem;
     }
-
-    .form-group input,
-    .form-group select,
-    .form-group textarea {
-        width: 100%;
-        padding: 0.8rem;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        font-size: 1rem;
+    /* Table */
+    .food-table {
+      width: 100%;
+      border-collapse: collapse;
     }
-
-    .form-group textarea {
-        resize: vertical;
-        height: 100px;
+    .food-table th,
+    .food-table td {
+      border: 1px solid #ddd;
+      padding: 0.5rem;
+      font-size: 0.9rem;
+      text-align: left;
     }
-
-    .form-group input:focus,
-    .form-group select:focus,
-    .form-group textarea:focus {
-        border-color: #000;
-        outline: none;
+    .food-table th {
+      background: #e9e9e9;
+      position: sticky;
+      top: 0;
     }
-
+    .food-table input[type="number"] {
+      width: 60px;
+      padding: 0.2rem;
+      font-size: 0.9rem;
+    }
+    .request-btn {
+      padding: 0.3rem 0.6rem;
+      border: none;
+      background: #28a745;
+      color: #fff;
+      cursor: pointer;
+      border-radius: 3px;
+      font-size: 0.8rem;
+    }
+    /* Cards (Selections) */
+    .cards {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+    .card {
+      background: #fff;
+      border: 1px solid #ddd;
+      padding: 0.4rem 0.6rem;
+      font-size: 0.85rem;
+      position: relative;
+      border-radius: 3px;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .remove-card {
+      background: none;
+      border: none;
+      color: #c00;
+      font-weight: bold;
+      cursor: pointer;
+      margin-left: auto;
+    }
     /* Submit Button */
-    .submit-button {
-        display: block;
-        width: 100%;
-        padding: 1rem;
-        background-color: #000;
-        color: #fff;
-        border: none;
-        border-radius: 4px;
-        font-size: 1.2rem;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
+    #submit-btn {
+      width: 100%;
+      padding: 0.6rem;
+      background: #007bff;
+      color: #fff;
+      border: none;
+      font-size: 1rem;
+      cursor: pointer;
+      border-radius: 4px;
     }
-
-    .submit-button:hover {
-        background-color: #333;
-    }
-
-    /* Responsive Design */
-    @media (max-width: 768px) {
-        body {
-            padding-left: 5%;
-            padding-right: 5%;
-        }
-
-        .page-header h1 {
-            font-size: 2rem;
-        }
-
-        .form-container {
-            padding: 1.5rem;
-        }
-
-        .submit-button {
-            font-size: 1rem;
-        }
-    }
-
-    .resource-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 1.5rem;
-        margin-top: 2rem;
-    }
-
-    .resource-card {
-        background-color: #fff;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        padding: 1rem;
-        text-align: center;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
-
-    .resource-card h2 {
-        font-size: 1.2rem;
-        margin-bottom: 0.5rem;
-    }
-
-    .resource-card p {
-        font-size: 1rem;
-        color: #555;
-    }
-
-    .resource-card button {
-        margin-top: 1rem;
-        padding: 0.5rem 1rem;
-        background-color: #000;
-        color: #fff;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-    }
-
-    .resource-card button:hover {
-        background-color: #333;
-    }
-</style>
-{% endblock %}
-
-{% block title %}Food Aid Request{% endblock %}
-
-{% block content %}
-<div class="page-header">
-    <h1>Request Food Aid</h1>
-    <p>Fill out the form below to request food aid for yourself or your organization.</p>
-</div>
-
-<div class="form-container">
-    <h2>Food Aid Request Form</h2>
-    <form method="POST" action="">
-        {% csrf_token %}
-        <div class="form-group">
-            <label for="name">Your Name</label>
-            <input type="text" id="name" name="name" placeholder="Enter your full name" required>
-        </div>
-
-        <div class="form-group">
-            <label for="email">Your Email</label>
-            <input type="email" id="email" name="email" placeholder="Enter your email address" required>
-        </div>
-
-        <div class="form-group">
-            <label for="phone">Phone Number</label>
-            <input type="text" id="phone" name="phone" placeholder="Enter your phone number" required>
-        </div>
-
-        <div class="form-group">
-            <label for="food-type">Food Type</label>
-            <select id="food-type" name="food_type" required>
-                <option value="" disabled selected>Select the type of food</option>
-                <option value="Frozen">Frozen</option>
-                <option value="Canned">Canned</option>
-                <option value="Dried">Dried</option> 
-                <option value="Baked">Baked</option>
-                <option value="Beverages">Beverages</option>
-                <option value="Snacks">Snacks</option>
-                <option value="Dairy">Dairy</option>
-                <option value="Meat">Meat</option>
-                <option value="Vegetables">Vegetables</option>
-                <option value="Fruits">Fruits</option>
-                <option value="Grains">Grains</option>
-                <option value="Spices">Spices</option>
-            </select>
-        </div>
-
-        <!-- Food Cards Section -->
-        <div id="food-cards-container" class="resource-grid" style="display: none;">
-            <!-- Cards will be dynamically inserted here -->
-        </div>
-
-        <div class="form-group">
-            <label for="quantity">Quantity Needed</label>
-            <input type="number" id="quantity" name="quantity" placeholder="Enter the quantity needed (e.g., 10 kg)" required>
-        </div>
-
-        <div class="form-group">
-            <label for="reason">Reason for Request</label>
-            <textarea id="reason" name="reason" placeholder="Explain why you need this food aid" required></textarea>
-        </div>
-
-        <button type="submit" class="submit-button">Submit Request</button>
-    </form>
-</div>
-
-<pre>{{ food_data|safe }}</pre>
-
-<script>
+  </style>
+</head>
+<body>
+  <form id="request-form" method="post" action="">
+    {% csrf_token %}
+    <div class="container">
+      <h1>Food Aid Request</h1>
+      <!-- Urgency -->
+      <fieldset id="urgency-fieldset">
+        <legend>Urgency</legend>
+        <label><input type="radio" name="urgency" value="low" checked> Low</label>
+        <label><input type="radio" name="urgency" value="medium"> Medium</label>
+        <label><input type="radio" name="urgency" value="high"> High</label>
+      </fieldset>
+      <!-- Search -->
+      <input type="text" id="search-input" placeholder="Search by name or type">
+      <!-- Table -->
+      <div class="table-container">
+        <table class="food-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Quantity</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="food-table-body">
+            {% for item in food_items %}
+            <tr data-index="{{ forloop.counter0 }}">
+              <td class="name">{{ item.name }}</td>
+              <td class="type">{{ item.type }}</td>
+              <td><input type="number" class="qty-input" min="1" placeholder="0"></td>
+              <td><button type="button" class="request-btn" data-index="{{ forloop.counter0 }}">Select</button></td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <!-- Selected Cards -->
+      <div id="selected-container" class="cards"></div>
+      <!-- Hidden field -->
+      <input type="hidden" name="requested_items" id="requested-items-input">
+      <!-- Submit -->
+      <button type="submit" id="submit-btn">Submit Request</button>
+    </div>
+  </form>
+  <script>
     document.addEventListener('DOMContentLoaded', () => {
-        // Load the food data from the backend
-        const foodData = {{ food_data|safe }};
-        const foodTypeSelect = document.getElementById('food-type');
-        const foodCardsContainer = document.getElementById('food-cards-container');
+      const foodItems = JSON.parse('{{ food_items_json|escapejs }}');
+      const tableBody = document.getElementById('food-table-body');
+      const selectedContainer = document.getElementById('selected-container');
+      const requestForm = document.getElementById('request-form');
+      const requestedItemsInput = document.getElementById('requested-items-input');
+      const searchInput = document.getElementById('search-input');
+      let selections = [];
 
-        // Listen for changes in the dropdown
-        foodTypeSelect.addEventListener('change', () => {
-            const selectedType = foodTypeSelect.value;
-
-            // Clear existing cards
-            foodCardsContainer.innerHTML = '';
-
-            // Filter food data by the selected type
-            const filteredFoods = foodData.filter(food => food.food_type === selectedType);
-
-            // Check if there are any foods for the selected type
-            if (filteredFoods.length === 0) {
-                foodCardsContainer.innerHTML = `<p>No foods available for the selected type.</p>`;
-                return;
-            }
-
-            // Generate cards for the filtered foods
-            filteredFoods.forEach(food => {
-                const card = document.createElement('article');
-                card.classList.add('resource-card');
-                card.innerHTML = `
-                    <h2>${food.food_name}</h2>
-                    <p>Available Quantity: ${food.quantity}</p>
-                    <button class="select-food-button" data-food-name="${food.food_name}">Select</button>
-                `;
-                foodCardsContainer.appendChild(card);
-            });
-
-            // Show the container
-            foodCardsContainer.style.display = 'grid';
-
-            // Add event listeners to the buttons
-            document.querySelectorAll('.select-food-button').forEach(button => {
-                button.addEventListener('click', (e) => {
-                    const foodName = e.target.getAttribute('data-food-name');
-                    const quantity = prompt(`Enter the quantity for ${foodName}:`);
-                    if (quantity) {
-                        alert(`You selected ${quantity} units of ${foodName}`);
-                        // You can send this data to the server or handle it as needed
-                    }
-                });
-            });
+      // Search filter
+      searchInput.addEventListener('input', () => {
+        const term = searchInput.value.trim().toLowerCase();
+        tableBody.querySelectorAll('tr').forEach(row => {
+          const name = row.querySelector('.name').textContent.toLowerCase();
+          const type = row.querySelector('.type').textContent.toLowerCase();
+          row.style.display = (name.includes(term) || type.includes(term)) ? '' : 'none';
         });
+      });
+
+      // Select row
+      tableBody.addEventListener('click', e => {
+        if (!e.target.classList.contains('request-btn')) return;
+        const idx = e.target.dataset.index;
+        const qtyInput = tableBody.querySelector(`tr[data-index=\"${idx}\"] .qty-input`);
+        const qty = parseInt(qtyInput.value, 10);
+        if (!qty || qty < 1) return;
+        if (selections.some(s => s.id === foodItems[idx].id)) return;
+        const urgency = document.querySelector('input[name="urgency"]:checked').value;
+        const sel = { id: foodItems[idx].id, name: foodItems[idx].name, type: foodItems[idx].type, qty, urgency };
+        selections.push(sel);
+        addCard(sel, selections.length - 1);
+        qtyInput.value = '';
+      });
+
+      // Submit form
+      requestForm.addEventListener('submit', e => {
+        if (!selections.length) {
+          e.preventDefault();
+          alert('Please select at least one item with quantity');
+          return;
+        }
+        requestedItemsInput.value = JSON.stringify(selections);
+      });
+
+      // Add card
+      function addCard(item, idx) {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.dataset.idx = idx;
+        card.innerHTML = `
+          <span>${item.name} (${item.type}) x${item.qty}</span>
+          <button class="remove-card">×</button>
+        `;
+        card.querySelector('.remove-card').addEventListener('click', () => {
+          selections.splice(idx, 1);
+          card.remove();
+          selectedContainer.querySelectorAll('.card').forEach((c,i) => c.dataset.idx = i);
+        });
+        selectedContainer.appendChild(card);
+      }
     });
-</script>
-{% endblock %}
+  </script>
+</body>
+</html>

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Food Distribution Application</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #fff;
+      color: #000;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px;
+      border-bottom: 1px solid #ccc;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo div {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background-color: #ccc;
+    }
+
+    header input[type="search"] {
+      padding: 6px 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    h2 {
+      text-align: center;
+      margin: 40px 0 20px;
+    }
+
+    .map-section {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 30px 0;
+      background-color: #f5f5f5;
+    }
+
+    .map-section img {
+      max-width: 90%;
+      height: auto;
+    }
+
+    .existing-section {
+      padding: 40px 20px;
+      border-top: 1px solid #ddd;
+    }
+
+    .existing-section h3 {
+      margin-bottom: 24px;  
+    }
+
+    .point {
+      display: flex;
+      align-items: right;
+      margin-bottom: 20px;
+      text-align: end;
+      margin-right: 20px;
+    }
+
+    .point img {
+      width: 24px;
+      height: 24px;
+      margin-right: 10px;
+    }
+
+    .point-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .point-info small {
+      color: #555;
+    }
+
+    .form-section {
+      border-top: 1px solid #ddd;
+      padding: 40px 20px; 
+    }
+
+    .form-section h3 {
+      margin-bottom: 20px;
+      text-align:left;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: bold;
+    }
+
+    input[type="text"] {
+      width: 50%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      margin-right: 20px;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 12px;
+    }
+
+    .buttons button {
+      padding: 10px 20px;
+      font-weight: bold;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .cancel {
+      border: 1px solid #aaa;
+      background: #fff;
+    }
+
+    .add {
+      background: #000;
+      color: #fff;
+      border: none;
+    }
+
+    footer {
+      text-align: center;
+      font-size: 14px;
+      padding: 30px;
+      color: #777;
+    }
+
+    .footer {
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      padding: 15px 0;
+    }
+
+    .footer-links a {
+      color: #ddd;
+      margin: 0 15px;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .footer-links a:hover {
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="logo">
+      <div></div>
+      <span>Food Distribution Application</span>
+    </div>
+    <input type="search" placeholder="Search in site">
+  </header>
+
+  <!-- Title -->
+  <h2>Manage Collection Points</h2>
+
+  <!-- Map Placeholder -->
+  <div class="map-section">
+    <img src="https://via.placeholder.com/600x180?text=Map+Placeholder" alt="Map">
+  </div>
+
+  <!-- Existing Collection Points -->
+  <div class="existing-section">
+    <h3>Existing Collection Points</h3>
+
+    <div class="point">
+      <img src="https://img.icons8.com/emoji/48/000000/round-pushpin-emoji.png" alt="pin">
+      <div class="point-info">
+        <strong>Collection Point 1</strong>
+        <small>123 Main Street, City</small>
+      </div>
+    </div>
+
+    <div class="point">
+      <img src="https://img.icons8.com/emoji/48/000000/round-pushpin-emoji.png" alt="pin">
+      <div class="point-info">
+        <strong>Collection Point 2</strong>
+        <small>456 Elm Avenue, Town</small>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add New Collection Point -->
+  <div class="form-section">
+    <h3>Add New Collection Point</h3>
+
+
+    <label for="name">Name</label>
+    <input type="text" id="name" placeholder="Enter collection point name">
+
+    <label for="address">Address</label>
+    <input type="text" id="address" placeholder="Enter collection point address">
+
+    <div class="buttons">
+      <button class="cancel">Cancel</button>
+      <button class="add">Add Point</button>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    Remember to save changes once you are done editing the collection points.
+  </footer>
+
+    <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-links">
+      <a href="#">Contact Us</a>
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms and Conditions</a>
+    </div>
+  </footer>
+</body>
+</html>
