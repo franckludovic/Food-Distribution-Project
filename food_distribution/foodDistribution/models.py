@@ -145,7 +145,7 @@ class FoodAidRequest(models.Model):
 class DistributionPlan(models.Model):
     start_point = models.CharField(max_length=255)
     end_point = models.CharField(max_length=255)
-    assigned_volunteers = models.ManyToManyField(VolunteerProfile, blank=True)
+    assigned_volunteers = models.ForeignKey(VolunteerProfile, on_delete=models.CASCADE, blank=True)
     route_details = models.TextField(blank=True, null=True)
     scheduled_date = models.DateTimeField()
     plan_status = models.CharField(max_length=20, default='planned')

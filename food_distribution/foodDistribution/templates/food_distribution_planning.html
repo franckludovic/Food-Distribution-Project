@@ -1,10 +1,6 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Food Distribution Planning</title>
+{% extends "master.html" %}
+
+{% block stl %}
     <style>
     .container {
         width: 100%;
@@ -16,7 +12,6 @@
         width: 100%;
         height: 40%;
         align-content: center;
-        border-bottom: 1px solid black ;
     }
 
     .map {
@@ -29,7 +24,6 @@
 
     /* SECOND SECTION*/
     .second-section {
-        border-bottom: 1px solid black ;
         width: 100%;
         max-height: 30%;
         overflow-y: auto;
@@ -47,7 +41,6 @@
 
     /* THIRD SECTION*/
     .third-section {
-        border-bottom: 1px solid black ;
         width: 100%;
         height: 50%;
     }
@@ -77,8 +70,15 @@
     }
     /*-------------------------*/
     </style>
-</head>
-<body>
+{% endblock %}
+
+{% block title %}Food Distribution Planning{% endblock %}
+
+{% block sidebar %}
+    {% include "managerSidebar.html" %}
+{% endblock %}
+
+{% block content %}
     <div class="container">
         <!--SECTION 1-->
         <div class="first-section">
@@ -87,27 +87,51 @@
         <!--END OF SECTION 1-->
 
         <!--SECTION 2-->
+        <div class="row">
+            <div class="col-12">
+              <div class="card my-4">
+                <!-- Header -->
+                <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                  <div class="bg-gradient-dark shadow-dark border-radius-lg pt-4 pb-3">
+                    <h6 class="text-white text-capitalize ps-3" style="text-align: center;">Volunteers</h6>
+                  </div>
+                </div>
+            </div>
+        </div>
+
         <div class="second-section">
-            <table>
-                <thead>
-                    <th>Name</th>
-                    <th>Skills</th>
-                    <th>Intervention Area</th>
-                    <th>Available</th>
-                    <th></th>
-                </thead>
-                <tbody>
-                    {% for volunteer in volunteers %}
-                    <tr>
-                        <td>{{volunteer.user.user.username}}</td>
-                        <td>{{volunteer.skills}}</td>
-                        <td>{{volunteer.intervention_area}}</td>
-                        <td>{{volunteer.availability}}</td>
-                        <td hidden>{{volunteer.user.user.id}}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+            <div class="card-body px-0 pb-2">
+                <div class="table-responsive p-0">
+                    <p class="text-end mb-2">Total Volunteers: {{ totalVolunteers }}</p>
+
+                    <form action="" method="POST">
+                        {% csrf_token %}
+                    <table class="table align-items-center mb-0">
+                        <thead>
+                            <tr>
+                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Name</th>
+                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Skills</th>
+                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Intervention Area</th>
+                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Availability</th>
+                            <th class="text-secondary opacity-7">&nbsp;</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for volunteer in volunteers %}
+                            <tr>
+                                <td><p class="text-sm mb-0">{{ volunteer.user.user.username }}</p></td>
+                                <td><p class="text-sm mb-0">{{ volunteer.skills }}</p></td>
+                                <td>{{ volunteer.intervention_area }}</td>
+                                <td>{{ volunteer.availability }}</td>
+                                <td class="align-middle">
+                                    <input type="radio" name="checkbox" value="{{ volunteer.user.user.id }}">
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
         <!--END OF SECTION 2-->
 
@@ -116,21 +140,21 @@
             <h1 class="main-text">Plan Route</h1>
             <p class="main-text">Plan the distribution route</p>
 
-            <div class="input-area">
-                <div class="text-input">
-                    <p>Starting Point</p>
-                    <input type="text" placeholder="Enter Starting Point">
+                <div class="input-area">
+                    <div class="text-input">
+                        <p>Starting Point</p>
+                        <input type="text" placeholder="Enter Starting Point" name="start-point">
+                    </div>
+                    <div class="text-input">
+                        <p>Ending Point</p>
+                        <input type="text" placeholder="Enter Ending Point" name="end-point">
+                    </div>
                 </div>
-                <div class="text-input">
-                    <p>Ending Point</p>
-                    <input type="text" placeholder="Enter Ending Point">
-                </div>
-            </div>
-
-            <button class="route-generation-btn">Generate Route</button>
+                <button type="submit" class="route-generation-btn">Generate Route</button>
+            </form>
         </div>
         <!--END OF SECTION 3-->
 
     </div>
-</body>
-</html>
+
+{% endblock %}

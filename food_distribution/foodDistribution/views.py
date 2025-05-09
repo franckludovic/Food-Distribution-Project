@@ -269,10 +269,10 @@ def stockMonitoring(request):
 
     # Prepare data for the chart
     monthly_data = defaultdict(lambda: defaultdict(int))
-    for request in food_requests:
-        month = request['month'].strftime('%Y-%m')  # Format month as 'YYYY-MM'
-        food_type = request['requested_items']
-        monthly_data[month][food_type] += request['total_quantity']
+    for requests in food_requests:
+        month = requests['month'].strftime('%Y-%m')  # Format month as 'YYYY-MM'
+        food_type = requests['requested_items']
+        monthly_data[month][food_type] += requests['total_quantity']
 
     # Convert data to a format suitable for the chart
     months = sorted(monthly_data.keys())
@@ -428,12 +428,31 @@ def confirmationPage(request):
 
 @login_required(login_url='login')
 def foodDistributionPlanning(request):
-    volunteers = VolunteerProfile.objects.all()
 
-    context = {
-        'volunteers': volunteers,
-    }
-    return render(request, 'food_distribution_planning.html', context)
+    if request.method == 'POST':
+        startPoint = request.POST['start-point']
+        endPoint = request.POST['end-point']
+        volunteer = request.POST.get('checkbox')
+        currentDate = datetime.datetime.now()
+
+        assigned_volunteers = VolunteerProfile.objects.get(user = Profile.objects.get(id_user = volunteer))
+        foodPlan = DistributionPlan.objects.create(start_point = startPoint, end_point = endPoint, assigned_volunteers = assigned_volunteers, scheduled_date = currentDate)
+        foodPlan.save()
+        
+        return redirect('foodDistributionPlanning')
+    else:
+        volunteers = VolunteerProfile.objects.all()
+
+        #Get the total number of volunteers
+        count = 0
+        for volunteer in volunteers:
+            count += 1
+
+        context = {
+            'volunteers': volunteers,
+            'totalVolunteers': count,
+        }
+        return render(request, 'food_distribution_planning.html', context)
 
 @login_required(login_url='login')
 def foodStockManagement(request):
